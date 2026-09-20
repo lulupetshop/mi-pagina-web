@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <title>Lulú Lulú | Camas para perros y gatos</title>
+  <meta name="description" content="Camas moisés, nidos, colchonetas y almohadones para perros y gatos. Elegí modelo y tamaño, armá tu pedido y cerralo por WhatsApp. Compra mayorista disponible.">
+  <meta name="theme-color" content="#7c46bf">
+
+  <!-- Open Graph. IMPORTANTE: cuando tengas tu dominio, reemplazá TU-DOMINIO.com por el real. -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:site_name" content="Lulú Lulú">
+  <meta property="og:title" content="Lulú Lulú | Camas para perros y gatos">
+  <meta property="og:description" content="Elegí modelo y tamaño, armá tu pedido y cerralo por WhatsApp.">
+  <meta property="og:image" content="https://TU-DOMINIO.com/assets/img/og-cover.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Perro descansando en una cama Lulú Lulú">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/png" href="assets/logo/isologo-lulu.png">
+  <link rel="preload" as="image" href="assets/img/hero.webp" fetchpriority="high">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&display=swap">
+
+  <script>document.documentElement.classList.add('js');</script>
+
+  <!-- ?v=... evita que el navegador muestre versiones viejas. Cambialo cada vez que subas cambios. -->
+  <link rel="stylesheet" href="css/styles.css?v=20260920a">
+  <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+</head>
+
+<body>
+  <!-- Íconos reutilizables -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-bag" viewBox="0 0 24 24"><path d="M5 8h14l-1.1 11.2a2 2 0 0 1-2 1.8H8.1a2 2 0 0 1-2-1.8L5 8Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-next" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 1.8h6a2 2 0 0 0 2-1.8l1-12M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></symbol>
+      <symbol id="i-zoom" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-insta" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17" cy="7" r="1.1" fill="currentColor"/></symbol>
+      <symbol id="i-needle" viewBox="0 0 24 24"><path d="M4 20 19 5M15.5 3.5a2.5 2.5 0 0 1 5 5l-1.2 1.2-5-5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 20c1.5-1 2-3 4-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+      <symbol id="i-wash" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="13.5" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 7h.01M11 7h.01" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 5 6v5.5c0 4.4 2.9 8.2 7 9.5 4.1-1.3 7-5.1 7-9.5V6l-7-3Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m9 12 2.2 2.2L15.5 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9.5L5 20v-4H4V5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 9.5h8M8 12.5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+      <symbol id="i-box" viewBox="0 0 24 24"><path d="m3.5 7.5 8.5-4.5 8.5 4.5v9L12 21l-8.5-4.5v-9Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m3.5 7.5 8.5 4.5 8.5-4.5M12 12v9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+      <symbol id="i-tag" viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8L3 12Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7.5" cy="8.5" r="1.4" fill="currentColor"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#catalogo">Saltar al catálogo</a>
+
+  <!-- Aviso de demostración (se activa en js/config.js → MODO_EJEMPLO) -->
+  <div class="demo-bar" id="demoBar" hidden>Sitio de demostración: algunos productos, precios y fotos son de ejemplo.</div>
+
+  <!-- Cinta de novedades (detalle premium) -->
+  <div class="announce" role="note">
+    <div class="announce__track" aria-hidden="false">
+      <span>Fundas desmontables</span><i aria-hidden="true">✦</i>
+      <span>Telas antidesgarro</span><i aria-hidden="true">✦</i>
+      <span>Pedido directo por WhatsApp</span><i aria-hidden="true">✦</i>
+      <span>Compra mayorista para locales</span><i aria-hidden="true">✦</i>
+      <span>Fundas desmontables</span><i aria-hidden="true">✦</i>
+      <span>Telas antidesgarro</span><i aria-hidden="true">✦</i>
+      <span>Pedido directo por WhatsApp</span><i aria-hidden="true">✦</i>
+      <span>Compra mayorista para locales</span><i aria-hidden="true">✦</i>
+    </div>
+  </div>
+
+  <!-- ============ HEADER ============ -->
+  <header class="site-header" id="siteHeader">
+    <div class="wrap header__inner">
+      <a class="brand" href="#inicio" aria-label="Lulú Lulú, ir al inicio">
+        <img src="assets/logo/isologo-lulu.png" alt="Lulú Lulú" width="671" height="240">
+      </a>
+
+      <nav class="nav" id="nav" aria-label="Principal">
+        <a href="#catalogo">Catálogo</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#mayorista">Mayorista</a>
+        <a href="#preguntas">Preguntas</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+
+      <div class="header__actions">
+        <button class="cart-btn" id="cartBtn" type="button" aria-haspopup="dialog" aria-label="Abrir carrito, vacío">
+          <svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg>
+          <span class="cart-btn__label">Carrito</span>
+          <span class="cart-count" id="cartCount" aria-hidden="true">0</span>
+        </button>
+        <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="nav" aria-label="Abrir menú">
+          <svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="contenido">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="inicio" aria-labelledby="hero-titulo">
+      <div class="wrap hero__grid">
+        <div class="hero__copy">
+          <p class="eyebrow hero__in" style="--d:0ms"><span class="eyebrow__line" aria-hidden="true"></span>Camas para perros y gatos</p>
+          <h1 id="hero-titulo" class="hero__in" style="--d:80ms">Un lugar suave donde tu mascota <em>se siente en casa</em>.</h1>
+          <p class="lead hero__in" style="--d:160ms">Moisés, nidos y colchonetas con telas resistentes y fundas que se lavan. Elegí el modelo y el tamaño, y cerrá tu pedido por WhatsApp.</p>
+          <div class="hero__cta hero__in" style="--d:240ms">
+            <a class="btn btn--primary btn--lg" href="#catalogo">Ver catálogo <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <a class="btn btn--ghost btn--lg" href="#contacto" data-wa="consulta">
+              <svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg>
+              Consultar por WhatsApp
+            </a>
+          </div>
+          <ul class="hero__points hero__in" style="--d:320ms">
+            <li><span>1</span> Elegís modelo y tamaño</li>
+            <li><span>2</span> Armás tu pedido</li>
+            <li><span>3</span> Lo cerrás por WhatsApp</li>
+          </ul>
+        </div>
+
+        <div class="hero__visual hero__in" style="--d:200ms">
+          <div class="hero__arch">
+            <img id="heroPhoto" src="assets/img/hero.webp" alt="Cachorro durmiendo en una cama moisés Lulú Lulú junto a una ventana" width="1100" height="1361" fetchpriority="high">
+          </div>
+          <div class="hero__card" aria-hidden="true">
+            <b><span data-count="16">16</span></b>
+            <span>modelos para elegir</span>
+          </div>
+          <div class="hero__tag" aria-hidden="true">
+            <svg class="ico"><use href="#i-wash"/></svg>
+            Funda desmontable
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FRANJA DE CONFIANZA ============ -->
+    <section class="trust" aria-label="Por qué elegirnos">
+      <div class="wrap trust__grid">
+        <div class="trust__item reveal"><svg class="ico" aria-hidden="true"><use href="#i-needle"/></svg><div><b>Confección cuidada</b><span>Costuras firmes, pieza por pieza</span></div></div>
+        <div class="trust__item reveal" style="--d:70ms"><svg class="ico" aria-hidden="true"><use href="#i-shield"/></svg><div><b>Telas antidesgarro</b><span>Pana, loneta, cordura y cuerina</span></div></div>
+        <div class="trust__item reveal" style="--d:140ms"><svg class="ico" aria-hidden="true"><use href="#i-wash"/></svg><div><b>Fundas desmontables</b><span>Se lavan sin perder forma</span></div></div>
+        <div class="trust__item reveal" style="--d:210ms"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg><div><b>Atención directa</b><span>Te asesoramos por WhatsApp</span></div></div>
+      </div>
+    </section>
+
+    <!-- ============ PRODUCTO ESTRELLA ============ -->
+    <section class="star" id="estrella" aria-labelledby="star-titulo" hidden>
+      <div class="wrap star__grid">
+        <div class="star__media reveal">
+          <div class="star__frame">
+            <img src="assets/img/rubi-destacado.webp" alt="Moisés Rubí, cama rectangular roja con almohadón central, sobre piso de madera" width="1000" height="1172" loading="lazy">
+            <span class="star__ribbon">Nuestro producto estrella</span>
+          </div>
+          <div class="star__price-card" aria-hidden="true">
+            <small>Primera compra</small>
+            <b data-star="promo">$ 0</b>
+            <s data-star="old">$ 0</s>
+          </div>
+        </div>
+
+        <div class="star__copy">
+          <p class="eyebrow eyebrow--light reveal"><span class="eyebrow__line" aria-hidden="true"></span>Oportunidad de primera compra</p>
+          <h2 id="star-titulo" class="reveal">Moisés Rubí, el favorito <em>para dormir profundo</em>.</h2>
+          <p class="reveal">Bordes altos que contienen, almohadón central acolchado y una tela que aguanta el uso diario. Elegilo en pana o loneta antidesgarro.</p>
+          <ul class="star__facts reveal">
+            <li><b>75 x 60 x 18 cm</b><span>medidas</span></li>
+            <li><b>Pana o loneta</b><span>a elección</span></li>
+            <li><b>Funda</b><span>fácil de lavar</span></li>
+          </ul>
+          <div class="star__offer reveal">
+            <div class="star__nums">
+              <s data-star="old">$ 0</s>
+              <b data-star="promo">$ 0</b>
+              <span class="star__chip"><span data-star="pct">15</span>% OFF en tu primera compra</span>
+            </div>
+            <p>Aprovechalo al hacer tu pedido: lo confirmamos con vos por WhatsApp.</p>
+          </div>
+          <div class="star__cta reveal">
+            <button class="btn btn--light btn--lg" type="button" data-star-open>Quiero mi Moisés Rubí <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+            <a class="btn btn--outline-light btn--lg" href="#catalogo">Ver todo el catálogo</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ COLECCIONES ============ -->
+    <section class="section section--tight" id="colecciones" aria-labelledby="col-titulo">
+      <div class="wrap">
+        <header class="section__head reveal">
+          <p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span>Colecciones</p>
+          <h2 id="col-titulo">Encontrá el estilo <em>que le queda</em></h2>
+        </header>
+        <div class="tiles">
+          <a class="tile tile--big reveal" href="#catalogo" data-cat="Moisés">
+            <img src="assets/img/cat-moises.webp" alt="" width="900" height="720" loading="lazy">
+            <span class="tile__body"><small>Moisés</small><b>Bordes que abrazan</b><span class="tile__go">Ver moisés <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></span></span>
+          </a>
+          <a class="tile reveal" style="--d:80ms" href="#catalogo" data-cat="Nidos">
+            <img src="assets/img/cat-nidos.webp" alt="" width="900" height="720" loading="lazy">
+            <span class="tile__body"><small>Nidos</small><b>Todos los tamaños</b><span class="tile__go">Ver nidos <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></span></span>
+          </a>
+          <a class="tile reveal" style="--d:140ms" href="#catalogo" data-cat="Colchonetas">
+            <img src="assets/img/cat-colchonetas.webp" alt="" width="900" height="720" loading="lazy">
+            <span class="tile__body"><small>Colchonetas</small><b>Livianas y desmontables</b><span class="tile__go">Ver colchonetas <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></span></span>
+          </a>
+          <a class="tile reveal" style="--d:200ms" href="#catalogo" data-cat="Almohadones">
+            <img src="assets/img/cat-almohadones.webp" alt="" width="900" height="720" loading="lazy">
+            <span class="tile__body"><small>Almohadones</small><b>Polar soft premium</b><span class="tile__go">Ver almohadones <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></span></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CATÁLOGO ============ -->
+    <section class="section catalog" id="catalogo" aria-labelledby="catalogo-titulo">
+      <div class="wrap">
+        <header class="section__head reveal">
+          <p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span>Catálogo</p>
+          <h2 id="catalogo-titulo">Elegí la cama de tu mascota</h2>
+          <p class="section__sub">Filtrá por categoría o tamaño y tocá un modelo para ver medidas, telas y precio. Con la lupa la mirás en grande.</p>
+        </header>
+
+        <div class="mode reveal" role="group" aria-label="Tipo de compra">
+          <div class="mode__switch">
+            <button type="button" class="mode__btn" data-mode="minorista" aria-pressed="true">Minorista</button>
+            <button type="button" class="mode__btn" data-mode="mayorista" aria-pressed="false">Mayorista</button>
+          </div>
+          <p class="mode__note" id="mayoNote" hidden><svg class="ico" aria-hidden="true"><use href="#i-tag"/></svg> Precios mayoristas por unidad, comprando desde <b data-mayo-min>6</b> unidades (podés combinar modelos).</p>
+        </div>
+
+        <div class="filters reveal" role="group" aria-label="Filtros del catálogo">
+          <div class="filter-group">
+            <span class="filter-label" id="lblCat">Categoría</span>
+            <div class="chips" id="chipsCat" role="group" aria-labelledby="lblCat"></div>
+          </div>
+          <div class="filter-group">
+            <span class="filter-label" id="lblSize">Tamaño</span>
+            <div class="chips" id="chipsSize" role="group" aria-labelledby="lblSize"></div>
+          </div>
+          <div class="filter-group filter-group--sort">
+            <label class="filter-label" for="sortSel">Ordenar por</label>
+            <div class="select-wrap">
+              <select id="sortSel">
+                <option value="destacados">Destacados</option>
+                <option value="precio-asc">Precio: menor a mayor</option>
+                <option value="precio-desc">Precio: mayor a menor</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <p class="results" id="results" role="status" aria-live="polite"></p>
+        <div class="grid" id="grid">
+          <noscript><p class="notice">Para ver el catálogo necesitás activar JavaScript. Mientras tanto, escribinos por WhatsApp y te ayudamos con tu pedido.</p></noscript>
+        </div>
+        <p class="catalog__foot">Las telas y los colores se confirman por WhatsApp según disponibilidad de taller. Las fotos son ilustrativas del modelo y la textura.</p>
+      </div>
+    </section>
+
+    <!-- ============ NOSOTROS ============ -->
+    <section class="story" id="nosotros" aria-labelledby="story-titulo">
+      <div class="wrap story__grid">
+        <div class="story__media reveal">
+          <video autoplay muted loop playsinline preload="metadata" poster="assets/img/historia-poster.webp" aria-label="Un cachorro entrando a una cama Lulú Lulú">
+            <source src="assets/img/historia.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="story__copy">
+          <p class="eyebrow eyebrow--light reveal"><span class="eyebrow__line" aria-hidden="true"></span>Nosotros</p>
+          <h2 id="story-titulo" class="reveal">Cada cama, pensada para <em>el descanso real</em>.</h2>
+          <p class="reveal">En Lulú Lulú cuidamos cómo duerme tu mascota, no solo cómo se ve. Elegimos telas que aguantan el uso diario, rellenos que no se apelmazan y fundas que se sacan para lavar. Después, lo coordinamos con vos, de persona a persona, por WhatsApp.</p>
+          <ul class="story__stats reveal">
+            <li><b><span data-count="16">16</span></b><span>modelos</span></li>
+            <li><b><span data-count="21">21</span></b><span>combinaciones de tamaño y tela</span></li>
+            <li><b><span data-count="4">4</span></b><span>líneas de camas</span></li>
+          </ul>
+          <a class="btn btn--light btn--lg reveal" href="#catalogo">Ver el catálogo <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CÓMO COMPRAR ============ -->
+    <section class="section section--tint" id="como-comprar" aria-labelledby="como-titulo">
+      <div class="wrap">
+        <header class="section__head reveal">
+          <p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span>Cómo comprar</p>
+          <h2 id="como-titulo">Tu pedido en tres pasos, <em>sin vueltas</em></h2>
+        </header>
+        <ol class="steps">
+          <li class="step reveal">
+            <span class="step__n" aria-hidden="true">1</span>
+            <h3>Elegí tu cama</h3>
+            <p>Mirá el catálogo, compará tamaños y telas y elegí la que mejor le quede a tu mascota.</p>
+          </li>
+          <li class="step reveal" style="--d:90ms">
+            <span class="step__n" aria-hidden="true">2</span>
+            <h3>Armá tu pedido</h3>
+            <p>Sumá al carrito y completá tus datos: nombre, teléfono y si preferís retiro o envío.</p>
+          </li>
+          <li class="step reveal" style="--d:180ms">
+            <span class="step__n" aria-hidden="true">3</span>
+            <h3>Cerralo por WhatsApp</h3>
+            <p>Se abre un mensaje con tu pedido ya escrito. Coordinamos el pago y la entrega con vos.</p>
+          </li>
+        </ol>
+        <p class="center reveal"><a class="btn btn--primary btn--lg" href="#catalogo">Empezar a elegir</a></p>
+      </div>
+    </section>
+
+    <!-- ============ MAYORISTA ============ -->
+    <section class="wholesale" id="mayorista" aria-labelledby="mayo-titulo">
+      <div class="wrap wholesale__grid">
+        <div class="wholesale__copy">
+          <p class="eyebrow eyebrow--light reveal"><span class="eyebrow__line" aria-hidden="true"></span>Compra mayorista</p>
+          <h2 id="mayo-titulo" class="reveal">¿Tenés un local o vendés camas? <em>Comprá al por mayor.</em></h2>
+          <p class="reveal">Precio de fábrica por unidad, comprando desde <b data-mayo-min>6</b> unidades. Podés combinar modelos y tamaños en el mismo pedido.</p>
+          <ul class="wholesale__perks reveal">
+            <li><svg class="ico" aria-hidden="true"><use href="#i-tag"/></svg> Precios mayoristas visibles en todo el catálogo</li>
+            <li><svg class="ico" aria-hidden="true"><use href="#i-box"/></svg> Combinás modelos, telas y tamaños</li>
+            <li><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg> Coordinamos cantidades, plazos y despacho por WhatsApp</li>
+          </ul>
+          <div class="wholesale__cta reveal">
+            <a class="btn btn--light btn--lg" href="#catalogo" data-set-mode="mayorista">Ver precios mayoristas</a>
+            <a class="btn btn--outline-light btn--lg" href="#contacto" data-wa="mayorista">
+              <svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg>
+              Consultar por mayor
+            </a>
+          </div>
+        </div>
+        <div class="wholesale__card reveal" aria-hidden="true">
+          <p>Por unidad</p>
+          <div class="wholesale__row"><span>Minorista</span><s>$ 35.250</s></div>
+          <div class="wholesale__row wholesale__row--hi"><span>Mayorista</span><b>$ 23.500</b></div>
+          <small>Ejemplo: Moisés Redondo</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ GUÍA DE TAMAÑOS ============ -->
+    <section class="section" id="tamanos" aria-labelledby="tamanos-titulo">
+      <div class="wrap size-guide">
+        <header class="section__head reveal">
+          <p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span>Guía de tamaños</p>
+          <h2 id="tamanos-titulo">Cómo elegir el tamaño <em>justo</em></h2>
+          <p class="section__sub">Una cama de la medida correcta se nota en el descanso. Son dos minutos.</p>
+        </header>
+        <div class="size-guide__cards">
+          <article class="tip reveal">
+            <h3>Medí a tu mascota</h3>
+            <p>Con un centímetro, medila acostada y estirada, desde la nariz hasta la base de la cola.</p>
+          </article>
+          <article class="tip reveal" style="--d:90ms">
+            <h3>Dejale espacio</h3>
+            <p>Sumale unos centímetros a esa medida para que pueda estirarse y cambiar de posición.</p>
+          </article>
+          <article class="tip reveal" style="--d:180ms">
+            <h3>Compará</h3>
+            <p>En el detalle de cada modelo vas a ver las medidas de cada tamaño. Si dudás entre dos, escribinos.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PREGUNTAS FRECUENTES ============ -->
+    <section class="section section--tint" id="preguntas" aria-labelledby="faq-titulo">
+      <div class="wrap wrap--narrow">
+        <header class="section__head reveal">
+          <p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span>Preguntas frecuentes</p>
+          <h2 id="faq-titulo">Lo que solemos <em>responder</em></h2>
+        </header>
+        <div class="faq reveal">
+          <details>
+            <summary>¿Cómo hago mi pedido?</summary>
+            <p>Elegís tus camas, las sumás al carrito y completás tus datos. Al final se abre WhatsApp con el pedido ya escrito: solo tenés que tocar enviar.</p>
+          </details>
+          <details>
+            <summary>¿Cómo y cuándo pago?</summary>
+            <p>En este sitio no se paga. Una vez que nos enviás el pedido por WhatsApp, acordamos con vos el medio de pago.</p>
+          </details>
+          <details>
+            <summary>¿Retiro o envío?</summary>
+            <p>Al finalizar podés elegir retiro o envío a domicilio. Si elegís envío, te pedimos dirección y localidad. El costo y los tiempos los coordinamos por WhatsApp.</p>
+          </details>
+          <details>
+            <summary>¿Puedo elegir el color de la tela?</summary>
+            <p>Sí. Los colores y telas disponibles cambian según el taller, así que los confirmamos con vos por WhatsApp antes de preparar tu pedido.</p>
+          </details>
+          <details>
+            <summary>¿Cómo funciona la compra mayorista?</summary>
+            <p>Activá “Mayorista” en el catálogo para ver los precios por unidad, comprando desde <span data-mayo-min>6</span> unidades en total (podés combinar modelos). El pedido se cierra igual, por WhatsApp.</p>
+          </details>
+          <details>
+            <summary>¿Cómo sé qué tamaño elegir?</summary>
+            <p>Seguí la guía de esta página y compará con las medidas de cada producto. Si te queda alguna duda, escribinos y te ayudamos.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CTA FINAL ============ -->
+    <section class="cta-band" id="contacto" aria-labelledby="cta-titulo">
+      <div class="wrap cta-band__inner reveal">
+        <div>
+          <h2 id="cta-titulo">¿Dudas con el modelo o el tamaño?</h2>
+          <p>Escribinos por WhatsApp y te ayudamos a elegir la cama ideal para tu mascota.</p>
+        </div>
+        <a class="btn btn--light btn--lg" href="#contacto" data-wa="consulta">
+          <svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg>
+          Escribinos por WhatsApp
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="wrap footer__grid">
+      <div class="footer__brand">
+        <img src="assets/logo/isologo-lulu.png" alt="Lulú Lulú" width="671" height="240" loading="lazy">
+        <p>Camas para perros y gatos. Elegís acá y cerramos tu pedido por WhatsApp.</p>
+      </div>
+
+      <nav aria-label="Pie de página">
+        <h2 class="footer__title">Navegá</h2>
+        <ul>
+          <li><a href="#catalogo">Catálogo</a></li>
+          <li><a href="#nosotros">Nosotros</a></li>
+          <li><a href="#mayorista">Compra mayorista</a></li>
+          <li><a href="#tamanos">Guía de tamaños</a></li>
+          <li><a href="#preguntas">Preguntas frecuentes</a></li>
+        </ul>
+      </nav>
+
+      <div>
+        <h2 class="footer__title">Contacto</h2>
+        <ul class="footer__contact" id="footerContact">
+          <li><a href="#contacto" data-wa="consulta"><svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg> <span data-wa-text>WhatsApp</span></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap footer__legal">
+      <p>© <span id="year">2026</span> Lulú Lulú. Todos los derechos reservados.</p>
+      <p>Hecho con cariño para el descanso de tu mejor amigo.</p>
+    </div>
+  </footer>
+
+  <!-- Botón flotante de WhatsApp -->
+  <a class="wa-fab" id="waFab" href="#contacto" data-wa="consulta" aria-label="Consultar por WhatsApp">
+    <svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg>
+    <span class="wa-fab__text">Consultanos</span>
+  </a>
+
+  <!-- ============ DETALLE DE PRODUCTO ============ -->
+  <dialog class="modal" id="productDialog" aria-labelledby="pTitle">
+    <div class="modal__panel">
+      <button class="icon-btn modal__close" type="button" data-close aria-label="Cerrar detalle">
+        <svg class="ico" aria-hidden="true"><use href="#i-close"/></svg>
+      </button>
+
+      <div class="modal__scroll">
+        <div class="modal__grid">
+          <div class="gallery">
+            <div class="gallery__main" id="pMain">
+              <img id="pMainImg" src="" alt="" width="1000" height="800" decoding="async">
+              <button class="gallery__nav gallery__nav--prev icon-btn" type="button" id="pPrev" aria-label="Foto anterior"><svg class="ico" aria-hidden="true"><use href="#i-back"/></svg></button>
+              <button class="gallery__nav gallery__nav--next icon-btn" type="button" id="pNext" aria-label="Foto siguiente"><svg class="ico" aria-hidden="true"><use href="#i-next"/></svg></button>
+              <span class="badge badge--float" id="pBadge" hidden>Ejemplo</span>
+              <button class="zoom-btn" type="button" id="pZoom" aria-haspopup="dialog">
+                <svg class="ico" aria-hidden="true"><use href="#i-zoom"/></svg> Ver de cerca
+              </button>
+            </div>
+            <div class="gallery__thumbs" id="pThumbs" role="group" aria-label="Fotos del producto"></div>
+          </div>
+
+          <div class="detail">
+            <p class="eyebrow" id="pCat"></p>
+            <h2 id="pTitle" class="detail__title"></h2>
+            <p class="detail__price" id="pPrice" aria-live="polite"></p>
+            <p class="detail__mayo" id="pMayo" hidden><svg class="ico" aria-hidden="true"><use href="#i-tag"/></svg> Precio mayorista por unidad, desde <b id="pMayoMin">6</b> unidades en total.</p>
+            <p class="detail__desc" id="pDesc"></p>
+
+            <ul class="perks" aria-label="Características">
+              <li><svg class="ico" aria-hidden="true"><use href="#i-shield"/></svg> Telas resistentes</li>
+              <li><svg class="ico" aria-hidden="true"><use href="#i-wash"/></svg> Fácil de lavar</li>
+              <li><svg class="ico" aria-hidden="true"><use href="#i-needle"/></svg> Confección cuidada</li>
+            </ul>
+
+            <fieldset class="opt" id="pColorSet">
+              <legend>Color / tela: <strong id="pColorName"></strong></legend>
+              <div class="swatches" id="pColors"></div>
+            </fieldset>
+            <p class="hint hint--box" id="pColorNote" hidden>Colores y telas disponibles: los confirmamos con vos por WhatsApp.</p>
+
+            <fieldset class="opt" id="pTelaSet" hidden>
+              <legend>Tela</legend>
+              <div class="sizes" id="pTelas"></div>
+              <p class="field__error" id="pTelaError" role="alert" hidden>Elegí una tela para continuar.</p>
+            </fieldset>
+
+            <fieldset class="opt" id="pSizeSet">
+              <legend>Tamaño</legend>
+              <div class="sizes" id="pSizes"></div>
+              <p class="field__error" id="pSizeError" role="alert" hidden>Elegí un tamaño para continuar.</p>
+            </fieldset>
+
+            <div class="size-table-wrap">
+              <h3 class="detail__sub">Guía de tamaños</h3>
+              <table class="size-table" id="pTable">
+                <caption class="sr-only">Medidas y tamaño recomendado</caption>
+                <thead><tr><th scope="col">Tamaño</th><th scope="col">Medidas</th><th scope="col">Recomendado</th></tr></thead>
+                <tbody></tbody>
+              </table>
+              <p class="hint">Medí a tu mascota acostada, de la nariz a la base de la cola, y sumale unos centímetros. Si dudás entre dos tamaños, escribinos.</p>
+            </div>
+
+            <a class="ask" id="pAsk" href="#contacto" target="_blank" rel="noopener noreferrer">
+              <svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg> ¿Dudas con este modelo? Consultanos
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal__foot">
+        <div class="qty" role="group" aria-label="Cantidad">
+          <button type="button" class="qty__btn" id="pQtyMinus" aria-label="Restar una unidad"><svg class="ico" aria-hidden="true"><use href="#i-minus"/></svg></button>
+          <output class="qty__val" id="pQty" aria-live="polite">1</output>
+          <button type="button" class="qty__btn" id="pQtyPlus" aria-label="Sumar una unidad"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg></button>
+        </div>
+        <button class="btn btn--primary btn--lg btn--grow" type="button" id="pAdd">Agregar al carrito</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ============ VER DE CERCA (visor con zoom) ============ -->
+  <dialog class="lightbox" id="zoomDialog" aria-label="Ver de cerca">
+    <div class="lightbox__bar">
+      <p class="lightbox__title" id="zTitle"></p>
+      <div class="lightbox__tools">
+        <button class="lb-btn" type="button" id="zOut" aria-label="Alejar"><svg class="ico" aria-hidden="true"><use href="#i-minus"/></svg></button>
+        <button class="lb-btn" type="button" id="zIn" aria-label="Acercar"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg></button>
+        <button class="lb-btn lb-btn--text" type="button" id="zReset">Ajustar</button>
+        <button class="lb-btn" type="button" data-close aria-label="Cerrar"><svg class="ico" aria-hidden="true"><use href="#i-close"/></svg></button>
+      </div>
+    </div>
+    <div class="lightbox__stage" id="zStage">
+      <img id="zImg" src="" alt="" draggable="false">
+    </div>
+    <button class="lb-btn lb-nav lb-nav--prev" type="button" id="zPrev" aria-label="Foto anterior"><svg class="ico" aria-hidden="true"><use href="#i-back"/></svg></button>
+    <button class="lb-btn lb-nav lb-nav--next" type="button" id="zNext" aria-label="Foto siguiente"><svg class="ico" aria-hidden="true"><use href="#i-next"/></svg></button>
+    <p class="lightbox__hint" id="zHint">Tocá dos veces o pellizcá para acercar. Arrastrá para mover la foto.</p>
+  </dialog>
+
+  <!-- ============ CARRITO (panel lateral) ============ -->
+  <dialog class="drawer" id="cartDialog" aria-labelledby="cartTitle">
+    <div class="drawer__panel">
+      <header class="drawer__head">
+        <button class="icon-btn" type="button" id="cartBack" aria-label="Volver al carrito" hidden><svg class="ico" aria-hidden="true"><use href="#i-back"/></svg></button>
+        <h2 id="cartTitle">Tu carrito</h2>
+        <button class="icon-btn" type="button" data-close aria-label="Cerrar carrito"><svg class="ico" aria-hidden="true"><use href="#i-close"/></svg></button>
+      </header>
+
+      <!-- Vista 1: carrito -->
+      <div class="view" id="viewCart">
+        <div class="drawer__body">
+          <p class="notice notice--warn" id="cartNotice" role="status" hidden></p>
+          <p class="notice notice--mayo" id="cartMayo" role="status" hidden></p>
+          <ul class="cart-list" id="cartList"></ul>
+          <div class="cart-empty" id="cartEmpty" hidden>
+            <p class="cart-empty__title">Tu carrito está vacío</p>
+            <p>Elegí una cama del catálogo y sumala acá.</p>
+            <button class="btn btn--primary" type="button" id="cartGoCatalog">Ver catálogo</button>
+          </div>
+        </div>
+        <div class="drawer__foot" id="cartFoot">
+          <dl class="totals">
+            <div><dt>Subtotal</dt><dd id="cartSubtotal">$ 0</dd></div>
+            <div class="totals__total"><dt>Total</dt><dd id="cartTotal">$ 0</dd></div>
+          </dl>
+          <p class="hint" id="cartHint"></p>
+          <button class="btn btn--primary btn--lg btn--block" type="button" id="cartCheckout">Finalizar compra</button>
+          <button class="btn btn--text" type="button" id="cartKeep">Seguir mirando</button>
+        </div>
+      </div>
+
+      <!-- Vista 2: datos del cliente -->
+      <form class="view" id="checkoutForm" novalidate hidden>
+        <div class="drawer__body">
+          <p class="lead-sm">Completá tus datos y te abrimos WhatsApp con el pedido listo para enviar.</p>
+
+          <div class="form-alert" id="formAlert" role="alert" tabindex="-1" hidden></div>
+
+          <div class="field" data-field="nombre">
+            <label for="fNombre">Nombre y apellido</label>
+            <input id="fNombre" name="nombre" type="text" autocomplete="name" maxlength="80" required aria-describedby="fNombreErr">
+            <p class="field__error" id="fNombreErr" hidden></p>
+          </div>
+
+          <div class="field" data-field="telefono">
+            <label for="fTelefono">Teléfono / WhatsApp</label>
+            <input id="fTelefono" name="telefono" type="tel" inputmode="tel" autocomplete="tel" maxlength="24" required aria-describedby="fTelefonoHint fTelefonoErr">
+            <p class="hint" id="fTelefonoHint">Con código de área, sin 0 ni 15. Ej: 351 234 5678</p>
+            <p class="field__error" id="fTelefonoErr" hidden></p>
+          </div>
+
+          <fieldset class="field field--radios" data-field="entrega" aria-describedby="fEntregaErr">
+            <legend>¿Cómo querés recibir tu pedido?</legend>
+            <div class="radio-cards">
+              <label class="radio-card">
+                <input type="radio" name="entrega" value="retiro">
+                <span class="radio-card__body"><strong>Retiro</strong><small>Pasás a buscarlo</small></span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="entrega" value="envio">
+                <span class="radio-card__body"><strong>Envío</strong><small>Te lo llevamos</small></span>
+              </label>
+            </div>
+            <p class="field__error" id="fEntregaErr" hidden></p>
+          </fieldset>
+
+          <div id="envioFields" hidden>
+            <div class="field" data-field="direccion">
+              <label for="fDireccion">Dirección</label>
+              <input id="fDireccion" name="direccion" type="text" autocomplete="street-address" maxlength="120" aria-describedby="fDireccionErr">
+              <p class="field__error" id="fDireccionErr" hidden></p>
+            </div>
+            <div class="field" data-field="localidad">
+              <label for="fLocalidad">Localidad</label>
+              <input id="fLocalidad" name="localidad" type="text" autocomplete="address-level2" maxlength="80" aria-describedby="fLocalidadErr">
+              <p class="field__error" id="fLocalidadErr" hidden></p>
+            </div>
+            <p class="hint" id="envioHint"></p>
+          </div>
+
+          <div class="field" data-field="observaciones">
+            <label for="fObs">Observaciones <span class="opt-tag">(opcional)</span></label>
+            <textarea id="fObs" name="observaciones" rows="3" maxlength="400"></textarea>
+          </div>
+
+          <div class="summary" aria-label="Resumen del pedido">
+            <p class="summary__title">Tu pedido</p>
+            <ul class="summary__list" id="summaryList"></ul>
+          </div>
+          <p class="hint" id="checkoutHint"></p>
+        </div>
+
+        <div class="drawer__foot">
+          <dl class="totals">
+            <div class="totals__total"><dt>Total</dt><dd id="checkoutTotal">$ 0</dd></div>
+          </dl>
+          <button class="btn btn--wa btn--lg btn--block" type="submit" id="sendWa">
+            <svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg>
+            Enviar pedido por WhatsApp
+          </button>
+        </div>
+      </form>
+
+      <!-- Vista 3: pedido enviado -->
+      <div class="view" id="viewSent" hidden>
+        <div class="drawer__body sent">
+          <div class="sent__icon" aria-hidden="true"><svg class="ico"><use href="#i-check"/></svg></div>
+          <h3 id="sentTitle" tabindex="-1">Abrimos WhatsApp con tu pedido</h3>
+          <p>Para que lo recibamos, <strong>tocá “Enviar” dentro de WhatsApp</strong>. Después coordinamos el pago y la entrega con vos.</p>
+          <p class="notice notice--warn" id="sentWarn" hidden></p>
+          <a class="btn btn--wa btn--lg btn--block" id="sentLink" href="#" target="_blank" rel="noopener noreferrer">
+            <svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg>
+            Abrir WhatsApp de nuevo
+          </a>
+        </div>
+        <div class="drawer__foot">
+          <button class="btn btn--primary btn--block" type="button" id="sentClear">Ya lo envié: vaciar carrito</button>
+          <button class="btn btn--text" type="button" id="sentBack">Volver al carrito</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <!-- Orden de carga: config → productos → lógica. Sin módulos ni librerías externas. -->
+  <script src="js/config.js?v=20260920a" defer></script>
+  <script src="js/products.js?v=20260920a" defer></script>
+  <script src="js/app.js?v=20260920a" defer></script>
+</body>
+</html>

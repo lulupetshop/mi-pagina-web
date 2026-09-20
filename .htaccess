@@ -1,0 +1,51 @@
+# =====================================================================
+# Lulú Lulú — Configuración para Hostinger (Apache / LiteSpeed)
+# Subí este archivo junto con el resto (queda oculto en tu computadora
+# porque empieza con punto). Sirve para que el sitio cargue rápido y
+# para que tus cambios se vean apenas los subís.
+# =====================================================================
+
+Options -Indexes
+DirectoryIndex index.html
+
+# --- Tipos de archivo ---
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+  AddType application/javascript .js
+  AddDefaultCharset UTF-8
+</IfModule>
+
+# --- Compresión (páginas más livianas) ---
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml application/json
+</IfModule>
+
+# --- Caché: 3 capas ---
+<IfModule mod_headers.c>
+  # 1) La página y tus datos (productos y configuración) SIEMPRE se revisan:
+  #    así, cuando cambies un precio o el número de WhatsApp, se ve al instante.
+  <FilesMatch "\.(html)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+  <FilesMatch "^(products|config)\.js$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+
+  # 2) Estilos y lógica: se guardan 7 días, pero el "?v=AAAAMMDD" del index.html
+  #    fuerza la descarga nueva cuando cambiás la fecha.
+  <FilesMatch "^(styles|app)\.(css|js)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+
+  # 3) Imágenes: 30 días (si cambiás una foto, subila con otro nombre).
+  <FilesMatch "\.(webp|jpg|jpeg|png|svg|ico)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+</IfModule>
+
+# --- (Opcional) Forzar https ---
+# Sacale el "#" a las 3 líneas de abajo SOLO cuando el certificado SSL de tu
+# dominio ya esté activo en Hostinger.
+# RewriteEngine On
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [L,R=301]
