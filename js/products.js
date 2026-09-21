@@ -73,4 +73,24 @@ const PRODUCTS = [
       },
     ],
   },
+  {
+    id: "moises-redondo",
+    categoria: "Moisés Redondo",
+    nombre: "Moisés Redondo",
+    descripcion:
+      "Forma circular envolvente en símil jean azul, con almohadón central mullido. Tela resistente al uso diario.",
+    imagenes: ["assets/img/productos/moises-redondo-azul.jpg"],
+    colores: [],
+    tamanos: [
+      {
+        nombre: "Único",
+        medida: "75 x 60 x 20 cm",
+        recomendado: "Perros medianos/grandes y gatos",
+        minorista: 65000,
+        // TODO: precio mayorista todavía no definido; usa el mismo valor
+        // que el minorista hasta confirmarlo.
+        mayorista: 65000,
+      },
+    ],
+  },
 ];
