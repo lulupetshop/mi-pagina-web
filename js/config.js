@@ -17,7 +17,7 @@ const CONFIG = {
 
   // Cantidad mínima de unidades (combinando modelos y talles) para acceder
   // al precio mayorista.
-  MAYORISTA_MIN_UNIDADES: 6,
+  MAYORISTA_MIN_UNIDADES: 10,
 
   // Producto que se destaca en la sección "Producto estrella" y su
   // descuento de primera compra. Poné ACTIVO en false para ocultar esa

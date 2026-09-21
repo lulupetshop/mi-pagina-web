@@ -21,7 +21,7 @@
   }
 
   const CATEGORIA_ORDEN = [
-    "Moisés Cuadrado",
+    "Moisés Rectangular",
     "Moisés Redondo",
     "Nido Cuadrado",
     "Nido Rectangular",
