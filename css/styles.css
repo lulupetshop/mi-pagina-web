@@ -1636,6 +1636,16 @@ dialog::backdrop{
   background: var(--surface);
   box-shadow: var(--shadow-lg);
 }
+/* Entra/sale deslizándose (la clase .is-open la maneja app.js, con un
+   pequeño delay al cerrar para que el <dialog> no desaparezca antes
+   de terminar la animación). */
+@media (prefers-reduced-motion: no-preference){
+  .drawer{
+    transform: translateX(100%);
+    transition: transform .32s var(--ease);
+  }
+  .drawer.is-open{ transform: translateX(0); }
+}
 .drawer__panel{ display: flex; flex-direction: column; height: 100%; }
 .drawer__head{
   display: flex;

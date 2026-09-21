@@ -171,13 +171,36 @@
 
   /* ---------- Diálogos ---------- */
   function abrirDialogo(dialog) {
-    if (dialog && typeof dialog.showModal === "function" && !dialog.open) {
-      dialog.showModal();
-      lockBodyScroll();
+    if (!dialog || typeof dialog.showModal !== "function" || dialog.open) return;
+    dialog.showModal();
+    lockBodyScroll();
+    if (dialog.classList.contains("drawer")) {
+      // Doble rAF: asegura que el navegador ya pintó el estado inicial
+      // (fuera de pantalla) antes de agregar la clase que dispara la
+      // transición, si no el <dialog> aparece directamente en su
+      // posición final sin deslizarse.
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => dialog.classList.add("is-open"));
+      });
     }
   }
   function cerrarDialogo(dialog) {
-    if (dialog && dialog.open) dialog.close();
+    if (!dialog || !dialog.open) return;
+    if (dialog.classList.contains("drawer") && dialog.classList.contains("is-open")) {
+      dialog.classList.remove("is-open");
+      const cerrarYa = () => {
+        dialog.removeEventListener("transitionend", onEnd);
+        clearTimeout(fallback);
+        if (dialog.open) dialog.close();
+      };
+      const onEnd = (e) => {
+        if (e.target === dialog) cerrarYa();
+      };
+      dialog.addEventListener("transitionend", onEnd);
+      const fallback = setTimeout(cerrarYa, 400);
+      return;
+    }
+    dialog.close();
   }
 
   // Evita que, con un diálogo abierto, el gesto de scroll se vaya al fondo
@@ -209,6 +232,14 @@
         if (e.target === dialog) cerrarDialogo(dialog);
       });
       on(dialog, "close", actualizarBloqueoScroll);
+      if (dialog.classList.contains("drawer")) {
+        // Sin esto, Escape cierra el <dialog> de forma nativa e
+        // instantánea, sin pasar por cerrarDialogo() ni animar la salida.
+        on(dialog, "cancel", (e) => {
+          e.preventDefault();
+          cerrarDialogo(dialog);
+        });
+      }
     });
     on(document, "click", (e) => {
       const closeBtn = e.target.closest("[data-close]");
