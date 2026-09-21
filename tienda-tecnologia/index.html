@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOVA Tech — Tecnología esencial</title>
+<meta name="description" content="Tienda de productos tecnológicos: notebooks, celulares, audio, wearables y accesorios. Pagá con Mercado Pago.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css?v=20260921">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="#" class="logo" id="logo">NOVA Tech</a>
+    <ul class="nav-categories" id="navCategories"></ul>
+    <button class="cart-button" id="openCart" aria-label="Abrir carrito">
+      <span id="cartIconWrap"></span>
+      <span>Carrito</span>
+      <span class="cart-count" id="cartCount" hidden>0</span>
+    </button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1 id="heroTitle">Tecnología esencial. Diseño mínimo.</h1>
+    <p>Notebooks, celulares, audio y accesorios seleccionados. Pagá de forma segura con Mercado Pago.</p>
+  </div>
+</section>
+
+<div class="filter-bar" id="filterBar"></div>
+
+<main class="catalog">
+  <div class="wrap">
+    <div class="catalog-head">
+      <h2 id="catalogTitle">Todos los productos</h2>
+      <span id="catalogCount"></span>
+    </div>
+    <div class="product-grid" id="productGrid">
+      <!-- Productos inyectados por js/app.js -->
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© <span id="year"></span> NOVA Tech. Todos los derechos reservados.</span>
+    <span class="mp-badge">Pagos protegidos por Mercado Pago</span>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+  <div class="cart-drawer-head">
+    <h3>Tu carrito</h3>
+    <button class="icon-btn" id="closeCart" aria-label="Cerrar carrito"></button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">Tu carrito está vacío.</div>
+  </div>
+  <div class="cart-drawer-foot">
+    <div class="checkout-error" id="checkoutError"></div>
+    <div class="cart-total-row">
+      <span>Total</span>
+      <span id="cartTotal">$0</span>
+    </div>
+    <button class="checkout-btn" id="checkoutBtn" disabled>Pagar con Mercado Pago</button>
+    <p class="checkout-note">Serás redirigido a Mercado Pago para completar el pago de forma segura.</p>
+  </div>
+</aside>
+
+<script src="js/config.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
