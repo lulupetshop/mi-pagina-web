@@ -346,10 +346,14 @@ p{ text-wrap: pretty; }
   min-height: var(--header-h);
   display: flex;
   align-items: center;
+  background: linear-gradient(to bottom, rgba(20, 10, 35, .58) 0%, rgba(20, 10, 35, .22) 75%, transparent 100%);
+  border-bottom: 1px solid transparent;
+  transition: background .35s ease, border-color .35s ease, box-shadow .25s var(--ease), backdrop-filter .35s ease;
+}
+.site-header.is-scrolled{
   background: rgba(251, 247, 242, .82);
   backdrop-filter: blur(10px) saturate(140%);
-  border-bottom: 1px solid var(--border-soft);
-  transition: box-shadow .25s var(--ease);
+  border-bottom-color: var(--border-soft);
 }
 .header__inner{
   width: 100%;
@@ -358,7 +362,8 @@ p{ text-wrap: pretty; }
   gap: clamp(16px, 3vw, 40px);
 }
 
-.brand img{ height: 40px; width: auto; }
+.brand img{ height: 40px; width: auto; transition: filter .35s ease; }
+.site-header:not(.is-scrolled) .brand img{ filter: brightness(0) invert(1); }
 
 .nav{
   display: flex;
@@ -386,6 +391,10 @@ p{ text-wrap: pretty; }
 }
 .nav a:hover{ color: var(--purple-700); }
 .nav a:hover::after{ right: 0; }
+@media (min-width: 900px){
+  .site-header:not(.is-scrolled) .nav a{ color: rgba(255,255,255,.92); }
+  .site-header:not(.is-scrolled) .nav a:hover{ color: #fff; }
+}
 
 .header__actions{ display: flex; align-items: center; gap: 10px; }
 
@@ -400,9 +409,11 @@ p{ text-wrap: pretty; }
   font-weight: 600;
   font-size: .9rem;
   position: relative;
-  transition: border-color .2s var(--ease), background .2s var(--ease), transform .2s var(--ease);
+  transition: border-color .2s var(--ease), background .2s var(--ease), transform .2s var(--ease), color .2s var(--ease);
 }
 .cart-btn:hover{ border-color: var(--purple-400); background: var(--purple-50); transform: translateY(-1px); }
+.site-header:not(.is-scrolled) .cart-btn{ color: #fff; border-color: rgba(255,255,255,.5); }
+.site-header:not(.is-scrolled) .cart-btn:hover{ background: rgba(255,255,255,.14); border-color: #fff; }
 .cart-btn__label{ display: none; }
 .cart-count{
   min-width: 20px; height: 20px;
@@ -422,8 +433,11 @@ p{ text-wrap: pretty; }
   width: 42px; height: 42px;
   border-radius: var(--r-pill);
   border: 1px solid var(--border);
+  color: inherit;
+  transition: border-color .2s var(--ease), color .2s var(--ease);
 }
 .menu-btn .ico{ width: 20px; height: 20px; }
+.site-header:not(.is-scrolled) .menu-btn{ color: #fff; border-color: rgba(255,255,255,.5); }
 
 .icon-btn{
   display: inline-flex;
@@ -585,6 +599,7 @@ textarea{ resize: vertical; min-height: 90px; }
 /* Hero con video de fondo (home): el texto queda "arriba" del video,
    con un degradé oscuro a la izquierda para que siempre se lea bien. */
 .hero--video{
+  margin-top: calc(-1 * var(--header-h));
   padding-block: clamp(96px, 16vw, 168px) clamp(64px, 9vw, 110px);
   min-height: clamp(480px, 82vh, 760px);
   display: flex;
@@ -605,7 +620,7 @@ textarea{ resize: vertical; min-height: 90px; }
   z-index: -1;
   background: linear-gradient(100deg, rgba(28, 16, 46, .86) 0%, rgba(28, 16, 46, .62) 40%, rgba(28, 16, 46, .28) 68%, rgba(28, 16, 46, .08) 100%);
 }
-.hero--video .wrap{ position: relative; }
+.hero--video .wrap{ position: relative; padding-inline-start: clamp(14px, 2.4vw, 28px); }
 .hero--video .hero__copy{ max-width: 620px; }
 .hero--video h1{ color: #fff; }
 .hero--video em{ color: var(--terracotta-300); }
