@@ -36,10 +36,40 @@ const PRODUCTS = [
         nombre: "Único",
         medida: "75 x 60 x 18 cm",
         recomendado: "Perros medianos/grandes y gatos",
-        minorista: 54000,
+        minorista: 64000,
         // Precio de fábrica (Descanso Peludo, catálogo 2026, ART.4 "Moisés
         // Rectangular" 75x60x18cm): $29.500 por unidad.
         mayorista: 29500,
+      },
+    ],
+  },
+  {
+    id: "colchon-redondo-desmontable",
+    categoria: "Colchón Desmontable Redondo",
+    nombre: "Colchón Redondo Desmontable",
+    descripcion:
+      "Colchoneta redonda con funda desmontable y relleno mullido, fácil de lavar. Base antideslizante para que no se mueva en el piso.",
+    imagenes: [
+      "assets/img/productos/colchon-redondo-desmontable-gris-claro.jpg",
+      "assets/img/productos/colchon-redondo-desmontable-mostaza.jpg",
+      "assets/img/productos/colchon-redondo-desmontable-gris-oscuro.jpg",
+    ],
+    // Orden pedido: gris claro primero, después el resto de los colores.
+    colores: [
+      { nombre: "Gris Claro", hex: "#8c8885" },
+      { nombre: "Mostaza", hex: "#91653a" },
+      { nombre: "Gris Oscuro", hex: "#4a4846" },
+    ],
+    tamanos: [
+      {
+        nombre: "Único",
+        // TODO: falta confirmar el diámetro exacto con el fabricante.
+        medida: "A confirmar por WhatsApp",
+        recomendado: "Perros y gatos",
+        minorista: 70000,
+        // TODO: precio mayorista todavía no definido; usa el mismo valor
+        // que el minorista hasta confirmarlo.
+        mayorista: 70000,
       },
     ],
   },
