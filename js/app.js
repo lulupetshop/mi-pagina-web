@@ -215,8 +215,9 @@
     const header = $("#siteHeader");
     if (!header) return;
     const onScroll = () => {
-      header.style.boxShadow =
-        window.scrollY > 8 ? "0 8px 24px rgba(36,21,57,.08)" : "none";
+      const scrolled = window.scrollY > 40;
+      header.classList.toggle("is-scrolled", scrolled);
+      header.style.boxShadow = scrolled ? "0 8px 24px rgba(36,21,57,.08)" : "none";
     };
     on(window, "scroll", onScroll, { passive: true });
     onScroll();
