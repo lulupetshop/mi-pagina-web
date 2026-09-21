@@ -956,8 +956,8 @@ textarea{ resize: vertical; min-height: 90px; }
   gap: clamp(16px, 2.5vw, 26px);
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 }
-/* Tarjeta de producto (convención esperada de app.js: <article class="card">) */
 .grid > *{
+  position: relative;
   background: var(--surface);
   border: 1px solid var(--border-soft);
   border-radius: var(--r-md);
@@ -965,10 +965,26 @@ textarea{ resize: vertical; min-height: 90px; }
   box-shadow: var(--shadow-sm);
   transition: box-shadow .25s var(--ease), transform .25s var(--ease);
   cursor: pointer;
+  text-align: left;
 }
 .grid > *:hover{ box-shadow: var(--shadow-md); transform: translateY(-3px); }
-.grid img{ aspect-ratio: 4/3.4; object-fit: cover; width: 100%; }
+.grid img{ aspect-ratio: 4/3.4; object-fit: cover; width: 100%; background: var(--surface-tint); }
 .grid .card__body, .grid > * > div:last-child{ padding: 1em 1.1em 1.2em; }
+
+.card__cat{
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--purple-500);
+  margin-bottom: .35em;
+}
+.card__title{ font-size: 1.05rem; margin-bottom: .4em; }
+.card__price{ font-family: var(--font-display); font-size: 1.15rem; color: var(--ink-900); display: flex; align-items: baseline; gap: .45em; flex-wrap: wrap; }
+.card__price s{ font-family: var(--font-body); font-size: .82rem; color: var(--ink-300); }
+.card__price-note{ font-family: var(--font-body); font-size: .72rem; font-weight: 600; color: var(--ink-300); }
+
+.size-table tbody tr.is-selected td{ background: var(--purple-50); }
 
 .badge{
   display: inline-flex; align-items: center;
@@ -1536,6 +1552,14 @@ dialog::backdrop{
   flex: none;
   background: var(--surface-tint);
 }
+.cart-item__body{ flex: 1; display: flex; flex-direction: column; gap: .2em; min-width: 0; }
+.cart-item__body b{ font-size: .92rem; }
+.cart-item__meta{ font-size: .78rem; color: var(--ink-500); }
+.cart-item__qty{ display: flex; align-items: center; gap: 10px; margin-top: .4em; }
+.cart-item__qty span{ min-width: 1.2em; text-align: center; font-weight: 700; font-size: .85rem; }
+.cart-item__remove{ margin-left: auto; font-size: .76rem; color: var(--ink-300); text-decoration: underline; }
+.cart-item__remove:hover{ color: var(--terracotta-600); }
+.cart-item__price{ font-weight: 700; color: var(--purple-700); font-size: .9rem; white-space: nowrap; flex: none; }
 
 .cart-empty{ text-align: center; padding-block: 40px; color: var(--ink-500); }
 .cart-empty__title{ font-family: var(--font-display); font-size: 1.2rem; color: var(--ink-900); margin-bottom: .4em; }
