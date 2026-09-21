@@ -20,7 +20,17 @@
     return (str || "").replace(/\D/g, "");
   }
 
-  const CATEGORIA_ORDEN = ["Moisés", "Nidos", "Colchonetas", "Almohadones"];
+  const CATEGORIA_ORDEN = [
+    "Moisés Rectangular",
+    "Moisés Redondo",
+    "Nido Cuadrado",
+    "Nido Rectangular",
+    "Nido Redondo",
+    "Antiestrés",
+    "Almohadones",
+    "Colchón Desmontable Redondo",
+    "Colchoneta Desmontable",
+  ];
   const TAMANO_ORDEN = ["XS", "S", "M", "L", "XL"];
 
   function ordenTamanos(lista) {
@@ -680,6 +690,36 @@
     );
   }
 
+  /* ---------- Zoom dinámico (lupa con el mouse, para ver la textura) ---------- */
+  function setupGalleryZoom() {
+    const main = $("#pMain");
+    const img = $("#pMainImg");
+    if (!main || !img) return;
+
+    const puedeHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    if (!puedeHover) return; // en touch se usa "Ver de cerca" (pellizcar para acercar)
+
+    const hint = document.createElement("span");
+    hint.className = "zoom-hint";
+    hint.textContent = "Pasá el mouse para ver la textura";
+    main.appendChild(hint);
+
+    on(main, "mousemove", (e) => {
+      const rect = img.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+      const x = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
+      const y = Math.max(0, Math.min(100, ((e.clientY - rect.top) / rect.height) * 100));
+      img.style.transformOrigin = `${x}% ${y}%`;
+      img.style.transform = "scale(2.4)";
+      main.classList.add("is-zooming");
+    });
+    on(main, "mouseleave", () => {
+      img.style.transform = "";
+      img.style.transformOrigin = "";
+      main.classList.remove("is-zooming");
+    });
+  }
+
   function setupModalControles() {
     on($("#pPrev"), "click", () => cambiarImagen(-1));
     on($("#pNext"), "click", () => cambiarImagen(1));
@@ -1136,6 +1176,7 @@
     setupModeSwitch();
     setupCatalogoControles();
     setupModalControles();
+    setupGalleryZoom();
     setupZoomControles();
     setupCarrito();
     setupCheckoutForm();
