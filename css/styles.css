@@ -51,6 +51,7 @@
   /* Terracota — acento cálido */
   --terracotta-100: #fbe7d6;
   --terracotta-300: #f0ab7c;
+  --terracotta-400: #ec9f6b;
   --terracotta-500: #e8935a;
   --terracotta-600: #d97a3f;
   --terracotta-700: #b45e2c;
@@ -525,19 +526,48 @@ p{ text-wrap: pretty; }
 }
 .btn--ghost:hover{ background: var(--purple-50); border-color: var(--purple-500); }
 
+/* .btn--light y .btn--outline-light son los botones pensados para ir
+   sobre fondos oscuros/morados (estrella, historia, mayorista). En
+   hover se encienden con un degradé y un brillo naranja (terracota),
+   usando el mismo acento cálido del resto del sitio. El degradé va en
+   un ::after aparte porque CSS no anima una transición de un color
+   sólido a un gradiente: así el fade queda suave. */
+.btn--light, .btn--outline-light{
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+}
+.btn--light::after, .btn--outline-light::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(135deg, var(--terracotta-400), var(--terracotta-600));
+  opacity: 0;
+  transition: opacity .28s var(--ease);
+}
+.btn--light:hover::after, .btn--outline-light:hover::after{ opacity: 1; }
+
 .btn--light{
   background: #fff;
   color: var(--purple-700);
   box-shadow: 0 14px 28px rgba(0,0,0,.20);
 }
-.btn--light:hover{ background: var(--terracotta-100); color: var(--terracotta-700); transform: translateY(-2px); }
+.btn--light:hover{
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(217,122,63,.45), 0 0 32px rgba(240,171,124,.6);
+}
 
 .btn--outline-light{
   background: transparent;
   color: #fff;
   border: 1.5px solid rgba(255,255,255,.55);
 }
-.btn--outline-light:hover{ background: rgba(255,255,255,.12); border-color: #fff; }
+.btn--outline-light:hover{
+  border-color: var(--terracotta-400);
+  box-shadow: 0 14px 30px rgba(217,122,63,.4), 0 0 28px rgba(240,171,124,.55);
+}
 
 .btn--wa{
   background: var(--wa-500);
