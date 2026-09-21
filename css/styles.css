@@ -1094,7 +1094,7 @@ textarea{ resize: vertical; min-height: 90px; }
   box-shadow: var(--shadow-lg);
   aspect-ratio: 4/3;
 }
-.story__media video{ width: 100%; height: 100%; object-fit: cover; }
+.story__media video, .story__media img{ width: 100%; height: 100%; object-fit: cover; }
 .story__stats{
   display: flex;
   flex-wrap: wrap;
