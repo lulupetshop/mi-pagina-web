@@ -156,6 +156,15 @@ body{
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
 }
+/* Con un dialog abierto (modal de producto, zoom, carrito), bloquea el
+   scroll de la página de atrás para que el gesto de scroll quede
+   siempre adentro del modal. */
+body.no-scroll{
+  position: fixed;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+}
 
 h1, h2, h3{
   font-family: var(--font-display);
@@ -1359,14 +1368,28 @@ dialog::backdrop{
   background: var(--surface);
   box-shadow: var(--shadow-lg);
 }
-.modal__panel{ position: relative; display: flex; flex-direction: column; height: 100%; }
+/* display:flex solo mientras está abierto: puesto sin el [open], le
+   gana (por ser CSS de autor) a la regla nativa del navegador que
+   oculta el <dialog> cerrado (dialog:not([open]){display:none}), y el
+   modal cerrado quedaba igual renderizado, tapando clics en el resto
+   de la página. */
+.modal[open]{
+  display: flex;
+  flex-direction: column;
+}
+/* .modal__panel no puede usar height:100% acá: el <dialog> solo tiene
+   max-height (no height), así que un % no tiene base definida y el
+   panel terminaba renderizando a su alto natural, tapando el pie con
+   "Agregar al carrito". Con flex:1 + min-height:0 toma el alto ya
+   recortado por max-height, sin depender de un height explícito. */
+.modal__panel{ position: relative; display: flex; flex-direction: column; flex: 1; min-height: 0; }
 .modal__close{
   position: absolute;
   top: 14px; right: 14px;
   z-index: 5;
   background: rgba(255,255,255,.92);
 }
-.modal__scroll{ overflow-y: auto; padding: clamp(20px, 3vw, 40px); }
+.modal__scroll{ overflow-y: auto; flex: 1; min-height: 0; padding: clamp(20px, 3vw, 40px); }
 .modal__grid{
   display: grid;
   gap: clamp(20px, 3vw, 40px);

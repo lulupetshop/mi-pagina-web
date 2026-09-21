@@ -173,10 +173,34 @@
   function abrirDialogo(dialog) {
     if (dialog && typeof dialog.showModal === "function" && !dialog.open) {
       dialog.showModal();
+      lockBodyScroll();
     }
   }
   function cerrarDialogo(dialog) {
     if (dialog && dialog.open) dialog.close();
+  }
+
+  // Evita que, con un diálogo abierto, el gesto de scroll se vaya al fondo
+  // de la página en lugar de mover el contenido del modal. Se re-evalúa en
+  // el evento "close" (nativo) de cada dialog para cubrir también el cierre
+  // con Escape, que no pasa por cerrarDialogo().
+  let scrollLockY = 0;
+  function lockBodyScroll() {
+    if (document.body.classList.contains("no-scroll")) return;
+    scrollLockY = window.scrollY;
+    document.body.classList.add("no-scroll");
+    document.body.style.top = `-${scrollLockY}px`;
+  }
+  function unlockBodyScroll() {
+    if (!document.body.classList.contains("no-scroll")) return;
+    document.body.classList.remove("no-scroll");
+    document.body.style.top = "";
+    window.scrollTo({ top: scrollLockY, behavior: "instant" });
+  }
+  function actualizarBloqueoScroll() {
+    const hayAbierto = $$("dialog").some((d) => d.open);
+    if (hayAbierto) lockBodyScroll();
+    else unlockBodyScroll();
   }
 
   function setupDialogs() {
@@ -184,6 +208,7 @@
       on(dialog, "click", (e) => {
         if (e.target === dialog) cerrarDialogo(dialog);
       });
+      on(dialog, "close", actualizarBloqueoScroll);
     });
     on(document, "click", (e) => {
       const closeBtn = e.target.closest("[data-close]");
