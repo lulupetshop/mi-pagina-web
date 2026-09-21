@@ -36,7 +36,7 @@ const PRODUCTS = [
         nombre: "Único",
         medida: "75 x 60 x 18 cm",
         recomendado: "Perros medianos/grandes y gatos",
-        minorista: 64000,
+        minorista: 65000,
         // Precio de fábrica (Descanso Peludo, catálogo 2026, ART.4 "Moisés
         // Rectangular" 75x60x18cm): $29.500 por unidad.
         mayorista: 29500,
@@ -79,8 +79,16 @@ const PRODUCTS = [
     nombre: "Colchoneta Desmontable",
     descripcion:
       "Colchoneta rectangular en tela pana, con funda desmontable y relleno mullido, fácil de lavar. Vivo en las costuras que le da terminación prolija.",
-    imagenes: ["assets/img/productos/colchoneta-desmontable-azul.jpg"],
-    colores: [],
+    imagenes: [
+      "assets/img/productos/colchoneta-desmontable-azul.jpg",
+      "assets/img/productos/colchoneta-desmontable-mostaza.jpg",
+      "assets/img/productos/colchoneta-desmontable-gris-oscuro.jpg",
+    ],
+    colores: [
+      { nombre: "Azul", hex: "#303945" },
+      { nombre: "Mostaza", hex: "#91653a" },
+      { nombre: "Gris Oscuro", hex: "#4a4846" },
+    ],
     tamanos: [
       {
         nombre: "Único",
