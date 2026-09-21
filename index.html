@@ -21,7 +21,7 @@
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="icon" type="image/png" href="assets/logo/isologo-lulu.png">
-  <link rel="preload" as="image" href="assets/img/hero.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/img/hero-poster.jpg" fetchpriority="high">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,7 +30,7 @@
   <script>document.documentElement.classList.add('js');</script>
 
   <!-- ?v=... evita que el navegador muestre versiones viejas. Cambialo cada vez que subas cambios. -->
-  <link rel="stylesheet" href="css/styles.css?v=20260921c">
+  <link rel="stylesheet" href="css/styles.css?v=20260921d">
   <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 
@@ -111,15 +111,20 @@
   <main id="contenido">
 
     <!-- ============ HERO ============ -->
-    <section class="hero" id="inicio" aria-labelledby="hero-titulo">
-      <div class="wrap hero__grid">
+    <section class="hero hero--video" id="inicio" aria-labelledby="hero-titulo">
+      <video class="hero__bg" autoplay muted loop playsinline preload="metadata" poster="assets/img/hero-poster.jpg" aria-hidden="true">
+        <source src="assets/img/hero-puppy.mp4" type="video/mp4">
+      </video>
+      <div class="hero__scrim" aria-hidden="true"></div>
+
+      <div class="wrap">
         <div class="hero__copy">
-          <p class="eyebrow hero__in" style="--d:0ms"><span class="eyebrow__line" aria-hidden="true"></span>Camas para perros y gatos</p>
+          <p class="eyebrow eyebrow--light hero__in" style="--d:0ms"><span class="eyebrow__line" aria-hidden="true"></span>Camas para perros y gatos</p>
           <h1 id="hero-titulo" class="hero__in" style="--d:80ms">Un lugar suave donde tu mascota <em>se siente en casa</em>.</h1>
           <p class="lead hero__in" style="--d:160ms">Moisés, nidos y colchonetas con telas resistentes y fundas que se lavan. Elegí el modelo y el tamaño, y cerrá tu pedido por WhatsApp.</p>
           <div class="hero__cta hero__in" style="--d:240ms">
             <a class="btn btn--primary btn--lg" href="#catalogo">Ver catálogo <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-            <a class="btn btn--ghost btn--lg" href="#contacto" data-wa="consulta">
+            <a class="btn btn--outline-light btn--lg" href="#contacto" data-wa="consulta">
               <svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg>
               Consultar por WhatsApp
             </a>
@@ -130,20 +135,11 @@
             <li><span>3</span> Lo cerrás por WhatsApp</li>
           </ul>
         </div>
+      </div>
 
-        <div class="hero__visual hero__in" style="--d:200ms">
-          <div class="hero__arch">
-            <img id="heroPhoto" src="assets/img/hero.webp" alt="Cachorro durmiendo en una cama moisés Lulú Lulú junto a una ventana" width="1100" height="1361" fetchpriority="high">
-          </div>
-          <div class="hero__card" aria-hidden="true">
-            <b><span data-count="16">16</span></b>
-            <span>modelos para elegir</span>
-          </div>
-          <div class="hero__tag" aria-hidden="true">
-            <svg class="ico"><use href="#i-wash"/></svg>
-            Funda desmontable
-          </div>
-        </div>
+      <div class="hero__card hero__card--float hero__in" style="--d:280ms" aria-hidden="true">
+        <b><span data-count="16">16</span></b>
+        <span>modelos para elegir</span>
       </div>
     </section>
 
@@ -703,8 +699,8 @@
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
   <!-- Orden de carga: config → productos → lógica. Sin módulos ni librerías externas. -->
-  <script src="js/config.js?v=20260921c" defer></script>
-  <script src="js/products.js?v=20260921c" defer></script>
-  <script src="js/app.js?v=20260921c" defer></script>
+  <script src="js/config.js?v=20260921d" defer></script>
+  <script src="js/products.js?v=20260921d" defer></script>
+  <script src="js/app.js?v=20260921d" defer></script>
 </body>
 </html>
