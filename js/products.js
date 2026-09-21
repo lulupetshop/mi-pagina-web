@@ -74,6 +74,26 @@ const PRODUCTS = [
     ],
   },
   {
+    id: "colchoneta-desmontable",
+    categoria: "Colchoneta Desmontable",
+    nombre: "Colchoneta Desmontable",
+    descripcion:
+      "Colchoneta rectangular en tela pana, con funda desmontable y relleno mullido, fácil de lavar. Vivo en las costuras que le da terminación prolija.",
+    imagenes: ["assets/img/productos/colchoneta-desmontable-azul.jpg"],
+    colores: [],
+    tamanos: [
+      {
+        nombre: "Único",
+        medida: "87 x 70 x 10 cm",
+        recomendado: "Perros medianos/grandes y gatos",
+        minorista: 75000,
+        // TODO: precio mayorista todavía no definido; usa el mismo valor
+        // que el minorista hasta confirmarlo.
+        mayorista: 75000,
+      },
+    ],
+  },
+  {
     id: "moises-redondo",
     categoria: "Moisés Redondo",
     nombre: "Moisés Redondo",
