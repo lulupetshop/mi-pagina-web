@@ -827,8 +827,8 @@ textarea{ resize: vertical; min-height: 90px; }
   background: radial-gradient(circle at 85% 15%, rgba(232,147,90,.25), transparent 55%);
   pointer-events: none;
 }
-.star h2{ color: #fff; font-size: clamp(1.8rem, 1.4rem + 1.7vw, 2.7rem); margin-bottom: .5em; }
-.star p{ color: var(--on-dark-soft); }
+.star h2{ color: #fff; font-size: clamp(1.6rem, 1.25rem + 1.5vw, 2.4rem); margin-bottom: .5em; }
+.star p{ color: var(--on-dark-soft); font-size: .92rem; }
 
 .star__grid{
   display: grid;
@@ -882,8 +882,8 @@ textarea{ resize: vertical; min-height: 90px; }
   padding: .7em 1em;
   min-width: 140px;
 }
-.star__facts b{ display: block; font-size: .95rem; color: #fff; }
-.star__facts span{ font-size: .75rem; color: var(--on-dark-faint); }
+.star__facts b{ display: block; font-size: .88rem; color: #fff; }
+.star__facts span{ font-size: .7rem; color: var(--on-dark-faint); }
 
 .star__offer{
   background: rgba(255,255,255,.08);
@@ -899,12 +899,12 @@ textarea{ resize: vertical; min-height: 90px; }
   gap: .6em;
   margin-bottom: .5em;
 }
-.star__nums s{ color: var(--on-dark-faint); font-size: 1rem; }
-.star__nums b{ font-family: var(--font-display); font-size: 2.1rem; color: #fff; }
+.star__nums s{ color: var(--on-dark-faint); font-size: .92rem; }
+.star__nums b{ font-family: var(--font-display); font-size: 1.9rem; color: #fff; }
 .star__chip{
   background: var(--terracotta-500);
   color: #fff;
-  font-size: .74rem;
+  font-size: .7rem;
   font-weight: 700;
   padding: .4em .8em;
   border-radius: var(--r-pill);
@@ -912,7 +912,7 @@ textarea{ resize: vertical; min-height: 90px; }
 .star__cta{ display: flex; flex-wrap: wrap; gap: 14px; }
 
 @media (min-width: 900px){
-  .star__grid{ grid-template-columns: 1fr 1.05fr; }
+  .star__grid{ grid-template-columns: 1.15fr 1fr; }
 }
 
 /* ==========================================================================
@@ -1324,7 +1324,7 @@ textarea{ resize: vertical; min-height: 90px; }
   padding-bottom: 44px;
   border-bottom: 1px solid rgba(255,255,255,.1);
 }
-.footer__brand img{ height: 34px; filter: brightness(0) invert(1); margin-bottom: 1em; }
+.footer__brand img{ height: 34px; width: auto; filter: brightness(0) invert(1); margin-bottom: 1em; }
 .footer__brand p{ font-size: .88rem; max-width: 34ch; }
 .footer__title{
   font-family: var(--font-body);
