@@ -8,7 +8,7 @@ const CONFIG = {
   // Número de WhatsApp en formato internacional, solo dígitos (código de
   // país + código de área + número, sin '+', espacios ni guiones).
   // Ejemplo Argentina: 54 9 351 234 5678 -> "5493512345678"
-  WHATSAPP_NUMBER: "5493511234567",
+  WHATSAPP_NUMBER: "5493517642818",
 
   // Mientras esté en true se muestra el aviso de sitio de demostración y la
   // etiqueta "Ejemplo" en las fotos de producto. Poné false cuando cargues
