@@ -78,9 +78,15 @@ const PRODUCTS = [
     categoria: "Moisés Redondo",
     nombre: "Moisés Redondo",
     descripcion:
-      "Forma circular envolvente en símil jean azul, con almohadón central mullido. Tela resistente al uso diario.",
-    imagenes: ["assets/img/productos/moises-redondo-azul.jpg"],
-    colores: [],
+      "Forma circular envolvente con almohadón central mullido. Tela resistente al uso diario.",
+    imagenes: [
+      "assets/img/productos/moises-redondo-azul.jpg",
+      "assets/img/productos/moises-redondo-estampado.jpg",
+    ],
+    colores: [
+      { nombre: "Azul", hex: "#394553" },
+      { nombre: "Rojo Estampado", hex: "#873b45" },
+    ],
     tamanos: [
       {
         nombre: "Único",
