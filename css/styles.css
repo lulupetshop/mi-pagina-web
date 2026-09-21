@@ -367,7 +367,8 @@ p{ text-wrap: pretty; }
 }
 .header__inner{
   width: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: clamp(16px, 3vw, 40px);
 }
@@ -378,8 +379,9 @@ p{ text-wrap: pretty; }
 .nav{
   display: flex;
   align-items: center;
+  justify-content: center;
+  justify-self: center;
   gap: clamp(14px, 2vw, 30px);
-  margin-inline-start: auto;
 }
 .nav a{
   position: relative;
@@ -437,14 +439,19 @@ p{ text-wrap: pretty; }
 }
 .cart-count:empty, .cart-count[data-zero]{ opacity: .5; }
 
+/* Solo tiene función en mobile (abre el menú de navegación en drawer);
+   en desktop el menú ya está visible en el header, así que se oculta. */
 .menu-btn{
-  display: inline-flex;
+  display: none;
   align-items: center; justify-content: center;
   width: 42px; height: 42px;
   border-radius: var(--r-pill);
   border: 1px solid var(--border);
   color: inherit;
   transition: border-color .2s var(--ease), color .2s var(--ease);
+}
+@media (max-width: 899px){
+  .menu-btn{ display: inline-flex; }
 }
 .menu-btn .ico{ width: 20px; height: 20px; }
 .site-header:not(.is-scrolled) .menu-btn{ color: #fff; border-color: rgba(255,255,255,.5); }
