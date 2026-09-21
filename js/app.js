@@ -1209,12 +1209,6 @@
     $$('[data-star="promo"]').forEach((el) => (el.textContent = formatPrice(promo)));
     $$('[data-star="pct"]').forEach((el) => (el.textContent = String(cfg.DESCUENTO_PCT)));
 
-    const img = $(".star__frame img");
-    if (img) {
-      img.src = product.imagenes[0];
-      img.alt = product.nombre;
-    }
-
     $$("[data-star-open]").forEach((btn) => on(btn, "click", () => openProductModal(product.id)));
 
     section.hidden = false;
