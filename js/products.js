@@ -140,25 +140,3 @@ const PRODUCTS = [
     ],
   },
 ];
-/* Hero: los nombres salen del catálogo para mantenerlos siempre sincronizados. */
-    const models = PRODUCTS
-      .map((product) => product.nombre.replace(/^Sueño\s+/i, "").trim())
-      .filter(Boolean);
-    if (!models.length) return;
-
-    // Se agrega una copia del primer nombre al final para que el ciclo
-    // vuelva a Rubí sin el salto visual de "último → primero".
-    const loopModels = [...models, models[0]];
-    words.innerHTML = loopModels.map((name) => {
-      const span = document.createElement("span");
-      span.textContent = name;
-      return span.outerHTML;
-    }).join("");
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", setupHeroCopy, { once: true });
-  } else {
-    setupHeroCopy();
-  }
-})();
