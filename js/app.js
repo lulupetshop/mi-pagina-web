@@ -398,44 +398,6 @@
     });
   }
 
-  function setupCatalogFilterMenu() {
-    const toggle = $("#catalogFilterToggle");
-    const filters = $("#catalogFilters");
-    if (!toggle || !filters) return;
-
-    const cerrar = () => {
-      toggle.setAttribute("aria-expanded", "false");
-      filters.classList.remove("is-open");
-    };
-    const abrir = () => {
-      toggle.setAttribute("aria-expanded", "true");
-      filters.classList.add("is-open");
-    };
-
-    on(toggle, "click", () => {
-      const abierto = toggle.getAttribute("aria-expanded") === "true";
-      abierto ? cerrar() : abrir();
-    });
-
-    on(filters, "click", (e) => {
-      if (e.target.closest(".chips button")) {
-        window.setTimeout(cerrar, 120);
-      }
-    });
-
-    on(document, "keydown", (e) => {
-      if (e.key === "Escape") cerrar();
-    });
-
-    const sync = () => {
-      if (window.innerWidth > 899) {
-        toggle.setAttribute("aria-expanded", "false");
-        filters.classList.remove("is-open");
-      }
-    };
-    on(window, "resize", sync, { passive: true });
-    sync();
-  }
 
   /* ---------- Reveal + contadores ---------- */
   function setupReveal() {
@@ -1500,7 +1462,6 @@
     setupScrollProgress();
     setupHeaderShadow();
     setupMobileMenu();
-    setupCatalogFilterMenu();
     setupReveal();
     setupCountUp();
     setupWaTriggers();
