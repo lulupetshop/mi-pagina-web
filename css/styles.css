@@ -534,7 +534,7 @@ p{ text-wrap: pretty; }
   color: #fff;
   border: 0;
   box-shadow: var(--shadow-purple);
-  transition: color .25s var(--ease), transform .25s var(--ease), box-shadow .25s var(--ease);
+  transition: color .38s var(--ease), transform .38s var(--ease), box-shadow .38s var(--ease);
 }
 .btn--primary::before{
   content: "";
@@ -544,7 +544,7 @@ p{ text-wrap: pretty; }
   z-index: -1;
   border-radius: inherit;
   background: var(--terracotta-500);
-  transition: width .25s var(--ease);
+  transition: width .38s var(--ease);
 }
 .btn--primary:hover{
   color: #fff;
