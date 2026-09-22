@@ -41,6 +41,7 @@ const CONFIG = {
     ACTIVO: true,
     GA4_MEASUREMENT_ID: "G-809E9P16G7",
     GTM_CONTAINER_ID: "",
+    META_PIXEL_ID: "1961672001168621",
   },
 
   // Producto que se destaca en la sección "Producto estrella" y su
