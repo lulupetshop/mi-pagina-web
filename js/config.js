@@ -27,7 +27,7 @@ const CONFIG = {
   },
 
   // Métodos de pago que se muestran y se envían a WhatsApp.
-  MEDIOS_PAGO: ["Mercado Pago", "Transferencia bancaria"],,
+  MEDIOS_PAGO: ["Mercado Pago", "Transferencia bancaria"],
 
   // Producto que se destaca en la sección "Producto estrella" y su
   // descuento de primera compra. Poné ACTIVO en false para ocultar esa
