@@ -46,9 +46,9 @@ const PRODUCTS = [
   {
     id: "colchon-redondo-desmontable",
     categoria: "Colchón Desmontable Redondo",
-    nombre: "Colchón Redondo Desmontable",
+    nombre: "Nube Redonda Desmontable",
     descripcion:
-      "Colchoneta redonda con funda desmontable y relleno mullido, fácil de lavar. Base antideslizante para que no se mueva en el piso.",
+      "Superficie redonda y mullida con funda desmontable para facilitar el lavado. Una opción cómoda y práctica para el descanso diario.",
     imagenes: [
       "assets/img/productos/colchon-redondo-desmontable-gris-claro.jpg",
       "assets/img/productos/colchon-redondo-desmontable-mostaza.jpg",
@@ -76,9 +76,9 @@ const PRODUCTS = [
   {
     id: "colchoneta-desmontable",
     categoria: "Colchoneta Desmontable",
-    nombre: "Colchoneta Desmontable",
+    nombre: "Descanso Nube",
     descripcion:
-      "Colchoneta rectangular en tela pana, con funda desmontable y relleno mullido, fácil de lavar. Vivo en las costuras que le da terminación prolija.",
+      "Colchoneta rectangular mullida con funda desmontable, pensada para el descanso diario. Fácil de lavar y cómoda para perros y gatos.",
     imagenes: [
       "assets/img/productos/colchoneta-desmontable-azul.jpg",
       "assets/img/productos/colchoneta-desmontable-mostaza.jpg",
@@ -104,9 +104,9 @@ const PRODUCTS = [
   {
     id: "moises-redondo",
     categoria: "Moisés Redondo",
-    nombre: "Moisés Redondo",
+    nombre: "Abrazo Redondo",
     descripcion:
-      "Forma circular envolvente con almohadón central mullido. Tela resistente al uso diario.",
+      "Forma envolvente y almohadón mullido para que tu mascota tenga un rincón cómodo y protegido. Tela resistente al uso diario.",
     imagenes: [
       "assets/img/productos/moises-redondo-azul.jpg",
       "assets/img/productos/moises-redondo-estampado.jpg",
