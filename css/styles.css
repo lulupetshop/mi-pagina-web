@@ -1,4 +1,4 @@
-.mobile-search{display:none;}
+
 /* ==========================================================================
    Lulú Lulú — Camas para perros y gatos
    Hoja de estilos generada a partir del análisis de index.html.
@@ -396,6 +396,8 @@ p{ text-wrap: pretty; }
   justify-content: center;
   gap: clamp(14px, 2vw, 30px);
 }
+.nav__group{ display:none; }
+
 .nav__item{
   position: relative;
   display: inline-flex;
@@ -567,6 +569,7 @@ p{ text-wrap: pretty; }
     transition: background-color .28s var(--ease), color .28s var(--ease), transform .28s var(--ease);
   }
   .nav__group{
+    display: block;
     width: 100%;
   }
   .nav__group > summary{
