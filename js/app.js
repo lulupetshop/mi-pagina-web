@@ -106,7 +106,6 @@
     modo: "minorista", // "minorista" | "mayorista"
     filtroCategoria: null,
     filtroTamano: null,
-    busqueda: "",
     orden: "destacados",
     cart: cargarCarrito(),
     currentProduct: null,
@@ -388,7 +387,19 @@
       expanded ? cerrar() : abrir();
     });
     on(nav, "click", (e) => {
-      if (e.target.closest("a")) cerrar();
+      const productLink = e.target.closest("[data-product-id]");
+      if (productLink) {
+        e.preventDefault();
+        const productId = productLink.dataset.productId;
+        cerrar();
+        nav.querySelectorAll(".nav__group[open]").forEach((group) => { group.open = false; });
+        openProductModal(productId);
+        return;
+      }
+      if (e.target.closest(".nav__submenu a")) {
+        cerrar();
+        nav.querySelectorAll(".nav__group[open]").forEach((group) => { group.open = false; });
+      }
     });
     on(document, "keydown", (e) => {
       if (e.key === "Escape") cerrar();
@@ -548,19 +559,9 @@
   }
 
   function productosFiltrados() {
-    const query = state.busqueda.trim().toLocaleLowerCase("es-AR");
     let lista = PRODUCTS.filter((p) => {
       if (state.filtroCategoria && p.categoria !== state.filtroCategoria) return false;
       if (state.filtroTamano && !p.tamanos.some((t) => t.nombre === state.filtroTamano)) return false;
-      if (query) {
-        const searchable = [
-          p.nombre,
-          p.categoria,
-          p.descripcion,
-          ...(p.colores || []).map((c) => c.nombre),
-        ].join(" ").toLocaleLowerCase("es-AR");
-        if (!searchable.includes(query)) return false;
-      }
       return true;
     });
 
@@ -668,22 +669,6 @@
   }
 
   function setupCatalogoControles() {
-    const mobileSearch = $("#mobileSearch");
-    const mobileSearchInput = $("#mobileSearchInput");
-    if (mobileSearchInput) {
-      on(mobileSearchInput, "input", () => {
-        state.busqueda = mobileSearchInput.value;
-        renderGrid();
-      });
-    }
-    if (mobileSearch) {
-      on(mobileSearch, "submit", (e) => {
-        e.preventDefault();
-        document.getElementById("catalogo")?.scrollIntoView({ behavior: "smooth", block: "start" });
-        mobileSearchInput?.blur();
-      });
-    }
-
     const sortSel = $("#sortSel");
     if (sortSel) {
       on(sortSel, "change", () => {
