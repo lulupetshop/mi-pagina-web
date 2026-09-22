@@ -83,8 +83,8 @@
   --gradient-warm: linear-gradient(120deg, var(--terracotta-500), var(--purple-500));
 
   /* Tipografía */
-  --font-display: "Fraunces";
-  --font-body: "DM Sans";
+  --font-display: "Plus Jakarta Sans";
+  --font-body: "Nunito Sans";
 
   /* Radios */
   --r-sm: 10px;
