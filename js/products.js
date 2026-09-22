@@ -1,6 +1,6 @@
 /* ==========================================================================
    Lulú Lulú — Catálogo de productos
-   Por ahora hay un solo producto real cargado (Moisés Rubí, línea "Moisés
+   Por ahora hay un solo producto real cargado (Sueño Rubí, línea "Moisés
    Rectangular"). El resto de las líneas ya están dadas de alta como
    categorías en la home (con fondo gris, "Próximamente") pero todavía no
    tienen fotos ni precios: sumalas acá a medida que estén listas.
@@ -25,7 +25,7 @@ const PRODUCTS = [
   {
     id: "moises-rubi",
     categoria: "Moisés Rectangular",
-    nombre: "Moisés Rubí",
+    nombre: "Sueño Rubí",
     descripcion:
       "Bordes altos en pana bordó que contienen, con almohadón central acolchado en tono terracota. Confeccionado en pana o loneta, tela resistente al uso diario.",
     imagenes: ["assets/img/productos/moises-rubi-frente.jpg"],
@@ -46,7 +46,7 @@ const PRODUCTS = [
   {
     id: "colchon-redondo-desmontable",
     categoria: "Colchón Desmontable Redondo",
-    nombre: "Nube Redonda Desmontable",
+    nombre: "Sueño Nube",
     descripcion:
       "Superficie redonda y mullida con funda desmontable para facilitar el lavado. Una opción cómoda y práctica para el descanso diario.",
     imagenes: [
@@ -76,7 +76,7 @@ const PRODUCTS = [
   {
     id: "colchoneta-desmontable",
     categoria: "Colchoneta Desmontable",
-    nombre: "Descanso Nube",
+    nombre: "Sueño Zen",
     descripcion:
       "Colchoneta rectangular mullida con funda desmontable, pensada para el descanso diario. Fácil de lavar y cómoda para perros y gatos.",
     imagenes: [
@@ -104,7 +104,7 @@ const PRODUCTS = [
   {
     id: "moises-redondo",
     categoria: "Moisés Redondo",
-    nombre: "Abrazo Redondo",
+    nombre: "Sueño Abrazo",
     descripcion:
       "Forma envolvente y almohadón mullido para que tu mascota tenga un rincón cómodo y protegido. Tela resistente al uso diario.",
     imagenes: [
