@@ -995,32 +995,101 @@ textarea{ resize: vertical; min-height: 90px; }
   gap: 16px;
   margin-bottom: 28px;
 }
+
 .mode__switch{
+  --mode-item-width: 108px;
+  --mode-item-height: 42px;
+  position: relative;
   display: inline-flex;
-  background: var(--surface-dim);
+  align-items: center;
+  padding: 5px;
+  gap: 0;
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
   border-radius: var(--r-pill);
-  padding: 4px;
-  gap: 4px;
+  box-shadow: 0 6px 18px rgba(36,21,57,.10);
+  isolation: isolate;
 }
+
+.mode__switch > *{
+  z-index: 2;
+}
+
+.mode__radio{
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .mode__btn{
-  padding: .6em 1.3em;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--mode-item-width);
+  height: var(--mode-item-height);
+  padding: 0 .75em;
   border-radius: var(--r-pill);
+  font-size: .82rem;
   font-weight: 700;
-  font-size: .88rem;
+  letter-spacing: .01em;
   color: var(--ink-500);
-  transition: background .2s var(--ease), color .2s var(--ease), box-shadow .2s var(--ease);
+  cursor: pointer;
+  user-select: none;
+  transition: color .2s var(--ease);
 }
-.mode__btn[aria-pressed="true"]{
-  background: var(--purple-600);
+
+.mode__radio:checked + .mode__btn{
   color: #fff;
-  box-shadow: var(--shadow-purple);
 }
+
+.mode__glider{
+  position: absolute;
+  z-index: 1;
+  top: 5px;
+  left: 5px;
+  width: var(--mode-item-width);
+  height: var(--mode-item-height);
+  border-radius: var(--r-pill);
+  background: var(--purple-600);
+  box-shadow: var(--shadow-purple);
+  transition: transform .25s var(--ease);
+  pointer-events: none;
+}
+
+#mode-mayorista:checked ~ .mode__glider{
+  transform: translateX(var(--mode-item-width));
+}
+
+.mode__btn:hover{
+  color: var(--purple-700);
+}
+
+.mode__radio:checked + .mode__btn:hover{
+  color: #fff;
+}
+
 .mode__note{
   display: flex; align-items: center; gap: .5em;
   font-size: .84rem;
   color: var(--purple-700);
 }
 .mode__note .ico{ color: var(--terracotta-500); }
+
+@media (max-width: 700px){
+  .mode{
+    align-items: flex-start;
+  }
+
+  .mode__switch{
+    --mode-item-width: 98px;
+    --mode-item-height: 40px;
+  }
+
+  .mode__note{
+    width: 100%;
+  }
+}
 
 .filters{
   display: flex;

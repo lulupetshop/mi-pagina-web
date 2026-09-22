@@ -30,7 +30,7 @@
   <script>document.documentElement.classList.add('js');</script>
 
   <!-- ?v=... evita que el navegador muestre versiones viejas. Cambialo cada vez que subas cambios. -->
-  <link rel="stylesheet" href="css/styles.css?v=20260921p">
+  <link rel="stylesheet" href="css/styles.css?v=20260921q">
   <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 
@@ -232,9 +232,12 @@
         </header>
 
         <div class="mode reveal" role="group" aria-label="Tipo de compra">
-          <div class="mode__switch">
-            <button type="button" class="mode__btn" data-mode="minorista" aria-pressed="true">Minorista</button>
-            <button type="button" class="mode__btn" data-mode="mayorista" aria-pressed="false">Mayorista</button>
+          <div class="mode__switch" role="radiogroup" aria-label="Tipo de compra">
+            <input class="mode__radio" type="radio" name="purchase-mode" id="mode-minorista" value="minorista" checked>
+            <label class="mode__btn" for="mode-minorista" data-mode="minorista">Minorista</label>
+            <input class="mode__radio" type="radio" name="purchase-mode" id="mode-mayorista" value="mayorista">
+            <label class="mode__btn" for="mode-mayorista" data-mode="mayorista">Mayorista</label>
+            <span class="mode__glider" aria-hidden="true"></span>
           </div>
           <p class="mode__note" id="mayoNote" hidden><svg class="ico" aria-hidden="true"><use href="#i-tag"/></svg> Precios mayoristas por unidad, comprando desde <b data-mayo-min>6</b> unidades (podés combinar modelos).</p>
         </div>
