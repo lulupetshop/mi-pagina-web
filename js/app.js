@@ -475,7 +475,7 @@
   /* ---------- Modo minorista / mayorista ---------- */
   function setModo(modo) {
     state.modo = modo;
-    $(".mode__btn").forEach((btn) => {
+    $$(".mode__btn").forEach((btn) => {
       btn.setAttribute("aria-pressed", String(btn.dataset.mode === modo));
     });
     const radio = document.querySelector("#mode-" + modo);
