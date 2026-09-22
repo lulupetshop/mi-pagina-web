@@ -398,6 +398,17 @@ p{ text-wrap: pretty; }
 }
 .nav__group{ display:none; }
 
+/* En desktop no hay lugar para el acordeón: "Catálogo" y "Promociones"
+   se muestran como los demás enlaces del menú, y llevan directo a su
+   sección (el submenu con los productos queda solo para mobile). */
+@media (min-width: 900px){
+  .nav__group{ display: contents; }
+  .nav__group > summary{ list-style: none; cursor: pointer; }
+  .nav__group > summary::-webkit-details-marker{ display: none; }
+  .nav__group .nav__chevron,
+  .nav__group .nav__submenu{ display: none; }
+}
+
 .nav__item{
   position: relative;
   display: inline-flex;

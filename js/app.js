@@ -391,6 +391,15 @@
       const expanded = menuBtn.getAttribute("aria-expanded") === "true";
       expanded ? cerrar() : abrir();
     });
+    // En desktop "Catálogo" y "Promociones" no despliegan: van directo
+    // a su sección, igual que el resto de los enlaces del menú.
+    on(nav, "click", (e) => {
+      const summary = e.target.closest("summary[data-target]");
+      if (!summary || !window.matchMedia("(min-width: 900px)").matches) return;
+      e.preventDefault();
+      const target = document.querySelector(summary.dataset.target);
+      if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
     on(nav, "click", (e) => {
       const productLink = e.target.closest("[data-product-id]");
       if (productLink) {

@@ -33,7 +33,7 @@
   <script>document.documentElement.classList.add('js');</script>
 
   <!-- ?v=... evita que el navegador muestre versiones viejas. Cambialo cada vez que subas cambios. -->
-  <link rel="stylesheet" href="css/styles.css?v=20260922v">
+  <link rel="stylesheet" href="css/styles.css?v=20260922w">
   <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
   <script src="js/config.js?v=20260922j"></script>
   <script src="js/meta-pixel.js?v=20260922k"></script>
@@ -95,9 +95,18 @@
 
       <nav class="nav" id="nav" aria-label="Principal">
         <div class="nav__list">
-          <a class="nav__item" href="#catalogo"><svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg><span>Catálogo</span></a>
           <details class="nav__group">
-            <summary class="nav__item nav__item--group"><svg class="ico" aria-hidden="true"><use href="#i-tag"/></svg><span>Promociones</span><span class="nav__chevron" aria-hidden="true">+</span></summary>
+            <summary class="nav__item nav__item--group" data-target="#catalogo"><svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg><span>Catálogo</span><span class="nav__chevron" aria-hidden="true">+</span></summary>
+            <div class="nav__submenu">
+              <a href="#catalogo" data-product-id="moises-rubi">Sueño Rubí</a>
+              <a href="#catalogo" data-product-id="colchon-redondo-desmontable">Sueño Nube</a>
+              <a href="#catalogo" data-product-id="colchoneta-desmontable">Sueño Zen</a>
+              <a href="#catalogo" data-product-id="moises-redondo">Sueño Abrazo</a>
+              <a href="#catalogo" data-product-id="nido-onix">Sueño Ónix</a>
+            </div>
+          </details>
+          <details class="nav__group">
+            <summary class="nav__item nav__item--group" data-target="#promociones"><svg class="ico" aria-hidden="true"><use href="#i-tag"/></svg><span>Promociones</span><span class="nav__chevron" aria-hidden="true">+</span></summary>
             <div class="nav__submenu">
               <a href="#promociones">15% OFF + envío gratis</a>
               <a href="#promociones">50% OFF en segunda unidad</a>
@@ -697,6 +706,6 @@
 
   <!-- Orden de carga: config → productos → lógica. Sin módulos ni librerías externas. -->
   <script src="js/products.js?v=20260922h" defer></script>
-  <script src="js/app.js?v=20260922m" defer></script>
+  <script src="js/app.js?v=20260922n" defer></script>
 </body>
 </html>
