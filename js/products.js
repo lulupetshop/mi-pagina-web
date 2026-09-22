@@ -127,4 +127,24 @@ const PRODUCTS = [
       },
     ],
   },
+  {
+    id: "nido-onix",
+    categoria: "Nido Redondo",
+    nombre: "Nido Ónix",
+    descripcion:
+      "Nido redondo bien mullido, con borde alto que envuelve y abraza. Confeccionado en pana sobre fricelina, cálido y resistente al uso diario.",
+    imagenes: ["assets/img/productos/nido-onix-gris.jpg"],
+    colores: [],
+    tamanos: [
+      {
+        nombre: "Único",
+        medida: "45 x 10 cm",
+        recomendado: "Perros pequeños y gatos",
+        minorista: 45000,
+        // TODO: precio mayorista todavía no definido; usa el mismo valor
+        // que el minorista hasta confirmarlo.
+        mayorista: 45000,
+      },
+    ],
+  },
 ];
