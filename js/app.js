@@ -711,17 +711,30 @@
     note.hidden = true;
 
     colores.forEach((color, i) => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.style.setProperty("--sw", color.hex);
-      btn.setAttribute("aria-pressed", String(i === state.currentColorIndex));
-      btn.setAttribute("aria-label", color.nombre);
-      on(btn, "click", () => {
+      const id = "color-" + product.id + "-" + i;
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.className = "color-radio";
+      input.name = "product-color";
+      input.id = id;
+      input.checked = i === state.currentColorIndex;
+      input.setAttribute("aria-label", color.nombre);
+
+      const label = document.createElement("label");
+      label.className = "color-tile";
+      label.htmlFor = id;
+      label.style.setProperty("--sw", color.hex);
+      label.innerHTML = '<span class="color-tile__swatch" aria-hidden="true"></span><span class="color-tile__label"></span>';
+      label.querySelector(".color-tile__label").textContent = color.nombre;
+
+      on(input, "change", () => {
         state.currentColorIndex = i;
         renderColores();
         actualizarPrecioModal();
       });
-      wrap.appendChild(btn);
+
+      wrap.appendChild(input);
+      wrap.appendChild(label);
     });
     $("#pColorName").textContent = colores[state.currentColorIndex].nombre;
   }
