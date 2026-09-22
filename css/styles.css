@@ -372,6 +372,13 @@ p{ text-wrap: pretty; }
   align-items: center;
   gap: clamp(16px, 3vw, 40px);
 }
+/* Columnas fijas por elemento: en mobile el .nav es position:fixed (sale
+   del flujo) y el grid lo salteaba al ubicar automáticamente los demás
+   hijos, corriendo el carrito y el menú a la columna del medio en vez
+   de dejarlos pegados a la derecha. */
+.brand{ grid-column: 1; }
+.nav{ grid-column: 2; }
+.header__actions{ grid-column: 3; }
 
 .brand img{ height: 40px; width: auto; transition: filter .35s ease; }
 .site-header:not(.is-scrolled) .brand img{ filter: brightness(0) invert(1); }
