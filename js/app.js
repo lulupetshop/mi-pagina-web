@@ -135,6 +135,50 @@
     }
   }
 
+  /* ---------- Analytics ---------- */
+  function analyticsIdValido(id, prefix) {
+    return typeof id === "string" && id.trim().toUpperCase().startsWith(prefix) && id.trim().length > prefix.length + 2;
+  }
+
+  function trackEvent(name, params) {
+    try {
+      if (typeof window.gtag === "function") {
+        window.gtag("event", name, params || {});
+      }
+    } catch (e) {}
+    try {
+      if (Array.isArray(window.dataLayer)) {
+        window.dataLayer.push(Object.assign({ event: name }, params || {}));
+      }
+    } catch (e) {}
+  }
+
+  function setupAnalytics() {
+    const cfg = CONFIG.ANALYTICS;
+    if (!cfg || cfg.ACTIVO === false) return;
+
+    if (analyticsIdValido(cfg.GA4_MEASUREMENT_ID, "G-")) {
+      const id = cfg.GA4_MEASUREMENT_ID.trim();
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
+      window.gtag("js", new Date());
+      window.gtag("config", id, { send_page_view: true });
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+      document.head.appendChild(script);
+    }
+
+    if (analyticsIdValido(cfg.GTM_CONTAINER_ID, "GTM-")) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = "https://www.googletagmanager.com/gtm.js?id=" + encodeURIComponent(cfg.GTM_CONTAINER_ID.trim());
+      document.head.appendChild(script);
+    }
+  }
+
   /* ---------- WhatsApp ---------- */
   function buildWaLink(texto) {
     return `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(texto)}`;
@@ -404,6 +448,7 @@
       e.preventDefault();
       const tipo = el.dataset.wa;
       const texto = CONFIG.MENSAJES[tipo] || CONFIG.MENSAJES.consulta;
+      trackEvent("click_whatsapp", { source: tipo || "consulta" });
       abrirWhatsApp(texto);
     });
 
@@ -580,12 +625,15 @@
     price.className = "card__price";
     if (promoDiscount > 0) {
       const promoPrice = basePrice - promoDiscount;
-      price.innerHTML = `<s class="card__price-old">${formatPrice(basePrice)}</s><strong class="card__price-promo">${formatPrice(promoPrice)}</strong> <span class="card__price-note">desde</span>`;
+      price.innerHTML = `<s class="card__price-old">${formatPrice(basePrice)}</s><strong class="card__price-promo">${formatPrice(promoPrice)}</strong> <span class="card__price-note">desde</span><span class="card__saving">Ahorrás ${formatPrice(promoDiscount)} (${CONFIG.PRIMERA_COMPRA.DESCUENTO_PCT}%)</span>`;
     } else {
       price.innerHTML = `${formatPrice(basePrice)} <span class="card__price-note">desde</span>`;
     }
 
-    body.append(cat, title, price);
+    const cta = document.createElement("span");
+    cta.className = "card__cta";
+    cta.textContent = promoDiscount > 0 ? "Ver modelo y aprovechar la promo →" : "Ver modelo y medidas →";
+    body.append(cat, title, price, cta);
 
     if (promoDiscount > 0) {
       const badge = document.createElement("span");
@@ -653,6 +701,12 @@
     $("#pSizeError").hidden = true;
     $("#pTelaError").hidden = true;
 
+    trackEvent("view_item", {
+      currency: "ARS",
+      value: precioDesde(product, state.modo),
+      item_id: product.id,
+      item_name: product.nombre,
+    });
     abrirDialogo($("#productDialog"));
   }
 
@@ -809,7 +863,7 @@
     const discount = state.modo === "minorista" ? calcularDescuento(basePrice) : 0;
 
     if (discount > 0) {
-      pPrice.innerHTML = `<s class="detail__price-old">${formatPrice(basePrice)}</s><strong>${formatPrice(basePrice - discount)}</strong><span class="detail__price-promo">15% OFF primera compra</span>`;
+      pPrice.innerHTML = `<s class="detail__price-old">${formatPrice(basePrice)}</s><strong>${formatPrice(basePrice - discount)}</strong><span class="detail__price-promo">${CONFIG.PRIMERA_COMPRA.DESCUENTO_PCT}% OFF primera compra · Ahorrás ${formatPrice(discount)}</span>`;
     } else {
       pPrice.textContent = seleccion ? formatPrice(basePrice) : `Desde ${formatPrice(basePrice)}`;
     }
@@ -905,6 +959,16 @@
         cantidad,
       });
 
+      trackEvent("add_to_cart", {
+        currency: "ARS",
+        value: precioUnitarioItem({
+          precioMinorista: tamano.minorista,
+          precioMayorista: tamano.mayorista
+        }, state.modo) * cantidad,
+        item_id: product.id,
+        item_name: product.nombre,
+        quantity: cantidad,
+      });
       showToast(`Se agregó ${product.nombre} al carrito`);
       cerrarDialogo($("#productDialog"));
     });
@@ -973,19 +1037,26 @@
     $("#cartSubtotal").textContent = formatPrice(totalCarrito());
     const discount = calcularDescuento(totalCarrito());
     const discountSecond = calcularDescuentoSegundaUnidad();
+    const ahorroTotal = discount + discountSecond;
     const promoRow = $("#cartPromo");
     if (promoRow) {
       promoRow.hidden = discount <= 0;
       const value = $("#cartDiscount");
-      if (value) value.textContent = `-${formatPrice(discount)}`;
+      if (value) value.textContent = `-${formatPrice(discount)} (${CONFIG.PRIMERA_COMPRA.DESCUENTO_PCT}%)`;
     }
     const secondRow = $("#cartPromoSecond");
     if (secondRow) {
       secondRow.hidden = discountSecond <= 0;
       const value = $("#cartDiscountSecond");
-      if (value) value.textContent = `-${formatPrice(discountSecond)}`;
+      if (value) value.textContent = `-${formatPrice(discountSecond)} (${CONFIG.SEGUNDA_UNIDAD.DESCUENTO_PCT}%)`;
     }
     $("#cartTotal").textContent = formatPrice(totalConPromo());
+    const ahorroRow = $("#cartSavings");
+    if (ahorroRow) {
+      ahorroRow.hidden = ahorroTotal <= 0;
+      const ahorroValue = $("#cartSavingsValue");
+      if (ahorroValue) ahorroValue.textContent = formatPrice(ahorroTotal);
+    }
 
     actualizarNoticiasMayorista();
   }
@@ -1082,6 +1153,16 @@
         notice.textContent = `Necesitás sumar ${min - totalUnidades()} unidad${min - totalUnidades() === 1 ? "" : "es"} más para completar tu compra mayorista, o cambiá a modo minorista.`;
         return;
       }
+      trackEvent("begin_checkout", {
+        currency: "ARS",
+        value: totalConPromo(),
+        items: state.cart.map((item) => ({
+          item_id: item.productId,
+          item_name: item.nombre,
+          quantity: item.cantidad,
+          price: precioUnitarioItem(item, state.modo),
+        })),
+      });
       mostrarVistaCheckout();
     });
 
@@ -1091,6 +1172,16 @@
       // La primera compra se considera realizada cuando el cliente
       // confirma que ya envió el pedido por WhatsApp. Hasta ese momento
       // puede volver al carrito y conservar el beneficio.
+      trackEvent("generate_lead", {
+        currency: "ARS",
+        value: totalConPromo(),
+        method: "WhatsApp",
+        items: state.cart.map((item) => ({
+          item_id: item.productId,
+          item_name: item.nombre,
+          quantity: item.cantidad,
+        })),
+      });
       try { localStorage.setItem(PROMO_KEY, "1"); } catch (err) {}
       state.cart = [];
       guardarCarrito();
@@ -1132,8 +1223,8 @@
     const checkoutPromo = $("#checkoutPromo");
     if (checkoutPromo) {
       const parts = [];
-      if (promoActiva()) parts.push(`🎉 ${CONFIG.PRIMERA_COMPRA.DESCUENTO_PCT}% OFF + envío gratis en tu primera compra`);
-      if (calcularDescuentoSegundaUnidad() > 0) parts.push("🔥 50% OFF aplicado a la segunda unidad");
+      if (promoActiva()) parts.push(`🎉 ${CONFIG.PRIMERA_COMPRA.DESCUENTO_PCT}% OFF + envío gratis en tu primera compra (ahorrás ${formatPrice(calcularDescuento(totalCarrito()))})`);
+      if (calcularDescuentoSegundaUnidad() > 0) parts.push(`🔥 ${CONFIG.SEGUNDA_UNIDAD.DESCUENTO_PCT}% OFF aplicado a la segunda unidad (ahorrás ${formatPrice(calcularDescuentoSegundaUnidad())})`);
       checkoutPromo.textContent = parts.join(" · ");
     }
   }
@@ -1363,6 +1454,7 @@
 
   /* ---------- Inicio ---------- */
   function init() {
+    setupAnalytics();
     setupContexto();
     setupPromocion();
     setupDialogs();
