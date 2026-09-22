@@ -1354,6 +1354,14 @@
       const link = buildWaLink(texto);
       $("#sentLink").href = link;
 
+      // El descuento de primera compra se consume acá, al generar el
+      // pedido con el descuento ya incluido en el mensaje, y no recién
+      // cuando el cliente vuelve a confirmar "Ya lo envié": en mobile
+      // suele cerrar la pestaña al pasar a WhatsApp y nunca vuelve.
+      if (promoActiva() && state.modo !== "mayorista") {
+        try { localStorage.setItem(PROMO_KEY, "1"); } catch (err) {}
+      }
+
       window.LuluMeta?.contactOrder(state.cart, state.modo);
       window.open(link, "_blank", "noopener");
 
