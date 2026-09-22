@@ -67,7 +67,12 @@
   const PROMO_KEY = "lulu:first-purchase-redeemed:v1";
 
   function promoActiva() {
-    return Boolean(CONFIG.PRIMERA_COMPRA && CONFIG.PRIMERA_COMPRA.ACTIVO && !localStorage.getItem(PROMO_KEY));
+    if (!CONFIG.PRIMERA_COMPRA?.ACTIVO) return false;
+    try {
+      return !localStorage.getItem(PROMO_KEY);
+    } catch (e) {
+      return true;
+    }
   }
 
   function calcularDescuento(total) {
@@ -551,11 +556,26 @@
     title.className = "card__title";
     title.textContent = product.nombre;
 
+    const basePrice = precioDesde(product, state.modo);
+    const promoDiscount = state.modo === "minorista" ? calcularDescuento(basePrice) : 0;
+
     const price = document.createElement("p");
     price.className = "card__price";
-    price.innerHTML = `${formatPrice(precioDesde(product, state.modo))} <span class="card__price-note">desde</span>`;
+    if (promoDiscount > 0) {
+      const promoPrice = basePrice - promoDiscount;
+      price.innerHTML = `<s class="card__price-old">${formatPrice(basePrice)}</s><strong class="card__price-promo">${formatPrice(promoPrice)}</strong> <span class="card__price-note">desde</span>`;
+    } else {
+      price.innerHTML = `${formatPrice(basePrice)} <span class="card__price-note">desde</span>`;
+    }
 
     body.append(cat, title, price);
+
+    if (promoDiscount > 0) {
+      const badge = document.createElement("span");
+      badge.className = "card__promo-badge";
+      badge.textContent = "15% OFF primera compra";
+      article.appendChild(badge);
+    }
     article.appendChild(body);
 
     const abrir = () => openProductModal(product.id);
@@ -755,11 +775,13 @@
     const pPrice = $("#pPrice");
     const pMayo = $("#pMayo");
     const seleccion = state.currentSizeIndex >= 0 ? product.tamanos[state.currentSizeIndex] : null;
+    const basePrice = seleccion ? precioUnitarioTamano(seleccion, state.modo) : precioDesde(product, state.modo);
+    const discount = state.modo === "minorista" ? calcularDescuento(basePrice) : 0;
 
-    if (seleccion) {
-      pPrice.textContent = formatPrice(precioUnitarioTamano(seleccion, state.modo));
+    if (discount > 0) {
+      pPrice.innerHTML = `<s class="detail__price-old">${formatPrice(basePrice)}</s><strong>${formatPrice(basePrice - discount)}</strong><span class="detail__price-promo">15% OFF primera compra</span>`;
     } else {
-      pPrice.textContent = `Desde ${formatPrice(precioDesde(product, state.modo))}`;
+      pPrice.textContent = seleccion ? formatPrice(basePrice) : `Desde ${formatPrice(basePrice)}`;
     }
     pMayo.hidden = state.modo !== "mayorista";
 
@@ -1246,7 +1268,7 @@
   function setupPromocion() {
     const announce = $(".announce");
     if (!announce || !CONFIG.PRIMERA_COMPRA?.ACTIVO) return;
-    const items = PRODUCTS.slice(0, 4);
+    const items = PRODUCTS.slice(0, 6);
     const promo = document.createElement("section");
     promo.className = "promo-strip";
     promo.innerHTML = `<div class="promo-strip__inner"><div class="promo-strip__copy"><span class="promo-kicker">OFERTA DE BIENVENIDA</span><h2>15% OFF + envío GRATIS</h2><p>En tu primera compra en Córdoba Capital.</p><a class="btn btn--primary" href="#catalogo">Aprovechar promoción <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div><div class="promo-strip__products">${items.map((p,i)=>`<button class="promo-product" type="button" data-promo-product="${p.id}"><img src="${p.imagenes[0]}" alt="${p.nombre}" loading="lazy"><span>${p.nombre}</span><b>15% OFF</b></button>`).join("")}</div></div>`;
@@ -1257,7 +1279,10 @@
   function setupEstrella() {
     const cfg = CONFIG.PRODUCTO_ESTRELLA;
     const section = $("#estrella");
-    if (!cfg || !cfg.ACTIVO || !section) return;
+    if (!cfg || !cfg.ACTIVO || !section || !promoActiva()) {
+      if (section) section.hidden = true;
+      return;
+    }
 
     const product = PRODUCTS.find((p) => p.id === cfg.PRODUCTO_ID);
     if (!product) return;
