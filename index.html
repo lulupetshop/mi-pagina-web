@@ -32,7 +32,7 @@
   <script>document.documentElement.classList.add('js');</script>
 
   <!-- ?v=... evita que el navegador muestre versiones viejas. Cambialo cada vez que subas cambios. -->
-  <link rel="stylesheet" href="css/styles.css?v=20260922g">
+  <link rel="stylesheet" href="css/styles.css?v=20260922h">
   <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 
@@ -246,12 +246,7 @@
           <p class="mode__note" id="mayoNote" hidden><svg class="ico" aria-hidden="true"><use href="#i-tag"/></svg> Precios mayoristas por unidad, comprando desde <b data-mayo-min>6</b> unidades (podés combinar modelos).</p>
         </div>
 
-        <button class="catalog-filter-toggle" id="catalogFilterToggle" type="button" aria-expanded="false" aria-controls="catalogFilters">
-          <svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg>
-          <span>Filtrar y ordenar</span>
-        </button>
-
-        <div class="filters reveal" id="catalogFilters" role="group" aria-label="Filtros del catálogo">
+        <div class="filters reveal" role="group" aria-label="Filtros del catálogo">
           <div class="filter-group">
             <span class="filter-label" id="lblCat">Categoría</span>
             <div class="chips" id="chipsCat" role="group" aria-labelledby="lblCat"></div>
@@ -703,6 +698,6 @@
   <!-- Orden de carga: config → productos → lógica. Sin módulos ni librerías externas. -->
   <script src="js/config.js?v=20260922f" defer></script>
   <script src="js/products.js?v=20260922f" defer></script>
-  <script src="js/app.js?v=20260922g" defer></script>
+  <script src="js/app.js?v=20260922h" defer></script>
 </body>
 </html>
