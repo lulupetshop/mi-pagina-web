@@ -434,8 +434,8 @@ p{ text-wrap: pretty; }
 .nav__item:hover{ color: var(--purple-700); }
 .nav__item:hover::after{ right: 0; }
 @media (min-width: 900px){
-  .site-header:not(.is-scrolled) .nav a{ color: rgba(255,255,255,.92); }
-  .site-header:not(.is-scrolled) .nav a:hover{ color: #fff; }
+  .site-header:not(.is-scrolled) .nav .nav__item{ color: rgba(255,255,255,.92); }
+  .site-header:not(.is-scrolled) .nav .nav__item:hover{ color: #fff; }
 }
 
 .header__actions{ display: flex; align-items: center; gap: 10px; }
