@@ -93,7 +93,7 @@ const PRODUCTS = [
       {
         nombre: "Único",
         medida: "87 x 70 x 10 cm",
-        recomendado: "Perros medianos/grandes y gatos",
+        recomendado: "Perros medianos/grandes",
         minorista: 75000,
         // TODO: precio mayorista todavía no definido; usa el mismo valor
         // que el minorista hasta confirmarlo.
