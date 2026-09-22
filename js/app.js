@@ -1498,29 +1498,40 @@
 
   /* ---------- Inicio ---------- */
   function init() {
-    setupAnalytics();
-    setupContexto();
-    setupPromocion();
-    setupDialogs();
-    setupScrollProgress();
-    setupHeaderShadow();
-    setupMobileMenu();
-    setupInternalNavigation();
-    setupReveal();
-    setupCountUp();
-    setupWaTriggers();
-    setupModeSwitch();
-    setupCatalogoControles();
-    setupModalControles();
-    setupGalleryZoom();
-    setupZoomControles();
-    setupCarrito();
-    setupCheckoutForm();
-    setupEstrella();
+    // El catálogo es contenido crítico: se renderiza primero. Así, si una
+    // función secundaria falla, nunca deja la tienda sin productos.
+    try {
+      renderChips();
+      renderGrid();
+    } catch (e) {
+      console.error("[Lulú] Error al renderizar catálogo:", e);
+    }
 
-    renderChips();
-    renderGrid();
-    actualizarCarritoUI();
+    const safe = (name, fn) => {
+      try { fn(); }
+      catch (e) { console.error("[Lulú] Error en " + name + ":", e); }
+    };
+
+    safe("analytics", setupAnalytics);
+    safe("contexto", setupContexto);
+    safe("promociones", setupPromocion);
+    safe("dialogs", setupDialogs);
+    safe("scroll", setupScrollProgress);
+    safe("header", setupHeaderShadow);
+    safe("mobile menu", setupMobileMenu);
+    safe("navegación", setupInternalNavigation);
+    safe("reveal", setupReveal);
+    safe("contadores", setupCountUp);
+    safe("WhatsApp", setupWaTriggers);
+    safe("modo de compra", setupModeSwitch);
+    safe("controles catálogo", setupCatalogoControles);
+    safe("modal", setupModalControles);
+    safe("galería", setupGalleryZoom);
+    safe("zoom", setupZoomControles);
+    safe("carrito", setupCarrito);
+    safe("checkout", setupCheckoutForm);
+    safe("producto estrella", setupEstrella);
+    safe("carrito UI", actualizarCarritoUI);
   }
 
   if (document.readyState === "loading") {
