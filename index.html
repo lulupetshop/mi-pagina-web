@@ -32,7 +32,7 @@
   <script>document.documentElement.classList.add('js');</script>
 
   <!-- ?v=... evita que el navegador muestre versiones viejas. Cambialo cada vez que subas cambios. -->
-  <link rel="stylesheet" href="css/styles.css?v=20260922b">
+  <link rel="stylesheet" href="css/styles.css?v=20260922c">
   <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 
@@ -344,7 +344,7 @@
         <div class="wholesale__card reveal" aria-hidden="true">
           <p>Por unidad</p>
           <div class="wholesale__row"><span>Minorista</span><s>$ 65.000</s></div>
-          <div class="wholesale__row wholesale__row--hi"><span>Mayorista</span><b>$ 29.500</b></div>
+          <div class="wholesale__row wholesale__row--hi"><span>Mayorista</span><b>$ 50.000</b></div>
           <small>Ejemplo: Sueño Rubí</small>
         </div>
       </div>
@@ -540,7 +540,7 @@
           <output class="qty__val" id="pQty" aria-live="polite">1</output>
           <button type="button" class="qty__btn" id="pQtyPlus" aria-label="Sumar una unidad"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg></button>
         </div>
-        <button class="btn btn--primary btn--lg btn--grow" type="button" id="pAdd">Agregar al carrito</button>
+        <button class="btn btn--primary btn--cart btn--lg btn--grow" type="button" id="pAdd">Agregar al carrito</button>
       </div>
     </div>
   </dialog>
@@ -694,8 +694,8 @@
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
   <!-- Orden de carga: config → productos → lógica. Sin módulos ni librerías externas. -->
-  <script src="js/config.js?v=20260922b" defer></script>
-  <script src="js/products.js?v=20260922b" defer></script>
-  <script src="js/app.js?v=20260922b" defer></script>
+  <script src="js/config.js?v=20260922c" defer></script>
+  <script src="js/products.js?v=20260922c" defer></script>
+  <script src="js/app.js?v=20260922c" defer></script>
 </body>
 </html>
