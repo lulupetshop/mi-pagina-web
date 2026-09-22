@@ -13,11 +13,21 @@ const CONFIG = {
   // Mientras esté en true se muestra el aviso de sitio de demostración y la
   // etiqueta "Ejemplo" en las fotos de producto. Poné false cuando cargues
   // fotos y precios reales.
-  MODO_EJEMPLO: true,
+  MODO_EJEMPLO: false,
 
   // Cantidad mínima de unidades (combinando modelos y talles) para acceder
   // al precio mayorista.
   MAYORISTA_MIN_UNIDADES: 10,
+
+  // Promoción de adquisición.
+  PRIMERA_COMPRA: {
+    ACTIVO: true,
+    DESCUENTO_PCT: 15,
+    ENVIO_GRATIS: true,
+  },
+
+  // Métodos de pago que se muestran y se envían a WhatsApp.
+  MEDIOS_PAGO: ["Mercado Pago", "Transferencia bancaria"],,
 
   // Producto que se destaca en la sección "Producto estrella" y su
   // descuento de primera compra. Poné ACTIVO en false para ocultar esa
