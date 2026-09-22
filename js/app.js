@@ -377,9 +377,13 @@
 
     function cerrar() {
       menuBtn.setAttribute("aria-expanded", "false");
+      const header = document.querySelector("#siteHeader");
+      if (header) header.classList.remove("menu-open");
     }
     function abrir() {
       menuBtn.setAttribute("aria-expanded", "true");
+      const header = document.querySelector("#siteHeader");
+      if (header) header.classList.add("menu-open");
     }
 
     on(menuBtn, "click", () => {
@@ -407,6 +411,19 @@
     on(document, "click", (e) => {
       const dentro = e.target.closest("#nav") || e.target.closest("#menuBtn");
       if (!dentro && menuBtn.getAttribute("aria-expanded") === "true") cerrar();
+    });
+
+    // Cualquier enlace interno del menú lleva a la sección y cierra el panel.
+    on(nav, "click", (e) => {
+      const link = e.target.closest("a[href^='#']");
+      if (!link || link.dataset.productId) return;
+      const targetId = link.getAttribute("href").slice(1);
+      const target = document.getElementById(targetId);
+      if (!target) return;
+      e.preventDefault();
+      cerrar();
+      nav.querySelectorAll(".nav__group[open]").forEach((group) => { group.open = false; });
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   }
 
@@ -1465,6 +1482,20 @@
     section.hidden = false;
   }
 
+  function setupInternalNavigation() {
+    on(document, "click", (e) => {
+      const link = e.target.closest("a[href^='#']");
+      if (!link || link.closest("#nav")) return;
+      const href = link.getAttribute("href");
+      if (!href || href === "#") return;
+      const target = document.getElementById(href.slice(1));
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      history.replaceState(null, "", href);
+    });
+  }
+
   /* ---------- Inicio ---------- */
   function init() {
     setupAnalytics();
@@ -1474,6 +1505,7 @@
     setupScrollProgress();
     setupHeaderShadow();
     setupMobileMenu();
+    setupInternalNavigation();
     setupReveal();
     setupCountUp();
     setupWaTriggers();
