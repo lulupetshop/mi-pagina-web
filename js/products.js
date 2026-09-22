@@ -1,6 +1,6 @@
 /* ==========================================================================
    Lulú Lulú — Catálogo de productos
-   Por ahora hay un solo producto real cargado (Moisés Rubí, línea "Moisés
+   Por ahora hay un solo producto real cargado (Sueño Rubí, línea "Moisés
    Rectangular"). El resto de las líneas ya están dadas de alta como
    categorías en la home (con fondo gris, "Próximamente") pero todavía no
    tienen fotos ni precios: sumalas acá a medida que estén listas.
@@ -25,7 +25,7 @@ const PRODUCTS = [
   {
     id: "moises-rubi",
     categoria: "Moisés Rectangular",
-    nombre: "Moisés Rubí",
+    nombre: "Sueño Rubí",
     descripcion:
       "Bordes altos en pana bordó que contienen, con almohadón central acolchado en tono terracota. Confeccionado en pana o loneta, tela resistente al uso diario.",
     imagenes: ["assets/img/productos/moises-rubi-frente.jpg"],
@@ -46,9 +46,9 @@ const PRODUCTS = [
   {
     id: "colchon-redondo-desmontable",
     categoria: "Colchón Desmontable Redondo",
-    nombre: "Colchón Redondo Desmontable",
+    nombre: "Sueño Nube",
     descripcion:
-      "Colchoneta redonda con funda desmontable y relleno mullido, fácil de lavar. Base antideslizante para que no se mueva en el piso.",
+      "Superficie redonda y mullida con funda desmontable para facilitar el lavado. Una opción cómoda y práctica para el descanso diario.",
     imagenes: [
       "assets/img/productos/colchon-redondo-desmontable-gris-claro.jpg",
       "assets/img/productos/colchon-redondo-desmontable-mostaza.jpg",
@@ -76,9 +76,9 @@ const PRODUCTS = [
   {
     id: "colchoneta-desmontable",
     categoria: "Colchoneta Desmontable",
-    nombre: "Colchoneta Desmontable",
+    nombre: "Sueño Zen",
     descripcion:
-      "Colchoneta rectangular en tela pana, con funda desmontable y relleno mullido, fácil de lavar. Vivo en las costuras que le da terminación prolija.",
+      "Colchoneta rectangular mullida con funda desmontable, pensada para el descanso diario. Fácil de lavar y cómoda para perros y gatos.",
     imagenes: [
       "assets/img/productos/colchoneta-desmontable-azul.jpg",
       "assets/img/productos/colchoneta-desmontable-mostaza.jpg",
@@ -93,7 +93,7 @@ const PRODUCTS = [
       {
         nombre: "Único",
         medida: "87 x 70 x 10 cm",
-        recomendado: "Perros medianos/grandes y gatos",
+        recomendado: "Perros medianos/grandes",
         minorista: 75000,
         // TODO: precio mayorista todavía no definido; usa el mismo valor
         // que el minorista hasta confirmarlo.
@@ -104,9 +104,9 @@ const PRODUCTS = [
   {
     id: "moises-redondo",
     categoria: "Moisés Redondo",
-    nombre: "Moisés Redondo",
+    nombre: "Sueño Abrazo",
     descripcion:
-      "Forma circular envolvente con almohadón central mullido. Tela resistente al uso diario.",
+      "Forma envolvente y almohadón mullido para que tu mascota tenga un rincón cómodo y protegido. Tela resistente al uso diario.",
     imagenes: [
       "assets/img/productos/moises-redondo-azul.jpg",
       "assets/img/productos/moises-redondo-estampado.jpg",
@@ -124,6 +124,26 @@ const PRODUCTS = [
         // TODO: precio mayorista todavía no definido; usa el mismo valor
         // que el minorista hasta confirmarlo.
         mayorista: 65000,
+      },
+    ],
+  },
+  {
+    id: "nido-onix",
+    categoria: "Nido Redondo",
+    nombre: "Sueño Ónix",
+    descripcion:
+      "Nido redondo bien mullido, con borde alto que envuelve y abraza. Confeccionado en pana sobre fricelina, cálido y resistente al uso diario.",
+    imagenes: ["assets/img/productos/nido-onix-gris.jpg"],
+    colores: [],
+    tamanos: [
+      {
+        nombre: "Único",
+        medida: "45 x 10 cm",
+        recomendado: "Perros pequeños y gatos",
+        minorista: 45000,
+        // TODO: precio mayorista todavía no definido; usa el mismo valor
+        // que el minorista hasta confirmarlo.
+        mayorista: 45000,
       },
     ],
   },

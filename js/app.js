@@ -64,6 +64,43 @@
 
   /* ---------- Estado ---------- */
   const CART_KEY = "lulu:cart:v1";
+  const PROMO_KEY = "lulu:first-purchase-redeemed:v2";
+
+  function promoActiva() {
+    if (!CONFIG.PRIMERA_COMPRA?.ACTIVO) return false;
+    try {
+      return !localStorage.getItem(PROMO_KEY);
+    } catch (e) {
+      return true;
+    }
+  }
+
+  function calcularDescuento(total) {
+    if (!promoActiva() || state.modo === "mayorista") return 0;
+    return Math.round(total * (CONFIG.PRIMERA_COMPRA.DESCUENTO_PCT / 100));
+  }
+
+  function calcularDescuentoSegundaUnidad() {
+    if (state.modo === "mayorista" || !CONFIG.SEGUNDA_UNIDAD?.ACTIVO) return 0;
+    const unidades = [];
+    state.cart.forEach((item) => {
+      const precio = precioUnitarioItem(item, state.modo);
+      for (let i = 0; i < item.cantidad; i++) unidades.push(precio);
+    });
+    if (unidades.length < 2) return 0;
+    const segunda = [...unidades].sort((a, b) => a - b)[0];
+    return Math.round(segunda * (CONFIG.SEGUNDA_UNIDAD.DESCUENTO_PCT / 100));
+  }
+
+  function calcularEnvio(cliente) {
+    if (promoActiva() && CONFIG.PRIMERA_COMPRA.ENVIO_GRATIS && cliente && cliente.entrega === "envio") return 0;
+    return null;
+  }
+
+  function totalConPromo() {
+    const subtotal = totalCarrito();
+    return Math.max(0, subtotal - calcularDescuento(subtotal) - calcularDescuentoSegundaUnidad());
+  }
 
   const state = {
     modo: "minorista", // "minorista" | "mayorista"
@@ -98,6 +135,50 @@
     }
   }
 
+  /* ---------- Analytics ---------- */
+  function analyticsIdValido(id, prefix) {
+    return typeof id === "string" && id.trim().toUpperCase().startsWith(prefix) && id.trim().length > prefix.length + 2;
+  }
+
+  function trackEvent(name, params) {
+    try {
+      if (typeof window.gtag === "function") {
+        window.gtag("event", name, params || {});
+      }
+    } catch (e) {}
+    try {
+      if (Array.isArray(window.dataLayer)) {
+        window.dataLayer.push(Object.assign({ event: name }, params || {}));
+      }
+    } catch (e) {}
+  }
+
+  function setupAnalytics() {
+    const cfg = CONFIG.ANALYTICS;
+    if (!cfg || cfg.ACTIVO === false) return;
+
+    if (analyticsIdValido(cfg.GA4_MEASUREMENT_ID, "G-")) {
+      const id = cfg.GA4_MEASUREMENT_ID.trim();
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
+      window.gtag("js", new Date());
+      window.gtag("config", id, { send_page_view: true });
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+      document.head.appendChild(script);
+    }
+
+    if (analyticsIdValido(cfg.GTM_CONTAINER_ID, "GTM-")) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = "https://www.googletagmanager.com/gtm.js?id=" + encodeURIComponent(cfg.GTM_CONTAINER_ID.trim());
+      document.head.appendChild(script);
+    }
+  }
+
   /* ---------- WhatsApp ---------- */
   function buildWaLink(texto) {
     return `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(texto)}`;
@@ -124,11 +205,20 @@
         .join(" · ");
       return `• ${item.cantidad}x ${item.nombre}${detalle ? " (" + detalle + ")" : ""} — ${formatPrice(precio * item.cantidad)}`;
     });
-    const total = totalCarrito();
+    const subtotal = totalCarrito();
+    const descuento = calcularDescuento(subtotal);
+    const descuentoSegunda = calcularDescuentoSegundaUnidad();
+    const envioGratis = promoActiva() && CONFIG.PRIMERA_COMPRA.ENVIO_GRATIS && cliente.entrega === "envio";
+    const total = Math.max(0, subtotal - descuento - descuentoSegunda);
 
     let msg = `Hola! Quiero hacer este pedido en Lulú Lulú${state.modo === "mayorista" ? " (mayorista)" : ""}:\n\n`;
     msg += lineas.join("\n");
-    msg += `\n\nTotal: ${formatPrice(total)}`;
+    msg += `\n\nSubtotal: ${formatPrice(subtotal)}`;
+    if (descuento > 0) msg += `\n15% OFF primera compra: -${formatPrice(descuento)}`;
+    if (descuentoSegunda > 0) msg += `\n50% OFF segunda unidad: -${formatPrice(descuentoSegunda)}`;
+    if (envioGratis) msg += `\nEnvío: GRATIS (primera compra)`;
+    msg += `\nTotal: ${formatPrice(total)}`;
+    msg += `\nMedio de pago: ${cliente.pago}`;
     msg += `\n\nNombre: ${cliente.nombre}`;
     msg += `\nTeléfono: ${cliente.telefono}`;
     msg += `\nEntrega: ${cliente.entrega === "envio" ? "Envío a domicilio" : "Retiro"}`;
@@ -358,6 +448,7 @@
       e.preventDefault();
       const tipo = el.dataset.wa;
       const texto = CONFIG.MENSAJES[tipo] || CONFIG.MENSAJES.consulta;
+      trackEvent("click_whatsapp", { source: tipo || "consulta" });
       abrirWhatsApp(texto);
     });
 
@@ -387,6 +478,8 @@
     $$(".mode__btn").forEach((btn) => {
       btn.setAttribute("aria-pressed", String(btn.dataset.mode === modo));
     });
+    const radio = document.querySelector("#mode-" + modo);
+    if (radio) radio.checked = true;
     const note = $("#mayoNote");
     if (note) note.hidden = modo !== "mayorista";
     renderGrid();
@@ -525,11 +618,29 @@
     title.className = "card__title";
     title.textContent = product.nombre;
 
+    const basePrice = precioDesde(product, state.modo);
+    const promoDiscount = state.modo === "minorista" ? calcularDescuento(basePrice) : 0;
+
     const price = document.createElement("p");
     price.className = "card__price";
-    price.innerHTML = `${formatPrice(precioDesde(product, state.modo))} <span class="card__price-note">desde</span>`;
+    if (promoDiscount > 0) {
+      const promoPrice = basePrice - promoDiscount;
+      price.innerHTML = `<s class="card__price-old">${formatPrice(basePrice)}</s><strong class="card__price-promo">${formatPrice(promoPrice)}</strong> <span class="card__price-note">desde</span><span class="card__saving">Ahorrás ${formatPrice(promoDiscount)} (${CONFIG.PRIMERA_COMPRA.DESCUENTO_PCT}%)</span>`;
+    } else {
+      price.innerHTML = `${formatPrice(basePrice)} <span class="card__price-note">desde</span>`;
+    }
 
-    body.append(cat, title, price);
+    const cta = document.createElement("span");
+    cta.className = "card__cta";
+    cta.textContent = promoDiscount > 0 ? "Ver modelo y aprovechar la promo →" : "Ver modelo y medidas →";
+    body.append(cat, title, price, cta);
+
+    if (promoDiscount > 0) {
+      const badge = document.createElement("span");
+      badge.className = "card__promo-badge";
+      badge.textContent = "15% OFF primera compra";
+      article.appendChild(badge);
+    }
     article.appendChild(body);
 
     const abrir = () => openProductModal(product.id);
@@ -590,6 +701,12 @@
     $("#pSizeError").hidden = true;
     $("#pTelaError").hidden = true;
 
+    trackEvent("view_item", {
+      currency: "ARS",
+      value: precioDesde(product, state.modo),
+      item_id: product.id,
+      item_name: product.nombre,
+    });
     abrirDialogo($("#productDialog"));
   }
 
@@ -648,17 +765,30 @@
     note.hidden = true;
 
     colores.forEach((color, i) => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.style.setProperty("--sw", color.hex);
-      btn.setAttribute("aria-pressed", String(i === state.currentColorIndex));
-      btn.setAttribute("aria-label", color.nombre);
-      on(btn, "click", () => {
+      const id = "color-" + product.id + "-" + i;
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.className = "color-radio";
+      input.name = "product-color";
+      input.id = id;
+      input.checked = i === state.currentColorIndex;
+      input.setAttribute("aria-label", color.nombre);
+
+      const label = document.createElement("label");
+      label.className = "color-tile";
+      label.htmlFor = id;
+      label.style.setProperty("--sw", color.hex);
+      label.innerHTML = '<span class="color-tile__swatch" aria-hidden="true"></span><span class="color-tile__label"></span>';
+      label.querySelector(".color-tile__label").textContent = color.nombre;
+
+      on(input, "change", () => {
         state.currentColorIndex = i;
         renderColores();
         actualizarPrecioModal();
       });
-      wrap.appendChild(btn);
+
+      wrap.appendChild(input);
+      wrap.appendChild(label);
     });
     $("#pColorName").textContent = colores[state.currentColorIndex].nombre;
   }
@@ -729,11 +859,13 @@
     const pPrice = $("#pPrice");
     const pMayo = $("#pMayo");
     const seleccion = state.currentSizeIndex >= 0 ? product.tamanos[state.currentSizeIndex] : null;
+    const basePrice = seleccion ? precioUnitarioTamano(seleccion, state.modo) : precioDesde(product, state.modo);
+    const discount = state.modo === "minorista" ? calcularDescuento(basePrice) : 0;
 
-    if (seleccion) {
-      pPrice.textContent = formatPrice(precioUnitarioTamano(seleccion, state.modo));
+    if (discount > 0) {
+      pPrice.innerHTML = `<s class="detail__price-old">${formatPrice(basePrice)}</s><strong>${formatPrice(basePrice - discount)}</strong><span class="detail__price-promo">${CONFIG.PRIMERA_COMPRA.DESCUENTO_PCT}% OFF primera compra · Ahorrás ${formatPrice(discount)}</span>`;
     } else {
-      pPrice.textContent = `Desde ${formatPrice(precioDesde(product, state.modo))}`;
+      pPrice.textContent = seleccion ? formatPrice(basePrice) : `Desde ${formatPrice(basePrice)}`;
     }
     pMayo.hidden = state.modo !== "mayorista";
 
@@ -827,6 +959,16 @@
         cantidad,
       });
 
+      trackEvent("add_to_cart", {
+        currency: "ARS",
+        value: precioUnitarioItem({
+          precioMinorista: tamano.minorista,
+          precioMayorista: tamano.mayorista
+        }, state.modo) * cantidad,
+        item_id: product.id,
+        item_name: product.nombre,
+        quantity: cantidad,
+      });
       showToast(`Se agregó ${product.nombre} al carrito`);
       cerrarDialogo($("#productDialog"));
     });
@@ -893,7 +1035,28 @@
     }
 
     $("#cartSubtotal").textContent = formatPrice(totalCarrito());
-    $("#cartTotal").textContent = formatPrice(totalCarrito());
+    const discount = calcularDescuento(totalCarrito());
+    const discountSecond = calcularDescuentoSegundaUnidad();
+    const ahorroTotal = discount + discountSecond;
+    const promoRow = $("#cartPromo");
+    if (promoRow) {
+      promoRow.hidden = discount <= 0;
+      const value = $("#cartDiscount");
+      if (value) value.textContent = `-${formatPrice(discount)} (${CONFIG.PRIMERA_COMPRA.DESCUENTO_PCT}%)`;
+    }
+    const secondRow = $("#cartPromoSecond");
+    if (secondRow) {
+      secondRow.hidden = discountSecond <= 0;
+      const value = $("#cartDiscountSecond");
+      if (value) value.textContent = `-${formatPrice(discountSecond)} (${CONFIG.SEGUNDA_UNIDAD.DESCUENTO_PCT}%)`;
+    }
+    $("#cartTotal").textContent = formatPrice(totalConPromo());
+    const ahorroRow = $("#cartSavings");
+    if (ahorroRow) {
+      ahorroRow.hidden = ahorroTotal <= 0;
+      const ahorroValue = $("#cartSavingsValue");
+      if (ahorroValue) ahorroValue.textContent = formatPrice(ahorroTotal);
+    }
 
     actualizarNoticiasMayorista();
   }
@@ -990,12 +1153,36 @@
         notice.textContent = `Necesitás sumar ${min - totalUnidades()} unidad${min - totalUnidades() === 1 ? "" : "es"} más para completar tu compra mayorista, o cambiá a modo minorista.`;
         return;
       }
+      trackEvent("begin_checkout", {
+        currency: "ARS",
+        value: totalConPromo(),
+        items: state.cart.map((item) => ({
+          item_id: item.productId,
+          item_name: item.nombre,
+          quantity: item.cantidad,
+          price: precioUnitarioItem(item, state.modo),
+        })),
+      });
       mostrarVistaCheckout();
     });
 
     on($("#cartBack"), "click", () => mostrarVistaCarrito());
     on($("#sentBack"), "click", () => mostrarVistaCarrito());
     on($("#sentClear"), "click", () => {
+      // La primera compra se considera realizada cuando el cliente
+      // confirma que ya envió el pedido por WhatsApp. Hasta ese momento
+      // puede volver al carrito y conservar el beneficio.
+      trackEvent("generate_lead", {
+        currency: "ARS",
+        value: totalConPromo(),
+        method: "WhatsApp",
+        items: state.cart.map((item) => ({
+          item_id: item.productId,
+          item_name: item.nombre,
+          quantity: item.cantidad,
+        })),
+      });
+      try { localStorage.setItem(PROMO_KEY, "1"); } catch (err) {}
       state.cart = [];
       guardarCarrito();
       actualizarCarritoUI();
@@ -1014,6 +1201,7 @@
   }
 
   function mostrarVistaCheckout() {
+    injectPaymentOptions();
     $("#viewCart").hidden = true;
     $("#checkoutForm").hidden = false;
     $("#viewSent").hidden = true;
@@ -1030,8 +1218,15 @@
       li.textContent = `${item.cantidad}x ${item.nombre}${detalle ? " (" + detalle + ")" : ""} — ${formatPrice(precioUnitarioItem(item, state.modo) * item.cantidad)}`;
       list.appendChild(li);
     });
-    $("#checkoutTotal").textContent = formatPrice(totalCarrito());
-    $("#envioHint").textContent = "Coordinamos el costo y los tiempos de envío por WhatsApp según tu localidad.";
+    $("#checkoutTotal").textContent = formatPrice(totalConPromo());
+    $("#envioHint").textContent = promoActiva() ? "🎁 En tu primera compra el envío es GRATIS en Córdoba Capital." : "Coordinamos el envío por WhatsApp.";
+    const checkoutPromo = $("#checkoutPromo");
+    if (checkoutPromo) {
+      const parts = [];
+      if (promoActiva()) parts.push(`🎉 ${CONFIG.PRIMERA_COMPRA.DESCUENTO_PCT}% OFF + envío gratis en tu primera compra (ahorrás ${formatPrice(calcularDescuento(totalCarrito()))})`);
+      if (calcularDescuentoSegundaUnidad() > 0) parts.push(`🔥 ${CONFIG.SEGUNDA_UNIDAD.DESCUENTO_PCT}% OFF aplicado a la segunda unidad (ahorrás ${formatPrice(calcularDescuentoSegundaUnidad())})`);
+      checkoutPromo.textContent = parts.join(" · ");
+    }
   }
 
   /* ---------- Formulario de checkout ---------- */
@@ -1100,6 +1295,7 @@
         direccion: $("#fDireccion").value.trim(),
         localidad: $("#fLocalidad").value.trim(),
         observaciones: $("#fObs").value.trim(),
+        pago: ($("#fPago") && $("#fPago").value) || "A coordinar",
       };
 
       const texto = mensajePedido(state.cart, cliente);
@@ -1194,10 +1390,52 @@
   }
 
   /* ---------- Producto estrella ---------- */
+  function injectPaymentOptions() {
+    const form = $("#checkoutForm .drawer__body");
+    if (!form || $("#fPago")) return;
+    const wrap = document.createElement("div");
+    wrap.className = "field promo-payment-field";
+    wrap.innerHTML = `<label for="fPago">¿Cómo querés pagar?</label><select id="fPago" name="pago"><option value="Mercado Pago">Mercado Pago</option><option value="Transferencia bancaria">Transferencia bancaria</option></select>`;
+    const obs = $("#fObs");
+    const obsField = obs ? obs.closest(".field") : null;
+    if (obsField) obsField.before(wrap); else form.appendChild(wrap);
+  }
+
+  function setupPromocion() {
+    if (!CONFIG.PRIMERA_COMPRA?.ACTIVO && !CONFIG.SEGUNDA_UNIDAD?.ACTIVO) return;
+
+    const pop = document.createElement("aside");
+    pop.className = "promo-popout";
+    pop.innerHTML = `
+      <button class="promo-popout__close" type="button" aria-label="Cerrar promociones">×</button>
+      <div class="promo-popout__eyebrow">PROMOS LULÚ</div>
+      <strong>15% OFF + envío gratis</strong>
+      <span>Primera compra</span>
+      <div class="promo-popout__divider"></div>
+      <strong>50% OFF</strong>
+      <span>segunda unidad en el mismo pedido</span>
+      <a class="btn btn--primary" href="#promociones">Ver promociones</a>
+    `;
+    document.body.appendChild(pop);
+
+    on(pop.querySelector(".promo-popout__close"), "click", () => {
+      pop.classList.add("is-hidden");
+      try { sessionStorage.setItem("lulu:promo-popout-closed:v1", "1"); } catch (e) {}
+    });
+    on(pop.querySelector("a"), "click", () => pop.classList.add("is-hidden"));
+
+    try {
+      if (sessionStorage.getItem("lulu:promo-popout-closed:v1") === "1") pop.classList.add("is-hidden");
+    } catch (e) {}
+  }
+
   function setupEstrella() {
     const cfg = CONFIG.PRODUCTO_ESTRELLA;
     const section = $("#estrella");
-    if (!cfg || !cfg.ACTIVO || !section) return;
+    if (!cfg || !cfg.ACTIVO || !section || !promoActiva()) {
+      if (section) section.hidden = true;
+      return;
+    }
 
     const product = PRODUCTS.find((p) => p.id === cfg.PRODUCTO_ID);
     if (!product) return;
@@ -1216,7 +1454,9 @@
 
   /* ---------- Inicio ---------- */
   function init() {
+    setupAnalytics();
     setupContexto();
+    setupPromocion();
     setupDialogs();
     setupScrollProgress();
     setupHeaderShadow();
