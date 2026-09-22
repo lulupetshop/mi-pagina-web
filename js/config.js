@@ -34,6 +34,15 @@ const CONFIG = {
   // Métodos de pago que se muestran y se envían a WhatsApp.
   MEDIOS_PAGO: ["Mercado Pago", "Transferencia bancaria"],
 
+  // Analítica. Completá UNO o ambos IDs cuando los tengas:
+  // GA4: G-XXXXXXXXXX | Google Tag Manager: GTM-XXXXXXX.
+  // Si ambos están vacíos, el sitio no carga ningún tracker.
+  ANALYTICS: {
+    ACTIVO: true,
+    GA4_MEASUREMENT_ID: "",
+    GTM_CONTAINER_ID: "",
+  },
+
   // Producto que se destaca en la sección "Producto estrella" y su
   // descuento de primera compra. Poné ACTIVO en false para ocultar esa
   // sección. El PRODUCTO_ID tiene que existir en products.js.
