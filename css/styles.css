@@ -1091,6 +1091,122 @@ textarea{ resize: vertical; min-height: 90px; }
   }
 }
 
+/* Selector de colores del producto — tarjetas tipo radio */
+#pColors{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  user-select: none;
+}
+
+.color-radio{
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(100%);
+  white-space: nowrap;
+}
+
+.color-tile{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 78px;
+  min-height: 76px;
+  padding: 10px 7px 8px;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--ink-500);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition:
+    border-color .2s var(--ease),
+    box-shadow .2s var(--ease),
+    transform .2s var(--ease),
+    color .2s var(--ease);
+}
+
+.color-tile::before{
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 9px;
+  height: 9px;
+  border: 1.5px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface);
+  transform: scale(0);
+  opacity: 0;
+  transition: transform .2s var(--ease), opacity .2s var(--ease), background .2s var(--ease), border-color .2s var(--ease);
+}
+
+.color-tile__swatch{
+  display: block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--sw);
+  border: 2px solid rgba(36,21,57,.12);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.45);
+}
+
+.color-tile__label{
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: .72rem;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.color-tile:hover{
+  border-color: var(--purple-400);
+  color: var(--purple-700);
+  transform: translateY(-1px);
+}
+
+.color-radio:checked + .color-tile{
+  border-color: var(--purple-600);
+  color: var(--purple-700);
+  box-shadow: var(--shadow-purple);
+}
+
+.color-radio:checked + .color-tile::before{
+  transform: scale(1);
+  opacity: 1;
+  background: var(--purple-600);
+  border-color: var(--purple-600);
+}
+
+.color-radio:focus-visible + .color-tile{
+  border-color: var(--purple-600);
+  box-shadow: var(--shadow-purple), 0 0 0 4px var(--purple-50);
+}
+
+@media (max-width: 520px){
+  #pColors{
+    gap: 8px;
+  }
+
+  .color-tile{
+    width: 70px;
+    min-height: 72px;
+    padding-inline: 5px;
+  }
+}
+
 .filters{
   display: flex;
   flex-wrap: wrap;
