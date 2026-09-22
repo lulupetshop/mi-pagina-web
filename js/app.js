@@ -64,7 +64,7 @@
 
   /* ---------- Estado ---------- */
   const CART_KEY = "lulu:cart:v1";
-  const PROMO_KEY = "lulu:first-purchase-redeemed:v1";
+  const PROMO_KEY = "lulu:first-purchase-redeemed:v2";
 
   function promoActiva() {
     if (!CONFIG.PRIMERA_COMPRA?.ACTIVO) return false;
@@ -1088,6 +1088,10 @@
     on($("#cartBack"), "click", () => mostrarVistaCarrito());
     on($("#sentBack"), "click", () => mostrarVistaCarrito());
     on($("#sentClear"), "click", () => {
+      // La primera compra se considera realizada cuando el cliente
+      // confirma que ya envió el pedido por WhatsApp. Hasta ese momento
+      // puede volver al carrito y conservar el beneficio.
+      try { localStorage.setItem(PROMO_KEY, "1"); } catch (err) {}
       state.cart = [];
       guardarCarrito();
       actualizarCarritoUI();
@@ -1204,7 +1208,6 @@
       };
 
       const texto = mensajePedido(state.cart, cliente);
-      try { localStorage.setItem(PROMO_KEY, "1"); } catch (err) {}
       const link = buildWaLink(texto);
       $("#sentLink").href = link;
 
