@@ -64,6 +64,25 @@
 
   /* ---------- Estado ---------- */
   const CART_KEY = "lulu:cart:v1";
+  const PROMO_KEY = "lulu:first-purchase-redeemed:v1";
+
+  function promoActiva() {
+    return Boolean(CONFIG.PRIMERA_COMPRA && CONFIG.PRIMERA_COMPRA.ACTIVO && !localStorage.getItem(PROMO_KEY));
+  }
+
+  function calcularDescuento(total) {
+    if (!promoActiva() || state.modo === "mayorista") return 0;
+    return Math.round(total * (CONFIG.PRIMERA_COMPRA.DESCUENTO_PCT / 100));
+  }
+
+  function calcularEnvio(cliente) {
+    if (promoActiva() && CONFIG.PRIMERA_COMPRA.ENVIO_GRATIS && cliente && cliente.entrega === "envio") return 0;
+    return null;
+  }
+
+  function totalConPromo() {
+    return Math.max(0, totalCarrito() - calcularDescuento(totalCarrito()));
+  }
 
   const state = {
     modo: "minorista", // "minorista" | "mayorista"
@@ -124,11 +143,18 @@
         .join(" · ");
       return `• ${item.cantidad}x ${item.nombre}${detalle ? " (" + detalle + ")" : ""} — ${formatPrice(precio * item.cantidad)}`;
     });
-    const total = totalCarrito();
+    const subtotal = totalCarrito();
+    const descuento = calcularDescuento(subtotal);
+    const envioGratis = promoActiva() && CONFIG.PRIMERA_COMPRA.ENVIO_GRATIS && cliente.entrega === "envio";
+    const total = Math.max(0, subtotal - descuento);
 
     let msg = `Hola! Quiero hacer este pedido en Lulú Lulú${state.modo === "mayorista" ? " (mayorista)" : ""}:\n\n`;
     msg += lineas.join("\n");
-    msg += `\n\nTotal: ${formatPrice(total)}`;
+    msg += `\n\nSubtotal: ${formatPrice(subtotal)}`;
+    if (descuento > 0) msg += `\n15% OFF primera compra: -${formatPrice(descuento)}`;
+    if (envioGratis) msg += `\nEnvío: GRATIS (primera compra)`;
+    msg += `\nTotal: ${formatPrice(total)}`;
+    msg += `\nMedio de pago: ${cliente.pago}`;
     msg += `\n\nNombre: ${cliente.nombre}`;
     msg += `\nTeléfono: ${cliente.telefono}`;
     msg += `\nEntrega: ${cliente.entrega === "envio" ? "Envío a domicilio" : "Retiro"}`;
@@ -893,7 +919,14 @@
     }
 
     $("#cartSubtotal").textContent = formatPrice(totalCarrito());
-    $("#cartTotal").textContent = formatPrice(totalCarrito());
+    const discount = calcularDescuento(totalCarrito());
+    const promoRow = $("#cartPromo");
+    if (promoRow) {
+      promoRow.hidden = discount <= 0;
+      const value = $("#cartDiscount");
+      if (value) value.textContent = `-${formatPrice(discount)}`;
+    }
+    $("#cartTotal").textContent = formatPrice(totalConPromo());
 
     actualizarNoticiasMayorista();
   }
@@ -1014,6 +1047,7 @@
   }
 
   function mostrarVistaCheckout() {
+    injectPaymentOptions();
     $("#viewCart").hidden = true;
     $("#checkoutForm").hidden = false;
     $("#viewSent").hidden = true;
@@ -1030,8 +1064,10 @@
       li.textContent = `${item.cantidad}x ${item.nombre}${detalle ? " (" + detalle + ")" : ""} — ${formatPrice(precioUnitarioItem(item, state.modo) * item.cantidad)}`;
       list.appendChild(li);
     });
-    $("#checkoutTotal").textContent = formatPrice(totalCarrito());
-    $("#envioHint").textContent = "Coordinamos el costo y los tiempos de envío por WhatsApp según tu localidad.";
+    $("#checkoutTotal").textContent = formatPrice(totalConPromo());
+    $("#envioHint").textContent = promoActiva() ? "🎁 En tu primera compra el envío es GRATIS en Córdoba Capital." : "Coordinamos el envío por WhatsApp.";
+    const checkoutPromo = $("#checkoutPromo");
+    if (checkoutPromo) checkoutPromo.textContent = promoActiva() ? `🎉 Tenés ${CONFIG.PRIMERA_COMPRA.DESCUENTO_PCT}% OFF + envío gratis en tu primera compra.` : "";
   }
 
   /* ---------- Formulario de checkout ---------- */
@@ -1100,9 +1136,11 @@
         direccion: $("#fDireccion").value.trim(),
         localidad: $("#fLocalidad").value.trim(),
         observaciones: $("#fObs").value.trim(),
+        pago: ($("#fPago") && $("#fPago").value) || "A coordinar",
       };
 
       const texto = mensajePedido(state.cart, cliente);
+      try { localStorage.setItem(PROMO_KEY, "1"); } catch (err) {}
       const link = buildWaLink(texto);
       $("#sentLink").href = link;
 
@@ -1194,6 +1232,28 @@
   }
 
   /* ---------- Producto estrella ---------- */
+  function injectPaymentOptions() {
+    const form = $("#checkoutForm .drawer__body");
+    if (!form || $("#fPago")) return;
+    const wrap = document.createElement("div");
+    wrap.className = "field promo-payment-field";
+    wrap.innerHTML = `<label for="fPago">¿Cómo querés pagar?</label><select id="fPago" name="pago"><option value="Mercado Pago">Mercado Pago</option><option value="Transferencia bancaria">Transferencia bancaria</option></select>`;
+    const obs = $("#fObs");
+    const obsField = obs ? obs.closest(".field") : null;
+    if (obsField) obsField.before(wrap); else form.appendChild(wrap);
+  }
+
+  function setupPromocion() {
+    const announce = $(".announce");
+    if (!announce || !CONFIG.PRIMERA_COMPRA?.ACTIVO) return;
+    const items = PRODUCTS.slice(0, 4);
+    const promo = document.createElement("section");
+    promo.className = "promo-strip";
+    promo.innerHTML = `<div class="promo-strip__inner"><div class="promo-strip__copy"><span class="promo-kicker">OFERTA DE BIENVENIDA</span><h2>15% OFF + envío GRATIS</h2><p>En tu primera compra en Córdoba Capital.</p><a class="btn btn--primary" href="#catalogo">Aprovechar promoción <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div><div class="promo-strip__products">${items.map((p,i)=>`<button class="promo-product" type="button" data-promo-product="${p.id}"><img src="${p.imagenes[0]}" alt="${p.nombre}" loading="lazy"><span>${p.nombre}</span><b>15% OFF</b></button>`).join("")}</div></div>`;
+    announce.after(promo);
+    promo.querySelectorAll("[data-promo-product]").forEach(btn => on(btn,"click",()=>openProductModal(btn.dataset.promoProduct)));
+  }
+
   function setupEstrella() {
     const cfg = CONFIG.PRODUCTO_ESTRELLA;
     const section = $("#estrella");
@@ -1217,6 +1277,7 @@
   /* ---------- Inicio ---------- */
   function init() {
     setupContexto();
+    setupPromocion();
     setupDialogs();
     setupScrollProgress();
     setupHeaderShadow();
