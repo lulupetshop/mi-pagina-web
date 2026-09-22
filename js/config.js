@@ -23,3 +23,4 @@ const CONFIG = {
     mayorista: "Hola! Quería consultar por la compra mayorista de camas para perros y gatos.",
   },
 };
+   window.CONFIG = CONFIG;
