@@ -141,11 +141,6 @@ const PRODUCTS = [
   },
 ];
 /* Hero: los nombres salen del catálogo para mantenerlos siempre sincronizados. */
-(function () {
-  function setupHeroCopy() {
-    const words = document.querySelector(".hero__rotator-words");
-    if (!words || !Array.isArray(PRODUCTS)) return;
-
     const models = PRODUCTS
       .map((product) => product.nombre.replace(/^Sueño\s+/i, "").trim())
       .filter(Boolean);
