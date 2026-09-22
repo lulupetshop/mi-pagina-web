@@ -26,6 +26,11 @@ const CONFIG = {
     ENVIO_GRATIS: true,
   },
 
+  SEGUNDA_UNIDAD: {
+    ACTIVO: true,
+    DESCUENTO_PCT: 50,
+  },
+
   // Métodos de pago que se muestran y se envían a WhatsApp.
   MEDIOS_PAGO: ["Mercado Pago", "Transferencia bancaria"],
 
