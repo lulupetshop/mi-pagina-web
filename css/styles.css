@@ -2104,3 +2104,43 @@ dialog::backdrop{
 .promo-popout .btn{width:100%;margin-top:14px}
 @keyframes promoPopIn{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
 @media(max-width:720px){.promotions__grid{grid-template-columns:1fr}.promotion-card{padding:24px;min-height:0}.promo-popout{right:14px;bottom:14px}}
+
+
+/* ==========================================================================
+   27. Conversión v3 — CTAs + ahorro monetario
+   ========================================================================== */
+.card__price{display:flex;flex-wrap:wrap;align-items:baseline;gap:.18em .45em}
+.card__saving{
+  flex-basis:100%;
+  display:block;
+  margin-top:.2em;
+  color:var(--terracotta-700);
+  font-size:.72rem;
+  font-weight:800;
+}
+.card__cta{
+  display:block;
+  margin-top:.9em;
+  color:var(--purple-700);
+  font-size:.78rem;
+  font-weight:800;
+}
+.card:hover .card__cta{text-decoration:underline;text-underline-offset:3px}
+.detail__price-saving{display:block}
+.detail__price-promo{line-height:1.35}
+.totals__promo{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.totals__savings{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding-top:.45em;
+  border-top:1px dashed var(--border);
+  color:var(--terracotta-700);
+  font-weight:800;
+}
+.totals__savings dd{font-family:var(--font-display)}
+@media(max-width:640px){
+  .card__saving{font-size:.68rem}
+  .card__cta{font-size:.75rem}
+}
