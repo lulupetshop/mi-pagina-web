@@ -140,52 +140,20 @@ const PRODUCTS = [
     ],
   },
 ];
-
-/* Hero rotativo: usa directamente los nombres del catálogo para evitar una
-   segunda lista de productos que pueda quedar desactualizada. */
+/* Hero: los nombres salen del catálogo para mantenerlos siempre sincronizados. */
 (function () {
   function setupHeroCopy() {
-    const hero = document.querySelector(".hero__copy");
-    if (!hero || !Array.isArray(PRODUCTS) || !PRODUCTS.length) return;
+    const words = document.querySelector(".hero__rotator-words");
+    if (!words || !Array.isArray(PRODUCTS)) return;
 
-    const lead = hero.querySelector(".lead");
-    const cta = hero.querySelector(".hero__cta");
-    if (!lead || !cta) return;
-
-    if (!document.getElementById("luluHeroRotatorStyles")) {
-      const style = document.createElement("style");
-      style.id = "luluHeroRotatorStyles";
-      style.textContent = `
-        .hero__rotator-label{display:block;margin-bottom:.15em;font-size:.9em;opacity:.82}
-        .hero__rotator{display:block;height:1.45em;overflow:hidden;position:relative;font-family:var(--font-display);font-weight:700}
-        .hero__rotator-words{display:block;animation:luluHeroWords 12s cubic-bezier(.22,1,.36,1) infinite;will-change:transform}
-        .hero__rotator-words span{display:block;height:1.45em;color:var(--terracotta-300);font-weight:800}
-        @keyframes luluHeroWords{
-          0%,14%{transform:translateY(0)}
-          18%,34%{transform:translateY(-20%)}
-          38%,54%{transform:translateY(-40%)}
-          58%,74%{transform:translateY(-60%)}
-          78%,94%{transform:translateY(-80%)}
-          100%{transform:translateY(0)}
-        }
-        @media (max-width:600px){.hero__rotator{font-size:.96em}.hero__rotator-label{font-size:.82em}}
-        @media (prefers-reduced-motion:reduce){.hero__rotator-words{animation:none}.hero__rotator-words span:not(:first-child){display:none}}
-      `;
-      document.head.appendChild(style);
-    }
-
-    const words = lead.querySelector(".hero__rotator-words");
     const models = PRODUCTS.map((product) => product.nombre).filter(Boolean);
-    words.innerHTML = models.map((name) => `<span>${name}</span>`).join("");
+    if (!models.length) return;
 
-    const waButton = cta.querySelector('[data-wa="consulta"]');
-    if (waButton) waButton.remove();
-
-    const catalogButton = cta.querySelector('a[href="#catalogo"]');
-    if (catalogButton) {
-      const textNode = Array.from(catalogButton.childNodes).find((node) => node.nodeType === Node.TEXT_NODE);
-      if (textNode) textNode.textContent = "Ver camas ";
-    }
+    words.innerHTML = models.map((name) => {
+      const span = document.createElement("span");
+      span.textContent = name;
+      return span.outerHTML;
+    }).join("");
   }
 
   if (document.readyState === "loading") {
