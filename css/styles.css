@@ -1675,6 +1675,14 @@ textarea{ resize: vertical; min-height: 90px; }
   .wa-fab__text{ display: inline; }
 }
 
+/* Desde 900px el popup de promociones (.promo-popout) también vive
+   abajo a la derecha y tapa el botón de WhatsApp (z-index más alto y
+   una tarjeta bastante más grande). Se lo pasa a la izquierda ahí para
+   que las dos cosas queden siempre accesibles. */
+@media (min-width: 900px){
+  .wa-fab{ right: auto; left: 20px; }
+}
+
 /* ==========================================================================
    18. MODAL DE PRODUCTO
    ========================================================================== */

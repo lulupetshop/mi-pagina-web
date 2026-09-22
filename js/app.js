@@ -186,8 +186,7 @@
 
   function abrirWhatsApp(texto) {
     const url = buildWaLink(texto);
-    // Navegación directa: evita bloqueos de pop-ups en desktop y mobile.
-    window.location.href = url;
+    window.open(url, "_blank", "noopener");
   }
 
   function mensajeProducto(product, opts) {
@@ -733,7 +732,9 @@
     $("#pSizeError").hidden = true;
     $("#pTelaError").hidden = true;
 
-    window.LuluMeta?.viewContent(product, state.modo);\n\n    trackEvent("view_item", {
+    window.LuluMeta?.viewContent(product, state.modo);
+
+    trackEvent("view_item", {
       currency: "ARS",
       value: precioDesde(product, state.modo),
       item_id: product.id,
@@ -991,7 +992,9 @@
         cantidad,
       });
 
-      window.LuluMeta?.addToCart({ productId: product.id, nombre: product.nombre, precioMinorista: tamano.minorista, precioMayorista: tamano.mayorista }, state.modo, cantidad);\n\n      trackEvent("add_to_cart", {
+      window.LuluMeta?.addToCart({ productId: product.id, nombre: product.nombre, precioMinorista: tamano.minorista, precioMayorista: tamano.mayorista }, state.modo, cantidad);
+
+      trackEvent("add_to_cart", {
         currency: "ARS",
         value: precioUnitarioItem({
           precioMinorista: tamano.minorista,
@@ -1191,7 +1194,9 @@
         notice.textContent = `Necesitás sumar ${min - totalUnidades()} unidad${min - totalUnidades() === 1 ? "" : "es"} más para completar tu compra mayorista, o cambiá a modo minorista.`;
         return;
       }
-      window.LuluMeta?.initiateCheckout(state.cart, state.modo);\n\n      trackEvent("begin_checkout", {
+      window.LuluMeta?.initiateCheckout(state.cart, state.modo);
+
+      trackEvent("begin_checkout", {
         currency: "ARS",
         value: totalConPromo(),
         items: state.cart.map((item) => ({
@@ -1341,8 +1346,7 @@
       $("#sentLink").href = link;
 
       window.LuluMeta?.contactOrder(state.cart, state.modo);
-      // Redirección directa para que funcione igual en desktop y mobile.
-      window.location.href = link;
+      window.open(link, "_blank", "noopener");
 
       $("#viewCart").hidden = true;
       $("#checkoutForm").hidden = true;
