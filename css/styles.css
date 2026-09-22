@@ -502,31 +502,6 @@ p{ text-wrap: pretty; }
 }
 .icon-btn:hover{ background: var(--purple-600); color: #fff; transform: scale(1.05); }
 
-.catalog-filter-toggle{
-  display: none;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 12px 15px;
-  margin-bottom: 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--r-md);
-  background: var(--surface);
-  color: var(--ink-900);
-  font-weight: 800;
-  box-shadow: var(--shadow-sm);
-  transition: background-color .28s var(--ease), border-color .28s var(--ease), color .28s var(--ease), transform .28s var(--ease);
-}
-.catalog-filter-toggle .ico{ width: 20px; height: 20px; color: var(--purple-500); }
-.catalog-filter-toggle:hover,
-.catalog-filter-toggle[aria-expanded="true"]{
-  border-color: var(--purple-400);
-  background: var(--purple-50);
-  color: var(--purple-700);
-}
-.catalog-filter-toggle:active{ transform: scale(.99); }
-
 @media (max-width: 899px){
   .nav{
     position: fixed;
