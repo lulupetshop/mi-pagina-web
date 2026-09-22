@@ -1,2 +1,6 @@
 Thumbs.db
 .DS_Store
+
+# NOVA Tech (tienda-tecnologia): credenciales y logs, nunca al repo
+tienda-tecnologia/api/config.php
+tienda-tecnologia/api/orders.log
