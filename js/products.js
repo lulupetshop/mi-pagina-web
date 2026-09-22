@@ -18,7 +18,7 @@
    - telas: opcional, para modelos que además del color eligen tela.
    - tamanos: al menos uno. { nombre, medida, recomendado, minorista,
      mayorista }. Precios por unidad, en pesos, sin puntos.
-   - Regla de precio mayorista: minorista menos $15.000 por unidad. Se
+   - Regla de precio mayorista: minorista menos $20.000 por unidad. Se
      aplica parejo a todos los productos y talles.
    - codigoFabricante: opcional, el artículo del catálogo del fabricante
      (para pedir reposición). No se muestra en el sitio.
@@ -39,7 +39,7 @@ const PRODUCTS = [
         medida: "75 x 60 x 18 cm",
         recomendado: "Perros medianos/grandes y gatos",
         minorista: 65000,
-        mayorista: 50000,
+        mayorista: 45000,
       },
     ],
   },
@@ -67,7 +67,7 @@ const PRODUCTS = [
         medida: "A confirmar por WhatsApp",
         recomendado: "Perros y gatos",
         minorista: 70000,
-        mayorista: 55000,
+        mayorista: 50000,
       },
     ],
   },
@@ -93,7 +93,7 @@ const PRODUCTS = [
         medida: "87 x 70 x 10 cm",
         recomendado: "Perros medianos/grandes",
         minorista: 75000,
-        mayorista: 60000,
+        mayorista: 55000,
       },
     ],
   },
@@ -117,7 +117,7 @@ const PRODUCTS = [
         medida: "75 x 60 x 20 cm",
         recomendado: "Perros medianos/grandes y gatos",
         minorista: 65000,
-        mayorista: 50000,
+        mayorista: 45000,
       },
     ],
   },
@@ -135,7 +135,7 @@ const PRODUCTS = [
         medida: "45 x 10 cm",
         recomendado: "Perros pequeños y gatos",
         minorista: 45000,
-        mayorista: 30000,
+        mayorista: 25000,
       },
     ],
   },
