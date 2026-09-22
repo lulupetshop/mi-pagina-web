@@ -32,7 +32,7 @@
   <script>document.documentElement.classList.add('js');</script>
 
   <!-- ?v=... evita que el navegador muestre versiones viejas. Cambialo cada vez que subas cambios. -->
-  <link rel="stylesheet" href="css/styles.css?v=20260922m">
+  <link rel="stylesheet" href="css/styles.css?v=20260922n">
   <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 
@@ -59,6 +59,7 @@
       <symbol id="i-box" viewBox="0 0 24 24"><path d="m3.5 7.5 8.5-4.5 8.5 4.5v9L12 21l-8.5-4.5v-9Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m3.5 7.5 8.5 4.5 8.5-4.5M12 12v9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
       <symbol id="i-tag" viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8L3 12Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7.5" cy="8.5" r="1.4" fill="currentColor"/></symbol>
       <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="m16 16 5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
     </defs>
   </svg>
 
@@ -90,6 +91,12 @@
       </a>
 
       <nav class="nav" id="nav" aria-label="Principal">
+        <form class="mobile-search" id="mobileSearch" role="search">
+          <div class="mobile-search__group">
+            <svg class="mobile-search__icon ico" aria-hidden="true"><use href="#i-search"/></svg>
+            <input class="mobile-search__input" id="mobileSearchInput" type="search" placeholder="Buscar cama..." autocomplete="off" enterkeyhint="search" aria-label="Buscar cama">
+          </div>
+        </form>
         <div class="nav__list">
           <a class="nav__item" href="#catalogo"><svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg><span>Catálogo</span></a>
           <a class="nav__item" href="#promociones"><svg class="ico" aria-hidden="true"><use href="#i-tag"/></svg><span>Promociones</span></a>
