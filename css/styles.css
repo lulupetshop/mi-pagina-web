@@ -638,9 +638,15 @@ p{ text-wrap: pretty; }
   }
   .nav__item:nth-child(6):hover .ico,
   .nav__item:nth-child(6):focus-visible .ico{ color: #fff; }
-  .header__inner:has(.menu-btn[aria-expanded="true"]) .nav{
+  .site-header.menu-open .nav{
     transform: translateX(0);
     opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  .nav{
+    visibility: hidden;
+    pointer-events: none;
   }
 }
 
@@ -2189,4 +2195,28 @@ dialog::backdrop{
   .card__saving{ font-size: .68rem; }
   .card__cta{ font-size: .75rem; }
   .card__promo-badge{ top: 9px; left: 9px; font-size: .61rem; }
+}
+
+
+/* Ajustes de navegación móvil: panel siempre interactivo cuando está abierto. */
+@media (max-width: 899px){
+  .site-header .nav{
+    z-index: 120;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .site-header.menu-open .nav{
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(0);
+    opacity: 1;
+  }
+  .site-header.menu-open .menu-btn{
+    background: rgba(255,255,255,.12);
+  }
+}
+
+/* El catálogo debe quedar claramente visible y con separación del header sticky. */
+#catalogo{
+  scroll-margin-top: calc(var(--header-h) + 18px);
 }
