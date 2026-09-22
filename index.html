@@ -32,7 +32,7 @@
   <script>document.documentElement.classList.add('js');</script>
 
   <!-- ?v=... evita que el navegador muestre versiones viejas. Cambialo cada vez que subas cambios. -->
-  <link rel="stylesheet" href="css/styles.css?v=20260922p">
+  <link rel="stylesheet" href="css/styles.css?v=20260922q">
   <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 
@@ -91,15 +91,24 @@
       </a>
 
       <nav class="nav" id="nav" aria-label="Principal">
-        <form class="mobile-search" id="mobileSearch" role="search">
-          <div class="mobile-search__group">
-            <svg class="mobile-search__icon ico" aria-hidden="true"><use href="#i-search"/></svg>
-            <input class="mobile-search__input" id="mobileSearchInput" type="search" placeholder="Buscar cama..." autocomplete="off" enterkeyhint="search" aria-label="Buscar cama">
-          </div>
-        </form>
         <div class="nav__list">
-          <a class="nav__item" href="#catalogo"><svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg><span>Catálogo</span></a>
-          <a class="nav__item" href="#promociones"><svg class="ico" aria-hidden="true"><use href="#i-tag"/></svg><span>Promociones</span></a>
+          <details class="nav__group">
+            <summary class="nav__item nav__item--group"><svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg><span>Catálogo</span><span class="nav__chevron" aria-hidden="true">+</span></summary>
+            <div class="nav__submenu">
+              <a href="#catalogo" data-product-id="moises-rubi">Sueño Rubí</a>
+              <a href="#catalogo" data-product-id="colchon-redondo-desmontable">Sueño Nube</a>
+              <a href="#catalogo" data-product-id="colchoneta-desmontable">Sueño Zen</a>
+              <a href="#catalogo" data-product-id="moises-redondo">Sueño Abrazo</a>
+              <a href="#catalogo" data-product-id="nido-onix">Sueño Ónix</a>
+            </div>
+          </details>
+          <details class="nav__group">
+            <summary class="nav__item nav__item--group"><svg class="ico" aria-hidden="true"><use href="#i-tag"/></svg><span>Promociones</span><span class="nav__chevron" aria-hidden="true">+</span></summary>
+            <div class="nav__submenu">
+              <a href="#promociones">15% OFF + envío gratis</a>
+              <a href="#promociones">50% OFF en segunda unidad</a>
+            </div>
+          </details>
           <a class="nav__item" href="#nosotros"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg><span>Nosotros</span></a>
           <a class="nav__item" href="#mayorista"><svg class="ico" aria-hidden="true"><use href="#i-box"/></svg><span>Mayorista</span></a>
           <a class="nav__item" href="#preguntas"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg><span>Preguntas</span></a>
