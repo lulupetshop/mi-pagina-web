@@ -469,10 +469,19 @@ p{ text-wrap: pretty; }
 @media (max-width: 899px){
   .menu-btn{
     display: inline-flex;
-    position: fixed;
-    top: max(10px, env(safe-area-inset-top));
-    right: 12px;
-    z-index: 110;
+    position: relative;
+    top: auto;
+    right: auto;
+    z-index: 1;
+    flex: 0 0 42px;
+  }
+  .site-header{
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header__inner{
+    min-height: var(--header-h);
   }
 }
 .menu-btn .ico{ width: 20px; height: 20px; }
