@@ -1590,6 +1590,16 @@ dialog::backdrop{
   border-top: 1px solid var(--border-soft);
   background: var(--surface);
 }
+/* En pantallas angostas (~360px y menos, muy común en Android) el texto
+   de "Agregar al carrito" no entra al lado del selector de cantidad:
+   como el botón tiene white-space:nowrap y los flex items no se
+   achican por debajo de su contenido, el botón se salía del modal y
+   quedaba cortado por el overflow:hidden. Se apila en dos filas. */
+@media (max-width: 400px){
+  .modal__foot{ flex-wrap: wrap; row-gap: 12px; }
+  .modal__foot .qty{ flex: 1; justify-content: center; }
+  .modal__foot #pAdd{ flex-basis: 100%; }
+}
 
 .gallery__main{
   position: relative;
