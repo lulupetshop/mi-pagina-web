@@ -22,3 +22,14 @@
     contactOrder:(cart,m)=>{const c=contents(cart,m),n=c.reduce((s,i)=>s+i.quantity,0);if(n)track("Contact",{contact_type:"pedido",value:total(cart,m),currency:"ARS",content_ids:c.map(i=>i.id),num_items:n,contents:c},"contact:pedido:"+c.map(i=>i.id+":"+i.quantity).join("|"))}
   };
 })();
+(function () {
+  var abrirOriginal = window.open;
+  window.open = function (url) {
+    try {
+      if (typeof url === "string" && /wa\.me|whatsapp\.com/i.test(url) && typeof window.fbq === "function") {
+        window.fbq("track", "Contact");
+      }
+    } catch (e) {}
+    return abrirOriginal.apply(window, arguments);
+  };
+})();
