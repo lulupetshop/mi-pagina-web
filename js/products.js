@@ -152,12 +152,27 @@ const PRODUCTS = [
     const cta = hero.querySelector(".hero__cta");
     if (!lead || !cta) return;
 
-    lead.innerHTML = `
-      <span class="hero__rotator-label">Descubrí nuestros modelos</span>
-      <span class="hero__rotator" aria-live="polite" aria-label="Modelos de camas">
-        <span class="hero__rotator-words"></span>
-      </span>
-    `;
+    if (!document.getElementById("luluHeroRotatorStyles")) {
+      const style = document.createElement("style");
+      style.id = "luluHeroRotatorStyles";
+      style.textContent = `
+        .hero__rotator-label{display:block;margin-bottom:.15em;font-size:.9em;opacity:.82}
+        .hero__rotator{display:block;height:1.45em;overflow:hidden;position:relative;font-family:var(--font-display);font-weight:700}
+        .hero__rotator-words{display:block;animation:luluHeroWords 12s cubic-bezier(.22,1,.36,1) infinite;will-change:transform}
+        .hero__rotator-words span{display:block;height:1.45em;color:var(--terracotta-300);font-weight:800}
+        @keyframes luluHeroWords{
+          0%,14%{transform:translateY(0)}
+          18%,34%{transform:translateY(-20%)}
+          38%,54%{transform:translateY(-40%)}
+          58%,74%{transform:translateY(-60%)}
+          78%,94%{transform:translateY(-80%)}
+          100%{transform:translateY(0)}
+        }
+        @media (max-width:600px){.hero__rotator{font-size:.96em}.hero__rotator-label{font-size:.82em}}
+        @media (prefers-reduced-motion:reduce){.hero__rotator-words{animation:none}.hero__rotator-words span:not(:first-child){display:none}}
+      `;
+      document.head.appendChild(style);
+    }
 
     const words = lead.querySelector(".hero__rotator-words");
     const models = PRODUCTS.map((product) => product.nombre).filter(Boolean);
