@@ -1836,3 +1836,61 @@ dialog::backdrop{
 .promo-payment-field select{width:100%;padding:.8rem 1rem;border:1px solid var(--border);border-radius:12px;background:#fff;font:inherit}
 @media(max-width:800px){.promo-strip__inner{grid-template-columns:1fr;padding:28px 18px}.promo-strip__products{grid-template-columns:repeat(2,1fr);gap:10px}.promo-product:nth-child(n+3){display:none}}
 @media(max-width:480px){.promo-strip__copy .btn{width:100%}.promo-strip__products{grid-template-columns:repeat(2,1fr)}}
+
+
+/* ==========================================================================
+   25. Conversión v2 — precios promocionales y móvil
+   ========================================================================== */
+.card{position:relative}
+.card__price-old{display:block;font-size:.72em;color:var(--ink-300);font-weight:500;margin-bottom:2px}
+.card__price-promo{display:inline-block;color:var(--terracotta-600);font-size:1.05em}
+.card__promo-badge{
+  position:absolute;
+  top:12px;
+  left:12px;
+  z-index:2;
+  padding:.42em .7em;
+  border-radius:999px;
+  background:var(--terracotta-500);
+  color:#fff;
+  font-size:.68rem;
+  font-weight:800;
+  letter-spacing:.01em;
+  box-shadow:0 6px 14px rgba(36,21,57,.14);
+}
+.detail__price-old{display:block;font-size:.72em;color:var(--ink-300);font-weight:500}
+.detail__price strong{display:block;color:var(--terracotta-600);font-size:1.35em}
+.detail__price-promo{
+  display:inline-block;
+  margin-top:.25em;
+  padding:.35em .65em;
+  border-radius:999px;
+  background:var(--terracotta-100);
+  color:var(--terracotta-700);
+  font-family:var(--font-body);
+  font-size:.68rem;
+  font-weight:800;
+}
+.promo-strip__products{overflow-x:auto;padding:2px 2px 8px;scrollbar-width:thin}
+.promo-product{transition:transform .2s var(--ease),background .2s var(--ease)}
+@media(max-width:800px){
+  .promo-strip__products{
+    display:flex;
+    grid-template-columns:none;
+    gap:10px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    padding-bottom:10px;
+  }
+  .promo-product{
+    flex:0 0 148px;
+    scroll-snap-align:start;
+  }
+  .promo-product:nth-child(n+3){display:block}
+}
+@media(max-width:480px){
+  .promo-strip__inner{padding:24px 14px}
+  .promo-strip__copy h2{font-size:1.75rem}
+  .promo-product{flex-basis:136px}
+  .card__promo-badge{top:9px;left:9px;font-size:.61rem}
+}
