@@ -32,7 +32,7 @@
   <script>document.documentElement.classList.add('js');</script>
 
   <!-- ?v=... evita que el navegador muestre versiones viejas. Cambialo cada vez que subas cambios. -->
-  <link rel="stylesheet" href="css/styles.css?v=20260922f">
+  <link rel="stylesheet" href="css/styles.css?v=20260922g">
   <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 
@@ -90,12 +90,14 @@
       </a>
 
       <nav class="nav" id="nav" aria-label="Principal">
-        <a href="#catalogo">Catálogo</a>
-        <a href="#promociones">Promociones</a>
-        <a href="#nosotros">Nosotros</a>
-        <a href="#mayorista">Mayorista</a>
-        <a href="#preguntas">Preguntas</a>
-        <a href="#contacto">Contacto</a>
+        <div class="nav__list">
+          <a class="nav__item" href="#catalogo"><svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg><span>Catálogo</span></a>
+          <a class="nav__item" href="#promociones"><svg class="ico" aria-hidden="true"><use href="#i-tag"/></svg><span>Promociones</span></a>
+          <a class="nav__item" href="#nosotros"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg><span>Nosotros</span></a>
+          <a class="nav__item" href="#mayorista"><svg class="ico" aria-hidden="true"><use href="#i-box"/></svg><span>Mayorista</span></a>
+          <a class="nav__item" href="#preguntas"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg><span>Preguntas</span></a>
+          <a class="nav__item" href="#contacto"><svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Contacto</span></a>
+        </div>
       </nav>
 
       <div class="header__actions">
@@ -244,7 +246,12 @@
           <p class="mode__note" id="mayoNote" hidden><svg class="ico" aria-hidden="true"><use href="#i-tag"/></svg> Precios mayoristas por unidad, comprando desde <b data-mayo-min>6</b> unidades (podés combinar modelos).</p>
         </div>
 
-        <div class="filters reveal" role="group" aria-label="Filtros del catálogo">
+        <button class="catalog-filter-toggle" id="catalogFilterToggle" type="button" aria-expanded="false" aria-controls="catalogFilters">
+          <svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg>
+          <span>Filtrar y ordenar</span>
+        </button>
+
+        <div class="filters reveal" id="catalogFilters" role="group" aria-label="Filtros del catálogo">
           <div class="filter-group">
             <span class="filter-label" id="lblCat">Categoría</span>
             <div class="chips" id="chipsCat" role="group" aria-labelledby="lblCat"></div>
