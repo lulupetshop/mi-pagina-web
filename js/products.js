@@ -13,8 +13,8 @@
    - imagenes: rutas dentro de assets/img/productos/.
    - colores: opcional. Cada uno es { nombre, hex }. Si el fabricante
      pide "consultar colores disponibles" (como en el catálogo de
-     Descanso Peludo), mejor dejarlo vacío: así se muestra el aviso de
-     que el color se confirma por WhatsApp, en vez de un color fijo.
+     Descanso Peludo), mejor dejarlo vacío: así se muestra el aviso
+     de que el color se confirma por WhatsApp, en vez de un color fijo.
    - telas: opcional, para modelos que además del color eligen tela.
    - tamanos: al menos uno. { nombre, medida, recomendado, minorista,
      mayorista }. Precios por unidad, en pesos, sin puntos.
@@ -140,3 +140,42 @@ const PRODUCTS = [
     ],
   },
 ];
+
+/* Hero rotativo: usa directamente los nombres del catálogo para evitar una
+   segunda lista de productos que pueda quedar desactualizada. */
+(function () {
+  function setupHeroCopy() {
+    const hero = document.querySelector(".hero__copy");
+    if (!hero || !Array.isArray(PRODUCTS) || !PRODUCTS.length) return;
+
+    const lead = hero.querySelector(".lead");
+    const cta = hero.querySelector(".hero__cta");
+    if (!lead || !cta) return;
+
+    lead.innerHTML = `
+      <span class="hero__rotator-label">Descubrí nuestros modelos</span>
+      <span class="hero__rotator" aria-live="polite" aria-label="Modelos de camas">
+        <span class="hero__rotator-words"></span>
+      </span>
+    `;
+
+    const words = lead.querySelector(".hero__rotator-words");
+    const models = PRODUCTS.map((product) => product.nombre).filter(Boolean);
+    words.innerHTML = models.map((name) => `<span>${name}</span>`).join("");
+
+    const waButton = cta.querySelector('[data-wa="consulta"]');
+    if (waButton) waButton.remove();
+
+    const catalogButton = cta.querySelector('a[href="#catalogo"]');
+    if (catalogButton) {
+      const textNode = Array.from(catalogButton.childNodes).find((node) => node.nodeType === Node.TEXT_NODE);
+      if (textNode) textNode.textContent = "Ver camas ";
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupHeroCopy, { once: true });
+  } else {
+    setupHeroCopy();
+  }
+})();
