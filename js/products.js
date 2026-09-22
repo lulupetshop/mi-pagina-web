@@ -151,7 +151,10 @@ const PRODUCTS = [
       .filter(Boolean);
     if (!models.length) return;
 
-    words.innerHTML = models.map((name) => {
+    // Se agrega una copia del primer nombre al final para que el ciclo
+    // vuelva a Rubí sin el salto visual de "último → primero".
+    const loopModels = [...models, models[0]];
+    words.innerHTML = loopModels.map((name) => {
       const span = document.createElement("span");
       span.textContent = name;
       return span.outerHTML;
