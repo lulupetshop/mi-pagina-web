@@ -80,13 +80,26 @@
     return Math.round(total * (CONFIG.PRIMERA_COMPRA.DESCUENTO_PCT / 100));
   }
 
+  function calcularDescuentoSegundaUnidad() {
+    if (state.modo === "mayorista" || !CONFIG.SEGUNDA_UNIDAD?.ACTIVO) return 0;
+    const unidades = [];
+    state.cart.forEach((item) => {
+      const precio = precioUnitarioItem(item, state.modo);
+      for (let i = 0; i < item.cantidad; i++) unidades.push(precio);
+    });
+    if (unidades.length < 2) return 0;
+    const segunda = [...unidades].sort((a, b) => a - b)[0];
+    return Math.round(segunda * (CONFIG.SEGUNDA_UNIDAD.DESCUENTO_PCT / 100));
+  }
+
   function calcularEnvio(cliente) {
     if (promoActiva() && CONFIG.PRIMERA_COMPRA.ENVIO_GRATIS && cliente && cliente.entrega === "envio") return 0;
     return null;
   }
 
   function totalConPromo() {
-    return Math.max(0, totalCarrito() - calcularDescuento(totalCarrito()));
+    const subtotal = totalCarrito();
+    return Math.max(0, subtotal - calcularDescuento(subtotal) - calcularDescuentoSegundaUnidad());
   }
 
   const state = {
@@ -150,13 +163,15 @@
     });
     const subtotal = totalCarrito();
     const descuento = calcularDescuento(subtotal);
+    const descuentoSegunda = calcularDescuentoSegundaUnidad();
     const envioGratis = promoActiva() && CONFIG.PRIMERA_COMPRA.ENVIO_GRATIS && cliente.entrega === "envio";
-    const total = Math.max(0, subtotal - descuento);
+    const total = Math.max(0, subtotal - descuento - descuentoSegunda);
 
     let msg = `Hola! Quiero hacer este pedido en Lulú Lulú${state.modo === "mayorista" ? " (mayorista)" : ""}:\n\n`;
     msg += lineas.join("\n");
     msg += `\n\nSubtotal: ${formatPrice(subtotal)}`;
     if (descuento > 0) msg += `\n15% OFF primera compra: -${formatPrice(descuento)}`;
+    if (descuentoSegunda > 0) msg += `\n50% OFF segunda unidad: -${formatPrice(descuentoSegunda)}`;
     if (envioGratis) msg += `\nEnvío: GRATIS (primera compra)`;
     msg += `\nTotal: ${formatPrice(total)}`;
     msg += `\nMedio de pago: ${cliente.pago}`;
@@ -942,11 +957,18 @@
 
     $("#cartSubtotal").textContent = formatPrice(totalCarrito());
     const discount = calcularDescuento(totalCarrito());
+    const discountSecond = calcularDescuentoSegundaUnidad();
     const promoRow = $("#cartPromo");
     if (promoRow) {
       promoRow.hidden = discount <= 0;
       const value = $("#cartDiscount");
       if (value) value.textContent = `-${formatPrice(discount)}`;
+    }
+    const secondRow = $("#cartPromoSecond");
+    if (secondRow) {
+      secondRow.hidden = discountSecond <= 0;
+      const value = $("#cartDiscountSecond");
+      if (value) value.textContent = `-${formatPrice(discountSecond)}`;
     }
     $("#cartTotal").textContent = formatPrice(totalConPromo());
 
@@ -1089,7 +1111,12 @@
     $("#checkoutTotal").textContent = formatPrice(totalConPromo());
     $("#envioHint").textContent = promoActiva() ? "🎁 En tu primera compra el envío es GRATIS en Córdoba Capital." : "Coordinamos el envío por WhatsApp.";
     const checkoutPromo = $("#checkoutPromo");
-    if (checkoutPromo) checkoutPromo.textContent = promoActiva() ? `🎉 Tenés ${CONFIG.PRIMERA_COMPRA.DESCUENTO_PCT}% OFF + envío gratis en tu primera compra.` : "";
+    if (checkoutPromo) {
+      const parts = [];
+      if (promoActiva()) parts.push(`🎉 ${CONFIG.PRIMERA_COMPRA.DESCUENTO_PCT}% OFF + envío gratis en tu primera compra`);
+      if (calcularDescuentoSegundaUnidad() > 0) parts.push("🔥 50% OFF aplicado a la segunda unidad");
+      checkoutPromo.textContent = parts.join(" · ");
+    }
   }
 
   /* ---------- Formulario de checkout ---------- */
@@ -1266,14 +1293,31 @@
   }
 
   function setupPromocion() {
-    const announce = $(".announce");
-    if (!announce || !CONFIG.PRIMERA_COMPRA?.ACTIVO) return;
-    const items = PRODUCTS.slice(0, 6);
-    const promo = document.createElement("section");
-    promo.className = "promo-strip";
-    promo.innerHTML = `<div class="promo-strip__inner"><div class="promo-strip__copy"><span class="promo-kicker">OFERTA DE BIENVENIDA</span><h2>15% OFF + envío GRATIS</h2><p>En tu primera compra en Córdoba Capital.</p><a class="btn btn--primary" href="#catalogo">Aprovechar promoción <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div><div class="promo-strip__products">${items.map((p,i)=>`<button class="promo-product" type="button" data-promo-product="${p.id}"><img src="${p.imagenes[0]}" alt="${p.nombre}" loading="lazy"><span>${p.nombre}</span><b>15% OFF</b></button>`).join("")}</div></div>`;
-    announce.after(promo);
-    promo.querySelectorAll("[data-promo-product]").forEach(btn => on(btn,"click",()=>openProductModal(btn.dataset.promoProduct)));
+    if (!CONFIG.PRIMERA_COMPRA?.ACTIVO && !CONFIG.SEGUNDA_UNIDAD?.ACTIVO) return;
+
+    const pop = document.createElement("aside");
+    pop.className = "promo-popout";
+    pop.innerHTML = `
+      <button class="promo-popout__close" type="button" aria-label="Cerrar promociones">×</button>
+      <div class="promo-popout__eyebrow">PROMOS LULÚ</div>
+      <strong>15% OFF + envío gratis</strong>
+      <span>Primera compra</span>
+      <div class="promo-popout__divider"></div>
+      <strong>50% OFF</strong>
+      <span>segunda unidad en el mismo pedido</span>
+      <a class="btn btn--primary" href="#promociones">Ver promociones</a>
+    `;
+    document.body.appendChild(pop);
+
+    on(pop.querySelector(".promo-popout__close"), "click", () => {
+      pop.classList.add("is-hidden");
+      try { sessionStorage.setItem("lulu:promo-popout-closed:v1", "1"); } catch (e) {}
+    });
+    on(pop.querySelector("a"), "click", () => pop.classList.add("is-hidden"));
+
+    try {
+      if (sessionStorage.getItem("lulu:promo-popout-closed:v1") === "1") pop.classList.add("is-hidden");
+    } catch (e) {}
   }
 
   function setupEstrella() {
