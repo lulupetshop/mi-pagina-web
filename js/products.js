@@ -130,7 +130,7 @@ const PRODUCTS = [
   {
     id: "nido-onix",
     categoria: "Nido Redondo",
-    nombre: "Nido Ónix",
+    nombre: "Sueño Ónix",
     descripcion:
       "Nido redondo bien mullido, con borde alto que envuelve y abraza. Confeccionado en pana sobre fricelina, cálido y resistente al uso diario.",
     imagenes: ["assets/img/productos/nido-onix-gris.jpg"],
