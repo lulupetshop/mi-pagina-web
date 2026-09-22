@@ -185,7 +185,9 @@
   }
 
   function abrirWhatsApp(texto) {
-    return window.open(buildWaLink(texto), "_blank", "noopener");
+    const url = buildWaLink(texto);
+    // Navegación directa: evita bloqueos de pop-ups en desktop y mobile.
+    window.location.href = url;
   }
 
   function mensajeProducto(product, opts) {
@@ -1165,10 +1167,16 @@
   }
 
   function setupCarrito() {
-    on($("#cartBtn"), "click", () => {
-      mostrarVistaCarrito();
-      abrirDialogo($("#cartDialog"));
-    });
+    const cartBtn = $("#cartBtn");
+    if (cartBtn) {
+      on(cartBtn, "click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        mostrarVistaCarrito();
+        const dialog = $("#cartDialog");
+        if (dialog) abrirDialogo(dialog);
+      });
+    }
     on($("#cartGoCatalog"), "click", () => {
       cerrarDialogo($("#cartDialog"));
       document.getElementById("catalogo").scrollIntoView({ behavior: "smooth" });
@@ -1332,14 +1340,9 @@
       const link = buildWaLink(texto);
       $("#sentLink").href = link;
 
-      window.LuluMeta?.contactOrder(state.cart, state.modo);\n      const ventana = window.open(link, "_blank", "noopener");
-      const warn = $("#sentWarn");
-      if (!ventana) {
-        warn.hidden = false;
-        warn.textContent = "El navegador bloqueó la ventana. Tocá el botón para abrir WhatsApp.";
-      } else {
-        warn.hidden = true;
-      }
+      window.LuluMeta?.contactOrder(state.cart, state.modo);
+      // Redirección directa para que funcione igual en desktop y mobile.
+      window.location.href = link;
 
       $("#viewCart").hidden = true;
       $("#checkoutForm").hidden = true;
