@@ -20,6 +20,8 @@
   <meta property="og:image:alt" content="Perro descansando en una cama Lulú Lulú">
   <meta name="twitter:card" content="summary_large_image">
 
+  <!-- Analítica: GA4/GTM se inicializan desde js/config.js cuando se cargue un ID válido. -->
+
   <link rel="icon" type="image/png" href="assets/logo/isologo-lulu.png">
   <link rel="preload" as="image" href="assets/img/hero-poster.jpg" fetchpriority="high">
 
@@ -30,7 +32,7 @@
   <script>document.documentElement.classList.add('js');</script>
 
   <!-- ?v=... evita que el navegador muestre versiones viejas. Cambialo cada vez que subas cambios. -->
-  <link rel="stylesheet" href="css/styles.css?v=20260921r">
+  <link rel="stylesheet" href="css/styles.css?v=20260922a">
   <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 
@@ -124,10 +126,10 @@
           <h1 id="hero-titulo" class="hero__in" style="--d:80ms">Un lugar suave donde tu mascota <em>se siente en casa</em>.</h1>
           <p class="lead hero__in" style="--d:160ms">Moisés, nidos y colchonetas con telas resistentes y fundas que se lavan. Elegí el modelo y el tamaño, y cerrá tu pedido por WhatsApp.</p>
           <div class="hero__cta hero__in" style="--d:240ms">
-            <a class="btn btn--primary btn--lg" href="#catalogo">Ver catálogo <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <a class="btn btn--primary btn--lg" href="#catalogo">Ver camas y precios <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
             <a class="btn btn--outline-light btn--lg" href="#contacto" data-wa="consulta">
               <svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg>
-              Consultar por WhatsApp
+              Hablar por WhatsApp
             </a>
           </div>
           <ul class="hero__points hero__in" style="--d:320ms">
@@ -208,17 +210,17 @@
             <div class="promotion-card__icon">15%</div>
             <h3>15% OFF en tu primera compra</h3>
             <p>Se aplica automáticamente al pedido minorista. Además, tu primera compra tiene envío gratis en Córdoba Capital.</p>
-            <a class="btn btn--primary" href="#catalogo">Elegir mi cama <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <a class="btn btn--primary" href="#catalogo">Quiero mi 15% OFF <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
           </article>
           <article class="promotion-card promotion-card--secondary reveal" style="--d:90ms">
             <span class="promotion-card__badge">EN UN MISMO PEDIDO</span>
             <div class="promotion-card__icon">50%</div>
             <h3>50% OFF en tu segunda unidad</h3>
             <p>Agregá al menos 2 productos al mismo pedido y obtené 50% OFF en tu segunda unidad.</p>
-            <a class="btn btn--light" href="#catalogo">Sumar otra cama <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <a class="btn btn--light" href="#catalogo">Quiero aprovechar el 50% <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
           </article>
         </div>
-        <p class="promotions__note reveal">Las promociones se calculan automáticamente en el carrito. La promo de segunda unidad aplica una sola vez por pedido.</p>
+        <p class="promotions__note reveal">Las promociones se aplican automáticamente en el carrito. En tu primera compra tenés 15% OFF + envío gratis en Córdoba Capital; al sumar 2 productos, la segunda unidad tiene 50% OFF una vez por pedido.</p>
       </div>
     </section>
 
@@ -587,10 +589,12 @@
           <dl class="totals">
             <div><dt>Subtotal</dt><dd id="cartSubtotal">$ 0</dd></div>
             <div class="totals__promo" id="cartPromo" hidden><dt>15% OFF primera compra</dt><dd id="cartDiscount">-$ 0</dd></div>
-          <div class="totals__promo" id="cartPromoSecond" hidden><dt>50% OFF segunda unidad</dt><dd id="cartDiscountSecond">-$ 0</dd></div><div class="totals__total"><dt>Total</dt><dd id="cartTotal">$ 0</dd></div>
+          <div class="totals__promo" id="cartPromoSecond" hidden><dt>50% OFF segunda unidad</dt><dd id="cartDiscountSecond">-$ 0</dd></div>
+            <div class="totals__savings" id="cartSavings" hidden><dt>Ahorrás en total</dt><dd id="cartSavingsValue">$ 0</dd></div>
+            <div class="totals__total"><dt>Total</dt><dd id="cartTotal">$ 0</dd></div>
           </dl>
           <p class="hint" id="cartHint"></p>
-          <button class="btn btn--primary btn--lg btn--block" type="button" id="cartCheckout">Finalizar compra</button>
+          <button class="btn btn--primary btn--lg btn--block" type="button" id="cartCheckout">Continuar con mi pedido</button>
           <button class="btn btn--text" type="button" id="cartKeep">Seguir mirando</button>
         </div>
       </div>
@@ -690,8 +694,8 @@
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
   <!-- Orden de carga: config → productos → lógica. Sin módulos ni librerías externas. -->
-  <script src="js/config.js?v=20260921p" defer></script>
-  <script src="js/products.js?v=20260921p" defer></script>
-  <script src="js/app.js?v=20260921p" defer></script>
+  <script src="js/config.js?v=20260922a" defer></script>
+  <script src="js/products.js?v=20260922a" defer></script>
+  <script src="js/app.js?v=20260922a" defer></script>
 </body>
 </html>
