@@ -146,7 +146,9 @@ const PRODUCTS = [
     const words = document.querySelector(".hero__rotator-words");
     if (!words || !Array.isArray(PRODUCTS)) return;
 
-    const models = PRODUCTS.map((product) => product.nombre).filter(Boolean);
+    const models = PRODUCTS
+      .map((product) => product.nombre.replace(/^Sueño\s+/i, "").trim())
+      .filter(Boolean);
     if (!models.length) return;
 
     words.innerHTML = models.map((name) => {
