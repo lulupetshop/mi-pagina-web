@@ -556,6 +556,44 @@ p{ text-wrap: pretty; }
   transform: translateY(1px) scale(.99);
   box-shadow: 0 6px 14px rgba(124,70,191,.25);
 }
+
+/* CTA de compra: efecto inspirado en Uiverse, adaptado a Lulú */
+.btn--purchase{
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--purple-600);
+  color: #fff;
+  border: 0;
+  box-shadow: 4px 8px 19px -3px rgba(36,21,57,.22);
+  transition: color .25s var(--ease), transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+.btn--purchase::before{
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  border-radius: inherit;
+  background: var(--terracotta-500);
+  z-index: -1;
+  box-shadow: 4px 8px 19px -3px rgba(36,21,57,.16);
+  transition: width .25s var(--ease);
+}
+.btn--purchase:hover{
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 4px 10px 22px -3px rgba(36,21,57,.28);
+}
+.btn--purchase:hover::before{ width: 100%; }
+.btn--purchase:active{
+  transform: translateY(1px) scale(.99);
+  box-shadow: 2px 5px 12px -3px rgba(36,21,57,.24);
+}
+.btn--purchase:focus-visible{
+  outline: 3px solid var(--purple-200);
+  outline-offset: 3px;
+}
+
 .btn--primary .ico{ position: relative; z-index: 1; }
 
 /* "Agregar al carrito": mismo lenguaje visual del sitio (píldora
