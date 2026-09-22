@@ -15,21 +15,21 @@
    6. Hero
    7. Franja de confianza
    8. Producto estrella
-   9. Colecciones
-   10. Catálogo (modo, filtros, grilla)
-   11. Nosotros / Historia
-   12. Cómo comprar
-   13. Mayorista
-   14. Guía de tamaños
-   15. Preguntas frecuentes
-   16. CTA final
-   17. Footer
-   18. Botón flotante de WhatsApp
-   19. Modal de producto
-   20. Visor con zoom (lightbox)
-   21. Carrito (drawer)
-   22. Toast
-   23. Responsive fino
+   9. Catálogo (modo, filtros, grilla)
+   10. Nosotros / Historia
+   11. Cómo comprar
+   12. Mayorista
+   13. Guía de tamaños
+   14. Preguntas frecuentes
+   15. CTA final
+   16. Footer
+   17. Botón flotante de WhatsApp
+   18. Modal de producto
+   19. Visor con zoom (lightbox)
+   20. Carrito (drawer)
+   21. Toast
+   22. Responsive fino
+   23. Promociones y precios promocionales
    ========================================================================== */
 
 /* ==========================================================================
@@ -916,70 +916,7 @@ textarea{ resize: vertical; min-height: 90px; }
 }
 
 /* ==========================================================================
-   9. COLECCIONES
-   ========================================================================== */
-.tiles{
-  display: grid;
-  gap: 18px;
-  grid-template-columns: 1fr;
-}
-.tile{
-  position: relative;
-  display: block;
-  border-radius: var(--r-lg);
-  overflow: hidden;
-  aspect-ratio: 4 / 3;
-  box-shadow: var(--shadow-sm);
-}
-.tile img{
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform .6s var(--ease);
-}
-.tile::after{
-  content: "";
-  position: absolute; inset: 0;
-  background: linear-gradient(0deg, rgba(36,21,57,.82) 0%, rgba(36,21,57,.15) 55%, transparent 75%);
-}
-.tile:hover img{ transform: scale(1.07); }
-.tile__body{
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  z-index: 1;
-  padding: 1.4em;
-  color: #fff;
-  display: flex; flex-direction: column;
-  gap: .25em;
-}
-.tile__body small{ font-size: .74rem; letter-spacing: .08em; text-transform: uppercase; color: var(--terracotta-300); font-weight: 700; }
-.tile__body b{ font-family: var(--font-display); font-size: 1.25rem; }
-.tile__go{
-  display: inline-flex; align-items: center; gap: .4em;
-  font-size: .82rem; font-weight: 600;
-  color: var(--on-dark-soft);
-  margin-top: .5em;
-  transform: translateX(-6px);
-  opacity: 0;
-  transition: transform .3s var(--ease), opacity .3s var(--ease);
-}
-.tile:hover .tile__go{ transform: translateX(0); opacity: 1; }
-.tile__go .ico{ width: 16px; height: 16px; }
-
-/* Línea todavía sin fotos: fondo gris liso en vez de foto */
-.tile--soon{ background: #dcdadf; }
-.tile--soon::after{ content: none; }
-.tile--soon .tile__body{ color: var(--ink-900); }
-.tile--soon .tile__body small{ color: var(--purple-600); }
-.tile--soon .tile__body b{ color: var(--ink-500); font-weight: 500; }
-
-@media (min-width: 720px){
-  .tiles{ grid-template-columns: repeat(4, 1fr); grid-auto-rows: 170px; }
-  .tile--big{ grid-column: span 2; grid-row: span 2; aspect-ratio: auto; }
-  .tile:not(.tile--big){ aspect-ratio: auto; }
-}
-
-/* ==========================================================================
-   10. CATÁLOGO
+   9. CATÁLOGO
    ========================================================================== */
 .catalog__foot{
   margin-top: 2em;
@@ -1297,7 +1234,7 @@ textarea{ resize: vertical; min-height: 90px; }
 .badge--float{ position: absolute; top: 12px; left: 12px; }
 
 /* ==========================================================================
-   11. NOSOTROS / HISTORIA
+   10. NOSOTROS / HISTORIA
    ========================================================================== */
 .story{
   background: var(--gradient-royal);
@@ -1331,7 +1268,7 @@ textarea{ resize: vertical; min-height: 90px; }
 }
 
 /* ==========================================================================
-   12. CÓMO COMPRAR
+   11. CÓMO COMPRAR
    ========================================================================== */
 .steps{
   display: grid;
@@ -1364,7 +1301,7 @@ textarea{ resize: vertical; min-height: 90px; }
 }
 
 /* ==========================================================================
-   13. MAYORISTA
+   12. MAYORISTA
    ========================================================================== */
 .wholesale{
   background: var(--gradient-royal);
@@ -1414,7 +1351,7 @@ textarea{ resize: vertical; min-height: 90px; }
 }
 
 /* ==========================================================================
-   14. GUÍA DE TAMAÑOS
+   13. GUÍA DE TAMAÑOS
    ========================================================================== */
 .size-guide__cards{
   display: grid;
@@ -1434,7 +1371,7 @@ textarea{ resize: vertical; min-height: 90px; }
 }
 
 /* ==========================================================================
-   15. PREGUNTAS FRECUENTES
+   14. PREGUNTAS FRECUENTES
    ========================================================================== */
 .faq{ display: flex; flex-direction: column; gap: 12px; }
 .faq details{
@@ -1475,7 +1412,7 @@ textarea{ resize: vertical; min-height: 90px; }
 }
 
 /* ==========================================================================
-   16. CTA FINAL
+   15. CTA FINAL
    ========================================================================== */
 .cta-band{
   background: var(--gradient-warm);
@@ -1495,7 +1432,7 @@ textarea{ resize: vertical; min-height: 90px; }
 }
 
 /* ==========================================================================
-   17. FOOTER
+   16. FOOTER
    ========================================================================== */
 .site-footer{
   background: var(--ink-900);
@@ -1520,7 +1457,7 @@ textarea{ resize: vertical; min-height: 90px; }
   color: #fff;
   margin-bottom: 1em;
 }
-.footer__grid nav ul, .footer__contact{ display: flex; flex-direction: column; gap: .7em; }
+.footer__grid nav ul, .footer__contact{ display: flex; flex-direction: column; gap: .7em; list-style: none; padding: 0; }
 .footer__grid a{ font-size: .9rem; transition: color .2s var(--ease); }
 .footer__grid a:hover{ color: #fff; }
 .footer__contact a{ display: inline-flex; align-items: center; gap: .6em; }
@@ -1540,7 +1477,7 @@ textarea{ resize: vertical; min-height: 90px; }
 }
 
 /* ==========================================================================
-   18. BOTÓN FLOTANTE DE WHATSAPP
+   17. BOTÓN FLOTANTE DE WHATSAPP
    ========================================================================== */
 .wa-fab{
   position: fixed;
@@ -1566,7 +1503,7 @@ textarea{ resize: vertical; min-height: 90px; }
 }
 
 /* ==========================================================================
-   19. MODAL DE PRODUCTO
+   18. MODAL DE PRODUCTO
    ========================================================================== */
 dialog{
   border: 0;
@@ -1794,7 +1731,7 @@ dialog::backdrop{
 }
 
 /* ==========================================================================
-   20. VISOR CON ZOOM (LIGHTBOX)
+   19. VISOR CON ZOOM (LIGHTBOX)
    ========================================================================== */
 .lightbox{
   margin: 0;
@@ -1848,7 +1785,7 @@ dialog::backdrop{
 }
 
 /* ==========================================================================
-   21. CARRITO (DRAWER)
+   20. CARRITO (DRAWER)
    ========================================================================== */
 .drawer{
   margin: 0 0 0 auto;
@@ -1971,7 +1908,7 @@ dialog::backdrop{
 .sent .notice{ margin-bottom: 1.2em; text-align: left; }
 
 /* ==========================================================================
-   22. TOAST
+   21. TOAST
    ========================================================================== */
 .toast{
   position: fixed;
@@ -1988,7 +1925,7 @@ dialog::backdrop{
 }
 
 /* ==========================================================================
-   23. RESPONSIVE FINO
+   22. RESPONSIVE FINO
    ========================================================================== */
 @media (max-width: 480px){
   .hero__card{ left: 0; padding: .7em 1em; }
@@ -2004,143 +1941,65 @@ dialog::backdrop{
 
 
 /* ==========================================================================
-   24. Conversión — promoción de primera compra
+   23. PROMOCIONES Y PRECIOS PROMOCIONALES
    ========================================================================== */
-.promo-strip{background:linear-gradient(135deg,var(--purple-900),var(--purple-700));color:#fff;overflow:hidden;position:relative}
-.promo-strip__inner{max-width:1180px;margin:0 auto;padding:34px 24px;display:grid;grid-template-columns:minmax(260px,.85fr) 1.5fr;gap:30px;align-items:center}
-.promo-strip__copy h2{margin:4px 0 5px;font-size:clamp(1.65rem,3vw,2.5rem);line-height:1.05}
-.promo-strip__copy p{margin:0 0 18px;color:rgba(255,255,255,.82)}
-.promo-kicker{font-size:.72rem;font-weight:800;letter-spacing:.13em;color:var(--terracotta-300)}
-.promo-strip__products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.promo-product{border:1px solid rgba(255,255,255,.14);border-radius:18px;background:rgba(255,255,255,.08);padding:8px;color:#fff;text-align:left;cursor:pointer;position:relative;overflow:hidden;min-width:0}
-.promo-product img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:12px;margin-bottom:8px}
-.promo-product span{display:block;font-size:.8rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.promo-product b{display:inline-block;margin-top:5px;padding:3px 7px;border-radius:999px;background:var(--terracotta-500);font-size:.68rem}
-.promo-product:hover{transform:translateY(-2px);background:rgba(255,255,255,.13)}
-.totals__promo{color:var(--terracotta-700);font-weight:800}
-.promo-payment-field select{width:100%;padding:.8rem 1rem;border:1px solid var(--border);border-radius:12px;background:#fff;font:inherit}
-@media(max-width:800px){.promo-strip__inner{grid-template-columns:1fr;padding:28px 18px}.promo-strip__products{grid-template-columns:repeat(2,1fr);gap:10px}.promo-product:nth-child(n+3){display:none}}
-@media(max-width:480px){.promo-strip__copy .btn{width:100%}.promo-strip__products{grid-template-columns:repeat(2,1fr)}}
+.promotions__grid{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 28px; }
+.promotion-card{ border-radius: 24px; padding: 30px; min-height: 280px; display: flex; flex-direction: column; align-items: flex-start; box-shadow: var(--shadow-md); border: 1px solid var(--border-soft); }
+.promotion-card--primary{ background: var(--purple-50); }
+.promotion-card--secondary{ background: var(--ink-900); color: #fff; }
+.promotion-card__badge{ font-size: .68rem; font-weight: 800; letter-spacing: .1em; margin-bottom: 18px; opacity: .78; }
+.promotion-card__icon{ font-family: var(--font-display); font-size: 3.5rem; line-height: .9; font-weight: 600; margin-bottom: 12px; }
+.promotion-card h3{ font-family: var(--font-display); font-size: 1.45rem; margin-bottom: 8px; }
+.promotion-card p{ max-width: 52ch; line-height: 1.55; margin-bottom: 22px; opacity: .82; }
+.promotion-card .btn{ margin-top: auto; }
+.promotions__note{ text-align: center; margin-top: 14px; color: var(--ink-500); font-size: .8rem; }
 
+.promo-popout{ position: fixed; right: 22px; bottom: 22px; z-index: 90; width: min(340px, calc(100vw - 28px)); padding: 18px 18px 16px; border-radius: 20px; background: #fff; box-shadow: 0 18px 50px rgba(36,21,57,.2); border: 1px solid var(--border-soft); animation: promoPopIn .5s cubic-bezier(.2,.8,.2,1); transition: opacity .2s, transform .2s; }
+.promo-popout.is-hidden{ opacity: 0; transform: translateY(16px); pointer-events: none; }
+.promo-popout__close{ position: absolute; right: 10px; top: 8px; width: 30px; height: 30px; border-radius: 50%; font-size: 20px; color: var(--ink-500); }
+.promo-popout__eyebrow{ font-size: .65rem; letter-spacing: .12em; font-weight: 800; color: var(--terracotta-600); margin-bottom: 8px; }
+.promo-popout strong{ display: block; font-family: var(--font-display); font-size: 1.18rem; line-height: 1.05; }
+.promo-popout span{ display: block; color: var(--ink-500); font-size: .78rem; margin-top: 2px; }
+.promo-popout__divider{ height: 1px; background: var(--border-soft); margin: 12px 0; }
+.promo-popout .btn{ width: 100%; margin-top: 14px; }
+@keyframes promoPopIn{ from{ opacity: 0; transform: translateY(18px) scale(.97); } to{ opacity: 1; transform: none; } }
 
-/* ==========================================================================
-   25. Conversión v2 — precios promocionales y móvil
-   ========================================================================== */
-.card{position:relative}
-.card__price-old{display:block;font-size:.72em;color:var(--ink-300);font-weight:500;margin-bottom:2px}
-.card__price-promo{display:inline-block;color:var(--terracotta-600);font-size:1.05em}
-.card__promo-badge{
-  position:absolute;
-  top:12px;
-  left:12px;
-  z-index:2;
-  padding:.42em .7em;
-  border-radius:999px;
-  background:var(--terracotta-500);
-  color:#fff;
-  font-size:.68rem;
-  font-weight:800;
-  letter-spacing:.01em;
-  box-shadow:0 6px 14px rgba(36,21,57,.14);
+/* En mobile y tablet el popout flotante tapaba CTAs y texto en casi
+   todas las secciones (no hay lugar para una tarjeta de 300px+ de alto
+   sobre contenido fijo). Se oculta debajo de 900px, el mismo corte que
+   ya usa el resto del sitio para pasar a diseño de escritorio: las
+   mismas promos ya se ven en la sección "Promociones" y en cada precio
+   del catálogo. */
+@media (max-width: 899px){
+  .promo-popout{ display: none; }
 }
-.detail__price-old{display:block;font-size:.72em;color:var(--ink-300);font-weight:500}
-.detail__price strong{display:block;color:var(--terracotta-600);font-size:1.35em}
-.detail__price-promo{
-  display:inline-block;
-  margin-top:.25em;
-  padding:.35em .65em;
-  border-radius:999px;
-  background:var(--terracotta-100);
-  color:var(--terracotta-700);
-  font-family:var(--font-body);
-  font-size:.68rem;
-  font-weight:800;
-}
-.promo-strip__products{overflow-x:auto;padding:2px 2px 8px;scrollbar-width:thin}
-.promo-product{transition:transform .2s var(--ease),background .2s var(--ease)}
-@media(max-width:800px){
-  .promo-strip__products{
-    display:flex;
-    grid-template-columns:none;
-    gap:10px;
-    overflow-x:auto;
-    scroll-snap-type:x mandatory;
-    padding-bottom:10px;
-  }
-  .promo-product{
-    flex:0 0 148px;
-    scroll-snap-align:start;
-  }
-  .promo-product:nth-child(n+3){display:block}
-}
-@media(max-width:480px){
-  .promo-strip__inner{padding:24px 14px}
-  .promo-strip__copy h2{font-size:1.75rem}
-  .promo-product{flex-basis:136px}
-  .card__promo-badge{top:9px;left:9px;font-size:.61rem}
+@media (max-width: 720px){
+  .promotions__grid{ grid-template-columns: 1fr; }
+  .promotion-card{ padding: 24px; min-height: 0; }
 }
 
+.promo-payment-field select{ width: 100%; padding: .8rem 1rem; border: 1px solid var(--border); border-radius: 12px; background: #fff; font: inherit; }
 
-/* ==========================================================================
-   26. Promociones + popout + tipografía estricta
-   ========================================================================== */
-.promotions__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:28px}
-.promotion-card{border-radius:24px;padding:30px;min-height:280px;display:flex;flex-direction:column;align-items:flex-start;box-shadow:var(--shadow-md);border:1px solid var(--border-soft)}
-.promotion-card--primary{background:var(--purple-50)}
-.promotion-card--secondary{background:var(--ink-900);color:#fff}
-.promotion-card__badge{font-size:.68rem;font-weight:800;letter-spacing:.1em;margin-bottom:18px;opacity:.78}
-.promotion-card__icon{font-family:var(--font-display);font-size:3.5rem;line-height:.9;font-weight:600;margin-bottom:12px}
-.promotion-card h3{font-family:var(--font-display);font-size:1.45rem;margin-bottom:8px}
-.promotion-card p{max-width:52ch;line-height:1.55;margin-bottom:22px;opacity:.82}
-.promotion-card .btn{margin-top:auto}
-.promotions__note{text-align:center;margin-top:14px;color:var(--ink-500);font-size:.8rem}
-.promo-popout{position:fixed;right:22px;bottom:22px;z-index:90;width:min(340px,calc(100vw - 28px));padding:18px 18px 16px;border-radius:20px;background:#fff;box-shadow:0 18px 50px rgba(36,21,57,.2);border:1px solid var(--border-soft);animation:promoPopIn .5s cubic-bezier(.2,.8,.2,1);transition:opacity .2s,transform .2s}
-.promo-popout.is-hidden{opacity:0;transform:translateY(16px);pointer-events:none}
-.promo-popout__close{position:absolute;right:10px;top:8px;width:30px;height:30px;border-radius:50%;font-size:20px;color:var(--ink-500)}
-.promo-popout__eyebrow{font-size:.65rem;letter-spacing:.12em;font-weight:800;color:var(--terracotta-600);margin-bottom:8px}
-.promo-popout strong{display:block;font-family:var(--font-display);font-size:1.18rem;line-height:1.05}
-.promo-popout span{display:block;color:var(--ink-500);font-size:.78rem;margin-top:2px}
-.promo-popout__divider{height:1px;background:var(--border-soft);margin:12px 0}
-.promo-popout .btn{width:100%;margin-top:14px}
-@keyframes promoPopIn{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
-@media(max-width:720px){.promotions__grid{grid-template-columns:1fr}.promotion-card{padding:24px;min-height:0}.promo-popout{right:14px;bottom:14px}}
+.card__price{ font-family: var(--font-display); font-size: 1.15rem; color: var(--ink-900); display: flex; align-items: baseline; gap: .18em .45em; flex-wrap: wrap; }
+.card__price s{ font-family: var(--font-body); font-size: .82rem; color: var(--ink-300); }
+.card__price-note{ font-family: var(--font-body); font-size: .72rem; font-weight: 600; color: var(--ink-300); }
+.card__price-old{ display: block; font-size: .72em; color: var(--ink-300); font-weight: 500; margin-bottom: 2px; }
+.card__price-promo{ display: inline-block; color: var(--terracotta-600); font-size: 1.05em; }
+.card__saving{ flex-basis: 100%; display: block; margin-top: .2em; color: var(--terracotta-700); font-size: .72rem; font-weight: 800; }
+.card__cta{ display: block; margin-top: .9em; color: var(--purple-700); font-size: .78rem; font-weight: 800; }
+.card:hover .card__cta{ text-decoration: underline; text-underline-offset: 3px; }
+.card__promo-badge{ position: absolute; top: 12px; left: 12px; z-index: 2; padding: .42em .7em; border-radius: 999px; background: var(--terracotta-500); color: #fff; font-size: .68rem; font-weight: 800; box-shadow: 0 6px 14px rgba(36,21,57,.14); }
 
+.detail__price-old{ display: block; font-size: .72em; color: var(--ink-300); font-weight: 500; }
+.detail__price strong{ display: block; color: var(--terracotta-600); font-size: 1.35em; }
+.detail__price-promo{ display: inline-block; margin-top: .25em; padding: .35em .65em; border-radius: 999px; background: var(--terracotta-100); color: var(--terracotta-700); font-family: var(--font-body); font-size: .68rem; font-weight: 800; line-height: 1.35; }
 
-/* ==========================================================================
-   27. Conversión v3 — CTAs + ahorro monetario
-   ========================================================================== */
-.card__price{display:flex;flex-wrap:wrap;align-items:baseline;gap:.18em .45em}
-.card__saving{
-  flex-basis:100%;
-  display:block;
-  margin-top:.2em;
-  color:var(--terracotta-700);
-  font-size:.72rem;
-  font-weight:800;
-}
-.card__cta{
-  display:block;
-  margin-top:.9em;
-  color:var(--purple-700);
-  font-size:.78rem;
-  font-weight:800;
-}
-.card:hover .card__cta{text-decoration:underline;text-underline-offset:3px}
-.detail__price-saving{display:block}
-.detail__price-promo{line-height:1.35}
-.totals__promo{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.totals__savings{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  padding-top:.45em;
-  border-top:1px dashed var(--border);
-  color:var(--terracotta-700);
-  font-weight:800;
-}
-.totals__savings dd{font-family:var(--font-display)}
-@media(max-width:640px){
-  .card__saving{font-size:.68rem}
-  .card__cta{font-size:.75rem}
+.totals__promo{ display: flex; align-items: center; justify-content: space-between; gap: 10px; color: var(--terracotta-700); font-weight: 800; }
+.totals__savings{ display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: .45em; border-top: 1px dashed var(--border); color: var(--terracotta-700); font-weight: 800; }
+.totals__savings dd{ font-family: var(--font-display); }
+
+@media (max-width: 640px){
+  .card__saving{ font-size: .68rem; }
+  .card__cta{ font-size: .75rem; }
+  .card__promo-badge{ top: 9px; left: 9px; font-size: .61rem; }
 }
