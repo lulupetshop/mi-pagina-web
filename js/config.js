@@ -39,7 +39,7 @@ const CONFIG = {
   // Si ambos están vacíos, el sitio no carga ningún tracker.
   ANALYTICS: {
     ACTIVO: true,
-    GA4_MEASUREMENT_ID: "",
+    GA4_MEASUREMENT_ID: "G-809E9P16G7",
     GTM_CONTAINER_ID: "",
   },
 
