@@ -20,6 +20,30 @@ $pedidos = $pdo->query(
      FROM pedidos
      ORDER BY creado_en DESC'
 )->fetchAll();
+
+$PERIODOS = ['7' => 'Últimos 7 días', '30' => 'Últimos 30 días', 'todo' => 'Todo'];
+$periodo = $_GET['periodo'] ?? '30';
+if (!isset($PERIODOS[$periodo])) {
+    $periodo = '30';
+}
+
+$desde = null;
+if ($periodo !== 'todo') {
+    $desde = (new DateTime())->modify("-{$periodo} days");
+}
+
+$totalGanado = 0;
+$cantidadAprobados = 0;
+foreach ($pedidos as $p) {
+    if ($p['estado'] !== 'aprobado') {
+        continue;
+    }
+    if ($desde !== null && new DateTime($p['creado_en']) < $desde) {
+        continue;
+    }
+    $totalGanado += (float) $p['total'];
+    $cantidadAprobados++;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es-AR">
@@ -35,6 +59,17 @@ $pedidos = $pdo->query(
     <?php lulu_admin_nav('pedidos.php'); ?>
     <h1>📦 Pedidos pagados con Mercado Pago</h1>
     <p class="sub">Más recientes primero. Los pedidos por WhatsApp no aparecen acá (esos ya te llegan directo por chat).</p>
+
+    <div class="card resumen">
+      <div class="resumen__filtros">
+        <?php foreach ($PERIODOS as $valor => $label): ?>
+          <a href="?periodo=<?= $valor ?>" class="filtro<?= (string) $valor === $periodo ? ' filtro--activo' : '' ?>"><?= htmlspecialchars($label) ?></a>
+        <?php endforeach; ?>
+      </div>
+      <div class="resumen__total">$ <?= number_format($totalGanado, 0, ',', '.') ?></div>
+      <p class="resumen__detalle"><?= $cantidadAprobados ?> pedido<?= $cantidadAprobados === 1 ? '' : 's' ?> aprobado<?= $cantidadAprobados === 1 ? '' : 's' ?> · <?= htmlspecialchars($PERIODOS[$periodo]) ?></p>
+    </div>
+
     <div class="card">
       <?php if (!$pedidos): ?>
         <p class="vacio">Todavía no hay pedidos.</p>

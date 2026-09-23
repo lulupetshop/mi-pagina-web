@@ -87,6 +87,12 @@ function lulu_admin_css(): string
     .nav-admin{ display:flex; gap:16px; margin-bottom: 18px; font-size:.85rem; }
     .nav-admin a{ color:#7c46bf; text-decoration:none; font-weight:700; }
     .items{ font-size:.82rem; color:#4a4257; }
+    .resumen{ margin-bottom: 20px; }
+    .resumen__filtros{ display:flex; gap:8px; margin-bottom: 14px; }
+    .filtro{ padding:.5em 1.1em; border-radius:999px; background:#f3ecfb; color:#7c46bf; font-size:.82rem; font-weight:700; text-decoration:none; }
+    .filtro--activo{ background:#7c46bf; color:#fff; }
+    .resumen__total{ font-size: 2.2rem; font-weight:800; font-family: Georgia, serif; }
+    .resumen__detalle{ color:#6b6178; font-size:.85rem; margin: 4px 0 0; }
     ";
 }
 
