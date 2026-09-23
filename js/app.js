@@ -1317,6 +1317,19 @@
     return ok;
   }
 
+  function leerCliente() {
+    const entregaInput = $('input[name="entrega"]:checked');
+    return {
+      nombre: $("#fNombre").value.trim(),
+      telefono: $("#fTelefono").value.trim(),
+      entrega: entregaInput ? entregaInput.value : "",
+      direccion: $("#fDireccion").value.trim(),
+      localidad: $("#fLocalidad").value.trim(),
+      observaciones: $("#fObs").value.trim(),
+      pago: ($("#fPago") && $("#fPago").value) || "A coordinar",
+    };
+  }
+
   function setupCheckoutForm() {
     const form = $("#checkoutForm");
     if (!form) return;
@@ -1339,16 +1352,7 @@
       }
       alert.hidden = true;
 
-      const entregaInput = $('input[name="entrega"]:checked');
-      const cliente = {
-        nombre: $("#fNombre").value.trim(),
-        telefono: $("#fTelefono").value.trim(),
-        entrega: entregaInput.value,
-        direccion: $("#fDireccion").value.trim(),
-        localidad: $("#fLocalidad").value.trim(),
-        observaciones: $("#fObs").value.trim(),
-        pago: ($("#fPago") && $("#fPago").value) || "A coordinar",
-      };
+      const cliente = leerCliente();
 
       const texto = mensajePedido(state.cart, cliente);
       const link = buildWaLink(texto);
@@ -1372,6 +1376,76 @@
       $("#cartTitle").textContent = "Pedido enviado";
       $("#sentTitle").focus();
     });
+
+    const payBtn = $("#payMp");
+    if (payBtn) {
+      on(payBtn, "click", async () => {
+        const alert = $("#formAlert");
+        if (!validarCheckout()) {
+          alert.hidden = false;
+          alert.textContent = "Revisá los datos marcados antes de continuar.";
+          alert.focus();
+          return;
+        }
+        alert.hidden = true;
+
+        const textoOriginal = payBtn.textContent;
+        payBtn.disabled = true;
+        payBtn.textContent = "Generando el pago…";
+
+        try {
+          const res = await fetch("api/mp/crear-preferencia.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              cart: state.cart.map((item) => ({
+                productId: item.productId,
+                cantidad: item.cantidad,
+                colorNombre: item.colorNombre || null,
+                talle: item.talle || null,
+              })),
+              cliente: leerCliente(),
+              modo: state.modo,
+              promoAplicada: promoActiva(),
+            }),
+          });
+          const data = await res.json().catch(() => null);
+          if (!res.ok || !data || !data.ok || !data.redirect) {
+            throw new Error((data && data.error) || "No se pudo iniciar el pago.");
+          }
+          window.location.href = data.redirect;
+        } catch (err) {
+          payBtn.disabled = false;
+          payBtn.textContent = textoOriginal;
+          showToast("No se pudo iniciar el pago. Probá de nuevo o coordiná por WhatsApp.");
+        }
+      });
+    }
+  }
+
+  /* ---------- Retorno desde Mercado Pago ---------- */
+  function manejarRetornoMercadoPago() {
+    const params = new URLSearchParams(location.search);
+    const pago = params.get("pago");
+    if (!pago) return;
+
+    if (pago === "exito") {
+      showToast("¡Pago acreditado! Gracias por tu compra 🐾");
+      if (promoActiva() && state.modo !== "mayorista") {
+        try { localStorage.setItem(PROMO_KEY, "1"); } catch (err) {}
+      }
+      state.cart = [];
+      guardarCarrito();
+      actualizarCarritoUI();
+    } else if (pago === "pendiente") {
+      showToast("Tu pago está pendiente de confirmación.");
+    } else if (pago === "fallo") {
+      showToast("El pago no se completó. Tu carrito sigue guardado.");
+    }
+
+    params.delete("pago");
+    const query = params.toString();
+    history.replaceState({}, "", location.pathname + (query ? `?${query}` : "") + location.hash);
   }
 
   /* ---------- Lightbox con zoom ---------- */
@@ -1556,6 +1630,7 @@
     safe("checkout", setupCheckoutForm);
     safe("producto estrella", setupEstrella);
     safe("carrito UI", actualizarCarritoUI);
+    safe("retorno Mercado Pago", manejarRetornoMercadoPago);
   }
 
   if (document.readyState === "loading") {

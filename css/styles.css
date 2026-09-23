@@ -268,6 +268,7 @@ p{ text-wrap: pretty; }
 .notice--mayo{ background: var(--purple-50); border-color: var(--purple-200); color: var(--purple-700); }
 
 .hint{ font-size: .85rem; color: var(--ink-500); }
+.checkout-or{ text-align: center; font-size: .78rem; color: var(--ink-300); margin: .6em 0; }
 .hint--box{
   background: var(--purple-50);
   border: 1px solid var(--purple-200);
