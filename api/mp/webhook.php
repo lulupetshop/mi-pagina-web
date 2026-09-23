@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 require __DIR__ . '/db.php';
+require __DIR__ . '/whatsapp.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -66,8 +67,24 @@ $estado = $mapaEstados[$estadoMp] ?? 'pendiente';
 
 if ($pedidoId && ctype_digit((string) $pedidoId)) {
     $pdo = lulu_db();
+
+    $stmt = $pdo->prepare('SELECT estado, nombre, telefono FROM pedidos WHERE id = ?');
+    $stmt->execute([(int) $pedidoId]);
+    $pedidoPrevio = $stmt->fetch();
+
     $stmt = $pdo->prepare('UPDATE pedidos SET estado = ?, mp_payment_id = ?, actualizado_en = NOW() WHERE id = ?');
     $stmt->execute([$estado, (string) $paymentId, (int) $pedidoId]);
+
+    // Mercado Pago puede reenviar el mismo aviso más de una vez: solo
+    // mandamos el WhatsApp la primera vez que el pedido pasa a aprobado,
+    // no en cada reintento del webhook.
+    if ($pedidoPrevio && $pedidoPrevio['estado'] !== 'aprobado' && $estado === 'aprobado') {
+        lulu_enviar_whatsapp_confirmacion([
+            'id' => $pedidoId,
+            'nombre' => $pedidoPrevio['nombre'],
+            'telefono' => $pedidoPrevio['telefono'],
+        ]);
+    }
 }
 
 http_response_code(200);

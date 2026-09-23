@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 require __DIR__ . '/db.php';
 require __DIR__ . '/productos.php';
+require __DIR__ . '/../auth/sesion_helper.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -116,14 +117,17 @@ if ($total < 1) {
     lulu_error('El total del pedido no puede ser $0.');
 }
 
+$usuarioId = lulu_usuario_actual();
+
 $pdo = lulu_db();
 $stmt = $pdo->prepare(
     'INSERT INTO pedidos
-        (estado, modo, nombre, telefono, entrega, direccion, localidad, observaciones, items, subtotal, descuento, descuento_segunda, total, creado_en)
+        (usuario_id, estado, modo, nombre, telefono, entrega, direccion, localidad, observaciones, items, subtotal, descuento, descuento_segunda, total, creado_en)
      VALUES
-        ("pendiente", ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())'
+        (?, "pendiente", ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())'
 );
 $stmt->execute([
+    $usuarioId,
     $modo, $nombre, $telefono, $entrega, $direccion, $localidad, $observaciones,
     json_encode($items, JSON_UNESCAPED_UNICODE),
     $subtotal, $descuento, $descuentoSegunda, $total,

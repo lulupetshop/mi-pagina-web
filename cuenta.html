@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <title>Mi cuenta | Lulú Lulú</title>
+  <meta name="description" content="Entrá a tu cuenta de Lulú Lulú para ver el estado de tus pedidos y registrar a tus mascotas.">
+  <meta name="theme-color" content="#7c46bf">
+  <meta name="robots" content="noindex">
+
+  <link rel="icon" type="image/svg+xml" href="assets/logo/favicon.svg">
+  <link rel="alternate icon" type="image/png" href="assets/logo/isologo-lulu.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+
+  <link rel="stylesheet" href="css/styles.css?v=20260923a">
+  <link rel="stylesheet" href="css/cuenta.css?v=20260923a">
+</head>
+
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4.5 20c1.2-4 4-6 7.5-6s6.3 2 7.5 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 1.8h6a2 2 0 0 0 2-1.8l1-12M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    </defs>
+  </svg>
+
+  <header class="account-header">
+    <div class="wrap account-header__inner">
+      <a class="brand" href="index.html" aria-label="Lulú Lulú, ir al inicio">
+        <img src="assets/logo/isologo-lulu.png" alt="Lulú Lulú" width="671" height="240">
+      </a>
+      <a class="btn btn--text" href="index.html">← Volver al sitio</a>
+    </div>
+  </header>
+
+  <main class="wrap account-main">
+    <h1>Mi cuenta</h1>
+
+    <!-- ---- Vista: no logueado ---- -->
+    <section id="accountLoggedOut" class="account-card" hidden>
+      <p class="lead-sm">Ingresá tu email y te mandamos un link para entrar — sin contraseñas.</p>
+      <form id="loginForm" class="account-login-form" novalidate>
+        <div class="field" data-field="email">
+          <label for="loginEmail">Email</label>
+          <input id="loginEmail" name="email" type="email" autocomplete="email" required maxlength="190">
+          <p class="field__error" id="loginEmailErr" hidden></p>
+        </div>
+        <button class="btn btn--primary btn--lg btn--block" type="submit" id="loginSubmit">Enviar link de acceso</button>
+      </form>
+      <div id="loginSent" class="notice notice--mayo" hidden>
+        📩 Te mandamos un mail con el link de acceso. Puede tardar unos minutos, revisá también spam.
+      </div>
+    </section>
+
+    <!-- ---- Vista: logueado ---- -->
+    <section id="accountLoggedIn" hidden>
+      <div class="account-greeting">
+        <p>Hola, <strong id="accountEmail"></strong></p>
+        <button class="btn btn--text" id="logoutBtn" type="button">Cerrar sesión</button>
+      </div>
+
+      <section class="account-section">
+        <h2>Tus pedidos</h2>
+        <ul class="account-orders" id="ordersList"></ul>
+        <p id="ordersEmpty" class="hint" hidden>Todavía no tenés pedidos pagados con Mercado Pago asociados a esta cuenta.</p>
+      </section>
+
+      <section class="account-section">
+        <h2>Tus mascotas</h2>
+        <ul class="account-pets" id="petsList"></ul>
+        <p id="petsEmpty" class="hint" hidden>Todavía no registraste ninguna mascota.</p>
+
+        <button class="btn btn--light" id="petAddToggle" type="button">+ Agregar mascota</button>
+
+        <form id="petForm" class="account-pet-form" hidden novalidate>
+          <div class="field" data-field="nombre">
+            <label for="petNombre">Nombre</label>
+            <input id="petNombre" name="nombre" type="text" maxlength="60" required>
+            <p class="field__error" id="petNombreErr" hidden></p>
+          </div>
+          <div class="field" data-field="tipo">
+            <label for="petTipo">Tipo</label>
+            <select id="petTipo" name="tipo" required>
+              <option value="">Elegí…</option>
+              <option value="perro">Perro</option>
+              <option value="gato">Gato</option>
+              <option value="otro">Otro</option>
+            </select>
+            <p class="field__error" id="petTipoErr" hidden></p>
+          </div>
+          <div class="field" data-field="raza">
+            <label for="petRaza">Raza <span class="opt-tag">(opcional)</span></label>
+            <input id="petRaza" name="raza" type="text" maxlength="80">
+          </div>
+          <div class="field" data-field="tamano">
+            <label for="petTamano">Tamaño <span class="opt-tag">(opcional)</span></label>
+            <select id="petTamano" name="tamano">
+              <option value="">Elegí…</option>
+              <option value="pequeño">Pequeño</option>
+              <option value="mediano">Mediano</option>
+              <option value="grande">Grande</option>
+            </select>
+          </div>
+          <div class="field" data-field="fecha_nacimiento">
+            <label for="petFecha">Fecha de nacimiento <span class="opt-tag">(opcional)</span></label>
+            <input id="petFecha" name="fecha_nacimiento" type="date">
+          </div>
+          <div class="field" data-field="notas">
+            <label for="petNotas">Notas <span class="opt-tag">(opcional)</span></label>
+            <textarea id="petNotas" name="notas" rows="2" maxlength="300"></textarea>
+          </div>
+          <div class="form-alert" id="petFormAlert" role="alert" hidden></div>
+          <button class="btn btn--primary" type="submit">Guardar mascota</button>
+        </form>
+      </section>
+    </section>
+  </main>
+
+  <script src="js/cuenta.js?v=20260923a" defer></script>
+</body>
+</html>
