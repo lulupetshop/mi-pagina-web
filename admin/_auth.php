@@ -84,6 +84,8 @@ function lulu_admin_css(): string
     .badge--pendiente{ background:#f3ecfb; color:#7c46bf; }
     .badge--rechazado, .badge--cancelado{ background:#fdece3; color:#c1440e; }
     .badge--reembolsado, .badge--contracargo{ background:#fdece3; color:#c1440e; }
+    .badge--enviado{ background:#e3f0fd; color:#1a5fb4; }
+    .resumen__detalle--wa{ margin-top: 2px; }
     .nav-admin{ display:flex; gap:16px; margin-bottom: 18px; font-size:.85rem; }
     .nav-admin a{ color:#7c46bf; text-decoration:none; font-weight:700; }
     .items{ font-size:.82rem; color:#4a4257; }

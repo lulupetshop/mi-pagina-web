@@ -1317,6 +1317,15 @@
     return ok;
   }
 
+  function carritoParaApi() {
+    return state.cart.map((item) => ({
+      productId: item.productId,
+      cantidad: item.cantidad,
+      colorNombre: item.colorNombre || null,
+      talle: item.talle || null,
+    }));
+  }
+
   function leerCliente() {
     const entregaInput = $('input[name="entrega"]:checked');
     return {
@@ -1358,6 +1367,21 @@
       const link = buildWaLink(texto);
       $("#sentLink").href = link;
 
+      // Queda registrado en el mismo lugar que los pedidos de Mercado
+      // Pago, para poder verlo en el panel de admin. No bloquea ni
+      // frena el envío por WhatsApp si esto falla (por ejemplo, viendo
+      // el sitio en la versión de GitHub Pages, sin backend).
+      fetch("api/mp/registrar-pedido-whatsapp.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          cart: carritoParaApi(),
+          cliente,
+          modo: state.modo,
+          promoAplicada: promoActiva(),
+        }),
+      }).catch(() => {});
+
       // El descuento de primera compra se consume acá, al generar el
       // pedido con el descuento ya incluido en el mensaje, y no recién
       // cuando el cliente vuelve a confirmar "Ya lo envié": en mobile
@@ -1398,12 +1422,7 @@
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              cart: state.cart.map((item) => ({
-                productId: item.productId,
-                cantidad: item.cantidad,
-                colorNombre: item.colorNombre || null,
-                talle: item.talle || null,
-              })),
+              cart: carritoParaApi(),
               cliente: leerCliente(),
               modo: state.modo,
               promoAplicada: promoActiva(),

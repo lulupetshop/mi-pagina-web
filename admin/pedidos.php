@@ -8,15 +8,20 @@ lulu_admin_requerir('Pedidos');
 $ESTADO_LABEL = [
     'aprobado' => 'Aprobado',
     'pendiente' => 'Pendiente',
+    'enviado' => 'Enviado por WhatsApp',
     'rechazado' => 'Rechazado',
     'cancelado' => 'Cancelado',
     'reembolsado' => 'Reembolsado',
     'contracargo' => 'Contracargo',
 ];
+$CANAL_LABEL = [
+    'mercadopago' => '💳 Mercado Pago',
+    'whatsapp' => '💬 WhatsApp',
+];
 
 $pdo = lulu_db();
 $pedidos = $pdo->query(
-    'SELECT id, estado, modo, nombre, telefono, entrega, direccion, localidad, observaciones, items, total, creado_en
+    'SELECT id, canal, estado, modo, nombre, telefono, entrega, direccion, localidad, observaciones, items, total, creado_en
      FROM pedidos
      ORDER BY creado_en DESC'
 )->fetchAll();
@@ -34,15 +39,18 @@ if ($periodo !== 'todo') {
 
 $totalGanado = 0;
 $cantidadAprobados = 0;
+$cantidadWhatsapp = 0;
 foreach ($pedidos as $p) {
-    if ($p['estado'] !== 'aprobado') {
-        continue;
-    }
     if ($desde !== null && new DateTime($p['creado_en']) < $desde) {
         continue;
     }
-    $totalGanado += (float) $p['total'];
-    $cantidadAprobados++;
+    if ($p['estado'] === 'aprobado') {
+        $totalGanado += (float) $p['total'];
+        $cantidadAprobados++;
+    }
+    if ($p['canal'] === 'whatsapp') {
+        $cantidadWhatsapp++;
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -57,8 +65,8 @@ foreach ($pedidos as $p) {
 <body>
   <div class="wrap">
     <?php lulu_admin_nav('pedidos.php'); ?>
-    <h1>📦 Pedidos pagados con Mercado Pago</h1>
-    <p class="sub">Más recientes primero. Los pedidos por WhatsApp no aparecen acá (esos ya te llegan directo por chat).</p>
+    <h1>📦 Pedidos</h1>
+    <p class="sub">Más recientes primero. Incluye los pagados con Mercado Pago y los enviados por WhatsApp.</p>
 
     <div class="card resumen">
       <div class="resumen__filtros">
@@ -67,7 +75,12 @@ foreach ($pedidos as $p) {
         <?php endforeach; ?>
       </div>
       <div class="resumen__total">$ <?= number_format($totalGanado, 0, ',', '.') ?></div>
-      <p class="resumen__detalle"><?= $cantidadAprobados ?> pedido<?= $cantidadAprobados === 1 ? '' : 's' ?> aprobado<?= $cantidadAprobados === 1 ? '' : 's' ?> · <?= htmlspecialchars($PERIODOS[$periodo]) ?></p>
+      <p class="resumen__detalle">
+        <?= $cantidadAprobados ?> pedido<?= $cantidadAprobados === 1 ? '' : 's' ?> aprobado<?= $cantidadAprobados === 1 ? '' : 's' ?> por Mercado Pago · <?= htmlspecialchars($PERIODOS[$periodo]) ?>
+      </p>
+      <p class="resumen__detalle resumen__detalle--wa">
+        💬 <?= $cantidadWhatsapp ?> pedido<?= $cantidadWhatsapp === 1 ? '' : 's' ?> por WhatsApp en el mismo período (no incluidos en el total: el pago se coordina aparte, no siempre se confirma acá).
+      </p>
     </div>
 
     <div class="card">
@@ -76,7 +89,7 @@ foreach ($pedidos as $p) {
       <?php else: ?>
         <table>
           <thead>
-            <tr><th>Fecha</th><th>Cliente</th><th>Entrega</th><th>Items</th><th>Total</th><th>Estado</th></tr>
+            <tr><th>Fecha</th><th>Canal</th><th>Cliente</th><th>Entrega</th><th>Items</th><th>Total</th><th>Estado</th></tr>
           </thead>
           <tbody>
             <?php foreach ($pedidos as $p):
@@ -91,9 +104,11 @@ foreach ($pedidos as $p) {
                   : 'Retira en el local';
               $badgeClass = 'badge badge--' . $p['estado'];
               $badgeLabel = $ESTADO_LABEL[$p['estado']] ?? $p['estado'];
+              $canalLabel = $CANAL_LABEL[$p['canal']] ?? $p['canal'];
             ?>
               <tr>
                 <td><?= $fecha->format('d/m/Y H:i') ?></td>
+                <td><?= htmlspecialchars($canalLabel) ?></td>
                 <td><b><?= htmlspecialchars($p['nombre']) ?></b><br><?= htmlspecialchars($p['telefono']) ?></td>
                 <td><?= $entregaTexto ?><?php if ($p['observaciones']): ?><br><em><?= htmlspecialchars($p['observaciones']) ?></em><?php endif; ?></td>
                 <td class="items"><?= htmlspecialchars($detalleItems) ?><?php if ($p['modo'] === 'mayorista'): ?><br><b>Mayorista</b><?php endif; ?></td>

@@ -2,17 +2,10 @@
 declare(strict_types=1);
 
 require __DIR__ . '/db.php';
-require __DIR__ . '/productos.php';
+require __DIR__ . '/calcular_pedido.php';
 require __DIR__ . '/../auth/sesion_helper.php';
 
 header('Content-Type: application/json; charset=utf-8');
-
-function lulu_error(string $msg, int $code = 400): void
-{
-    http_response_code($code);
-    echo json_encode(['ok' => false, 'error' => $msg]);
-    exit;
-}
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     lulu_error('Método no permitido.', 405);
@@ -24,113 +17,22 @@ if (!is_array($body)) {
     lulu_error('Pedido inválido.');
 }
 
-$cart = $body['cart'] ?? null;
-$cliente = $body['cliente'] ?? null;
-$modo = $body['modo'] ?? 'minorista';
-$promoAplicada = !empty($body['promoAplicada']);
-
-if (!is_array($cart) || count($cart) === 0) {
-    lulu_error('El carrito está vacío.');
-}
-if (!in_array($modo, ['minorista', 'mayorista'], true)) {
-    lulu_error('Modo de compra inválido.');
-}
-if (!is_array($cliente)) {
-    lulu_error('Faltan los datos del cliente.');
-}
-
-$nombre = trim((string) ($cliente['nombre'] ?? ''));
-$telefono = trim((string) ($cliente['telefono'] ?? ''));
-$entrega = ($cliente['entrega'] ?? '') === 'envio' ? 'envio' : 'retiro';
-$direccion = trim((string) ($cliente['direccion'] ?? ''));
-$localidad = trim((string) ($cliente['localidad'] ?? ''));
-$observaciones = trim((string) ($cliente['observaciones'] ?? ''));
-
-if ($nombre === '' || mb_strlen($nombre) > 80) {
-    lulu_error('Nombre inválido.');
-}
-if ($telefono === '' || mb_strlen($telefono) > 24) {
-    lulu_error('Teléfono inválido.');
-}
-if ($entrega === 'envio' && ($direccion === '' || $localidad === '')) {
-    lulu_error('Faltan los datos de envío.');
-}
-if (mb_strlen($direccion) > 120 || mb_strlen($localidad) > 80 || mb_strlen($observaciones) > 400) {
-    lulu_error('Alguno de los datos es demasiado largo.');
-}
-
-$catalogo = lulu_productos();
-$items = [];
-$subtotal = 0;
-$unidadesPrecio = [];
-$totalUnidades = 0;
-
-foreach ($cart as $linea) {
-    if (!is_array($linea)) {
-        lulu_error('Hay un producto inválido en el carrito.');
-    }
-    $productId = (string) ($linea['productId'] ?? '');
-    $cantidad = (int) ($linea['cantidad'] ?? 0);
-    if ($cantidad < 1 || $cantidad > 50 || !isset($catalogo[$productId])) {
-        lulu_error('Hay un producto inválido en el carrito.');
-    }
-    $producto = $catalogo[$productId];
-    $precioUnitario = $modo === 'mayorista' ? $producto['mayorista'] : $producto['minorista'];
-    $subtotal += $precioUnitario * $cantidad;
-    $totalUnidades += $cantidad;
-    for ($i = 0; $i < $cantidad; $i++) {
-        $unidadesPrecio[] = $precioUnitario;
-    }
-    $items[] = [
-        'productId' => $productId,
-        'nombre' => $producto['nombre'],
-        'cantidad' => $cantidad,
-        'precioUnitario' => $precioUnitario,
-        'colorNombre' => isset($linea['colorNombre']) ? (string) $linea['colorNombre'] : null,
-        'talle' => isset($linea['talle']) ? (string) $linea['talle'] : null,
-    ];
-}
-
-// Mismo mínimo mayorista que MAYORISTA_MIN_UNIDADES en js/config.js.
-$MAYORISTA_MIN_UNIDADES = 10;
-if ($modo === 'mayorista' && $totalUnidades < $MAYORISTA_MIN_UNIDADES) {
-    lulu_error("La compra mayorista requiere al menos {$MAYORISTA_MIN_UNIDADES} unidades.");
-}
-
-// Mismos porcentajes que PRIMERA_COMPRA y SEGUNDA_UNIDAD en js/config.js.
-// La elegibilidad de "primera compra" la marca el navegador (no hay
-// cuentas de usuario en el sitio); acá solo se valida que los PRECIOS
-// sean los reales antes de cobrar.
-$descuento = 0;
-if ($modo !== 'mayorista' && $promoAplicada) {
-    $descuento = (int) round($subtotal * 0.15);
-}
-
-$descuentoSegunda = 0;
-if ($modo !== 'mayorista' && count($unidadesPrecio) >= 2) {
-    sort($unidadesPrecio);
-    $descuentoSegunda = (int) round($unidadesPrecio[0] * 0.50);
-}
-
-$total = max(0, $subtotal - $descuento - $descuentoSegunda);
-if ($total < 1) {
-    lulu_error('El total del pedido no puede ser $0.');
-}
-
+$pedido = lulu_validar_y_calcular_pedido($body);
 $usuarioId = lulu_usuario_actual();
 
 $pdo = lulu_db();
 $stmt = $pdo->prepare(
     'INSERT INTO pedidos
-        (usuario_id, estado, modo, nombre, telefono, entrega, direccion, localidad, observaciones, items, subtotal, descuento, descuento_segunda, total, creado_en)
+        (usuario_id, canal, estado, modo, nombre, telefono, entrega, direccion, localidad, observaciones, items, subtotal, descuento, descuento_segunda, total, creado_en)
      VALUES
-        (?, "pendiente", ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())'
+        (?, "mercadopago", "pendiente", ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())'
 );
 $stmt->execute([
     $usuarioId,
-    $modo, $nombre, $telefono, $entrega, $direccion, $localidad, $observaciones,
-    json_encode($items, JSON_UNESCAPED_UNICODE),
-    $subtotal, $descuento, $descuentoSegunda, $total,
+    $pedido['modo'], $pedido['nombre'], $pedido['telefono'], $pedido['entrega'],
+    $pedido['direccion'], $pedido['localidad'], $pedido['observaciones'],
+    json_encode($pedido['items'], JSON_UNESCAPED_UNICODE),
+    $pedido['subtotal'], $pedido['descuento'], $pedido['descuentoSegunda'], $pedido['total'],
 ]);
 $pedidoId = (int) $pdo->lastInsertId();
 
@@ -141,7 +43,7 @@ $base = "{$scheme}://{$host}";
 
 $descripcionItems = implode(', ', array_map(
     static fn(array $it): string => "{$it['cantidad']}x {$it['nombre']}",
-    $items
+    $pedido['items']
 ));
 
 $preferencia = [
@@ -149,10 +51,10 @@ $preferencia = [
         'title' => 'Pedido Lulú Lulú #' . $pedidoId,
         'description' => mb_substr($descripcionItems, 0, 250),
         'quantity' => 1,
-        'unit_price' => (float) $total,
+        'unit_price' => (float) $pedido['total'],
         'currency_id' => 'ARS',
     ]],
-    'payer' => ['name' => $nombre],
+    'payer' => ['name' => $pedido['nombre']],
     'external_reference' => (string) $pedidoId,
     'back_urls' => [
         'success' => "{$base}/index.html?pago=exito",
