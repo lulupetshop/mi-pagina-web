@@ -87,6 +87,7 @@ function lulu_admin_css(): string
     .badge--enviado{ background:#e3f0fd; color:#1a5fb4; }
     .resumen__detalle--wa{ margin-top: 2px; }
     .nav-admin{ display:flex; gap:16px; margin-bottom: 18px; font-size:.85rem; }
+    .btn-agregar{ padding:.6em 1.2em; border-radius:999px; background:#7c46bf; color:#fff; font-weight:700; font-size:.85rem; text-decoration:none; white-space:nowrap; }
     .nav-admin a{ color:#7c46bf; text-decoration:none; font-weight:700; }
     .items{ font-size:.82rem; color:#4a4257; }
     .resumen{ margin-bottom: 20px; }

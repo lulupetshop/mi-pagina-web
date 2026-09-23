@@ -17,6 +17,7 @@ $ESTADO_LABEL = [
 $CANAL_LABEL = [
     'mercadopago' => '💳 Mercado Pago',
     'whatsapp' => '💬 WhatsApp',
+    'meta' => '📸 Instagram/Facebook',
 ];
 
 $pdo = lulu_db();
@@ -65,8 +66,11 @@ foreach ($pedidos as $p) {
 <body>
   <div class="wrap">
     <?php lulu_admin_nav('pedidos.php'); ?>
-    <h1>📦 Pedidos</h1>
-    <p class="sub">Más recientes primero. Incluye los pagados con Mercado Pago y los enviados por WhatsApp.</p>
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+      <h1>📦 Pedidos</h1>
+      <a href="agregar-pedido.php" class="btn-agregar">+ Cargar pedido manual</a>
+    </div>
+    <p class="sub">Más recientes primero. Incluye Mercado Pago, WhatsApp, y lo que cargues a mano (Instagram/Facebook).</p>
 
     <div class="card resumen">
       <div class="resumen__filtros">
@@ -95,8 +99,14 @@ foreach ($pedidos as $p) {
             <?php foreach ($pedidos as $p):
               $fecha = new DateTime($p['creado_en']);
               $items = json_decode($p['items'], true) ?: [];
+              // Los pedidos cargados a mano (Instagram/Facebook) guardan la
+              // descripción tal cual se escribió, sin producto de catálogo
+              // (productId null): se muestra como vino, sin el prefijo
+              // "1x" que sí corresponde a los ítems reales del carrito.
               $detalleItems = implode(', ', array_map(
-                  fn($it) => "{$it['cantidad']}x {$it['nombre']}" . ($it['colorNombre'] ? " ({$it['colorNombre']})" : ''),
+                  fn($it) => ($it['productId'] ?? null) === null
+                      ? $it['nombre']
+                      : "{$it['cantidad']}x {$it['nombre']}" . ($it['colorNombre'] ? " ({$it['colorNombre']})" : ''),
                   $items
               ));
               $entregaTexto = $p['entrega'] === 'envio'
