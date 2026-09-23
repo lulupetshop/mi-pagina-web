@@ -34,4 +34,9 @@ return [
     // Nombre exacto de la plantilla aprobada en Meta para este mensaje.
     'wa_template_name' => 'PENDIENTE',
     'wa_template_lang' => 'es_AR',
+
+    // Contraseña para entrar a lulutiendaparamascotas.shop/admin/cumpleanos.php
+    // (el panel donde ves los cumpleaños de las mascotas registradas).
+    // Elegí una tuya, no dejes esta de ejemplo.
+    'admin_password' => 'CAMBIAR_ESTA_CONTRASEÑA',
 ];
