@@ -139,23 +139,4 @@ const PRODUCTS = [
       },
     ],
   },
-  {
-    // Producto temporal para probar el cobro con Mercado Pago. Sacar del
-    // catálogo apenas termine la prueba (no es un producto real).
-    id: "prueba-pago-1000",
-    categoria: "Nido Redondo",
-    nombre: "TEST — no comprar",
-    descripcion: "Producto de prueba temporal para probar el pago. No es un producto real, se va a eliminar del catálogo apenas termine la prueba.",
-    imagenes: ["assets/img/productos/nido-onix-gris.jpg"],
-    colores: [],
-    tamanos: [
-      {
-        nombre: "Único",
-        medida: "N/A",
-        recomendado: "Prueba interna",
-        minorista: 1000,
-        mayorista: 1000,
-      },
-    ],
-  },
 ];
