@@ -34,7 +34,7 @@
   <script>document.documentElement.classList.add('js');</script>
 
   <!-- ?v=... evita que el navegador muestre versiones viejas. Cambialo cada vez que subas cambios. -->
-  <link rel="stylesheet" href="css/styles.css?v=20260923a">
+  <link rel="stylesheet" href="css/styles.css?v=20260923b">
   <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
   <script src="js/config.js?v=20260922n"></script>
   <script src="js/meta-pixel.js?v=20260922n"></script>
@@ -100,6 +100,13 @@
 
       <nav class="nav" id="nav" aria-label="Principal">
         <div class="nav__list">
+          <details class="nav__group nav__group--mobile-only">
+            <summary class="nav__item nav__item--group"><svg class="ico" aria-hidden="true"><use href="#i-user"/></svg><span>Mi cuenta</span><span class="nav__chevron" aria-hidden="true">+</span></summary>
+            <div class="nav__submenu">
+              <a href="cuenta.html">Ver mi cuenta</a>
+              <a href="cuenta.html?accion=agregar-mascota">Agregar mascota</a>
+            </div>
+          </details>
           <details class="nav__group">
             <summary class="nav__item nav__item--group" data-target="#catalogo"><svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg><span>Catálogo</span><span class="nav__chevron" aria-hidden="true">+</span></summary>
             <div class="nav__submenu">
@@ -125,7 +132,7 @@
       </nav>
 
       <div class="header__actions">
-        <a class="cart-btn" href="cuenta.html" aria-label="Mi cuenta">
+        <a class="cart-btn account-btn-desktop" href="cuenta.html" aria-label="Mi cuenta">
           <svg class="ico" aria-hidden="true"><use href="#i-user"/></svg>
           <span class="cart-btn__label">Mi cuenta</span>
         </a>

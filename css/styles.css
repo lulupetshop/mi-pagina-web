@@ -408,6 +408,10 @@ p{ text-wrap: pretty; }
   .nav__group > summary::-webkit-details-marker{ display: none; }
   .nav__group .nav__chevron,
   .nav__group .nav__submenu{ display: none; }
+  /* "Mi cuenta" ya tiene su propio ícono en el header en desktop: no
+     hace falta repetirlo como acordeón del menú, ese queda solo para
+     mobile (ver más abajo, dentro de @media max-width: 899px). */
+  .nav__group--mobile-only{ display: none; }
 }
 
 .nav__item{
@@ -457,6 +461,9 @@ p{ text-wrap: pretty; }
 .cart-btn:hover{ border-color: var(--purple-400); background: var(--purple-50); transform: translateY(-1px); }
 .site-header:not(.is-scrolled) .cart-btn{ color: #fff; border-color: rgba(255,255,255,.5); }
 .site-header:not(.is-scrolled) .cart-btn:hover{ background: rgba(255,255,255,.14); border-color: #fff; }
+@media (max-width: 899px){
+  .account-btn-desktop{ display: none; }
+}
 .cart-btn__label{ display: none; }
 .cart-count{
   min-width: 20px; height: 20px;
@@ -630,26 +637,28 @@ p{ text-wrap: pretty; }
   .nav__item:hover .ico,
   .nav__item:focus-visible .ico{ color: #fff; }
   .nav__item:active{ transform: scale(.99); }
-  .nav__item:nth-child(4){
+  /* "Mi cuenta" se agregó como primer ítem del menú: estos números se
+     corrieron uno para seguir apuntando a Mayorista/Preguntas/Contacto. */
+  .nav__item:nth-child(5){
     margin-top: 4px;
     padding-top: 13px;
     border-top: 1.5px solid var(--border);
     border-radius: 0;
   }
-  .nav__item:nth-child(5){
+  .nav__item:nth-child(6){
     margin-top: 4px;
   }
-  .nav__item:nth-child(6){
+  .nav__item:nth-child(7){
     color: var(--purple-500);
   }
-  .nav__item:nth-child(6) .ico{ color: var(--purple-400); }
-  .nav__item:nth-child(6):hover,
-  .nav__item:nth-child(6):focus-visible{
+  .nav__item:nth-child(7) .ico{ color: var(--purple-400); }
+  .nav__item:nth-child(7):hover,
+  .nav__item:nth-child(7):focus-visible{
     background: var(--ink-900);
     color: #fff;
   }
-  .nav__item:nth-child(6):hover .ico,
-  .nav__item:nth-child(6):focus-visible .ico{ color: #fff; }
+  .nav__item:nth-child(7):hover .ico,
+  .nav__item:nth-child(7):focus-visible .ico{ color: #fff; }
   .site-header.menu-open .nav{
     transform: translateX(0);
     opacity: 1;

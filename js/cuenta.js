@@ -174,6 +174,7 @@
   /* ---------- Estado de sesión ---------- */
   async function init() {
     const params = new URLSearchParams(location.search);
+    const accion = params.get("accion");
     if (params.get("acceso") === "invalido") {
       const sent = $("#loginSent");
       sent.hidden = false;
@@ -181,6 +182,7 @@
       sent.textContent = "Ese link ya venció o no es válido. Pedí uno nuevo con tu email.";
     }
     params.delete("acceso");
+    params.delete("accion");
     const query = params.toString();
     history.replaceState({}, "", location.pathname + (query ? `?${query}` : ""));
 
@@ -197,6 +199,11 @@
       $("#accountEmail").textContent = data.usuario.email;
       cargarPedidos();
       cargarMascotas();
+      if (accion === "agregar-mascota") {
+        $("#petAddToggle").click();
+        $("#petForm").scrollIntoView({ behavior: "smooth", block: "center" });
+        $("#petNombre").focus();
+      }
     } else {
       $("#accountLoggedOut").hidden = false;
     }
