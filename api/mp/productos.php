@@ -19,5 +19,8 @@ function lulu_productos(): array
         'colchoneta-desmontable' => ['nombre' => 'Sueño Zen', 'minorista' => 75000, 'mayorista' => 41670],
         'moises-redondo' => ['nombre' => 'Sueño Abrazo', 'minorista' => 65000, 'mayorista' => 36114],
         'nido-onix' => ['nombre' => 'Sueño Ónix', 'minorista' => 45000, 'mayorista' => 25002],
+        // Temporal, solo para probar el cobro con Mercado Pago. Sacar
+        // junto con la entrada equivalente en js/products.js.
+        'prueba-pago-1000' => ['nombre' => 'TEST — no comprar', 'minorista' => 1000, 'mayorista' => 1000],
     ];
 }
