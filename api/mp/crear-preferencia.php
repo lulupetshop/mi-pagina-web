@@ -182,7 +182,11 @@ if ($curlError || $httpCode < 200 || $httpCode >= 300) {
 
 $data = json_decode((string) $response, true);
 $preferenceId = $data['id'] ?? null;
-$redirectUrl = $data['sandbox_init_point'] ?? $data['init_point'] ?? null;
+// Mercado Pago distingue prueba de producción por las credenciales usadas
+// para crear la preferencia, no por una URL de sandbox aparte: hay que
+// usar siempre init_point (sandbox_init_point puede venir roto en cuentas
+// con el modelo de credenciales unificado).
+$redirectUrl = $data['init_point'] ?? $data['sandbox_init_point'] ?? null;
 
 if (!$preferenceId || !$redirectUrl) {
     lulu_error('Mercado Pago no devolvió un link de pago válido.', 502);
