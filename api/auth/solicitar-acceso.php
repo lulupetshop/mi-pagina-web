@@ -49,12 +49,22 @@ $host = $_SERVER['HTTP_HOST'] ?? 'lulutiendaparamascotas.shop';
 $link = "{$scheme}://{$host}/api/auth/verificar.php?token={$token}";
 
 $config = lulu_config();
-$asunto = 'Tu acceso a Lulú Lulú';
-$mensajeTexto = "Hola!\n\nTocá este link para entrar a tu cuenta en Lulú Lulú (vale por 15 minutos):\n{$link}\n\nSi vos no pediste esto, podés ignorar este mail.";
-$mensajeHtml = "<p>Hola!</p><p>Tocá el siguiente botón para entrar a tu cuenta en Lulú Lulú (el link vale por 15 minutos):</p>"
-    . "<p><a href=\"{$link}\" style=\"display:inline-block;padding:12px 22px;background:#7c46bf;color:#fff;border-radius:999px;text-decoration:none;font-weight:700\">Entrar a mi cuenta</a></p>"
-    . "<p>Si el botón no funciona, copiá y pegá este link en el navegador:<br>{$link}</p>"
-    . "<p>Si vos no pediste esto, podés ignorar este mail.</p>";
+$asunto = '🐾 Tu acceso a Lulú Lulú';
+$mensajeTexto = "¡Hola! 😊\n\n"
+    . "Tocá este link para entrar a tu cuenta en Lulú Lulú (vale por 15 minutos):\n{$link}\n\n"
+    . "🐶💛 Un dato extra: si registrás a tu mascota en \"Mis mascotas\", el día de su cumpleaños le vamos a mandar un regalito de nuestra parte 🐾\n\n"
+    . "Si vos no pediste esto, podés ignorar este mail.";
+$mensajeHtml = "<div style=\"font-family:Arial,Helvetica,sans-serif;max-width:480px;margin:0 auto;padding:8px\">"
+    . "<p style=\"font-size:17px\">¡Hola! 😊</p>"
+    . "<p>Tocá el siguiente botón para entrar a tu cuenta en Lulú Lulú (el link vale por 15 minutos):</p>"
+    . "<p style=\"text-align:center;margin:24px 0\"><a href=\"{$link}\" style=\"display:inline-block;padding:14px 28px;background:#7c46bf;color:#fff;border-radius:999px;text-decoration:none;font-weight:700\">🐾 Entrar a mi cuenta</a></p>"
+    . "<div style=\"background:#fff3e9;border-radius:14px;padding:16px 18px;margin:24px 0\">"
+    . "<p style=\"margin:0\">🐶💛 <strong>Un dato extra:</strong> si registrás a tu mascota en \"Mis mascotas\", el día de su cumpleaños le vamos a mandar un regalito de nuestra parte 🐾</p>"
+    . "</div>"
+    . "<p style=\"font-size:13px;color:#777\">Si el botón no funciona, copiá y pegá este link en el navegador:<br>{$link}</p>"
+    . "<p style=\"font-size:13px;color:#777\">Si vos no pediste esto, podés ignorar este mail.</p>"
+    . "<p style=\"font-size:13px;color:#777\">Con cariño, el equipo de Lulú Lulú 🐾😊</p>"
+    . "</div>";
 
 $from = $config['mail_from'] ?? 'no-responder@' . $host;
 $fromName = $config['mail_from_name'] ?? 'Lulú Lulú';
