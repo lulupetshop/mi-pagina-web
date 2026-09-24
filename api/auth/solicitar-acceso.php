@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/sesion_helper.php';
+require_once __DIR__ . '/../mp/mailer.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -48,7 +49,6 @@ $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' :
 $host = $_SERVER['HTTP_HOST'] ?? 'lulutiendaparamascotas.shop';
 $link = "{$scheme}://{$host}/api/auth/verificar.php?token={$token}";
 
-$config = lulu_config();
 $asunto = '🐾 Tu acceso a Lulú Lulú';
 $mensajeTexto = "¡Hola! 😊\n\n"
     . "Tocá este link para entrar a tu cuenta en Lulú Lulú (vale por 15 minutos):\n{$link}\n\n"
@@ -66,24 +66,11 @@ $mensajeHtml = "<div style=\"font-family:Arial,Helvetica,sans-serif;max-width:48
     . "<p style=\"font-size:13px;color:#777\">Con cariño, el equipo de Lulú Lulú 🐾😊</p>"
     . "</div>";
 
-$from = $config['mail_from'] ?? 'no-responder@' . $host;
-$fromName = $config['mail_from_name'] ?? 'Lulú Lulú';
-$boundary = md5((string) microtime());
-$headers = "From: {$fromName} <{$from}>\r\n";
-$headers .= "MIME-Version: 1.0\r\n";
-$headers .= "Content-Type: multipart/alternative; boundary=\"{$boundary}\"\r\n";
-
-$body2 = "--{$boundary}\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\n{$mensajeTexto}\r\n"
-    . "--{$boundary}\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n{$mensajeHtml}\r\n"
-    . "--{$boundary}--";
-
-try {
-    @mail($email, $asunto, $body2, $headers);
-} catch (Throwable $e) {
-    // No cortamos la respuesta por un error de envío: igual devolvemos
-    // "ok" (ver nota más abajo sobre por qué no delatamos si el mail
-    // existe o no).
-}
+// Manda por SMTP real (no el mail() de PHP, que en hosting compartido
+// suele fallar de forma intermitente/silenciosa). Un error queda en el
+// log de errores de PHP para poder diagnosticarlo; no cortamos la
+// respuesta al usuario por eso (ver nota más abajo).
+lulu_enviar_mail($email, $asunto, $mensajeTexto, $mensajeHtml);
 
 // Respuesta genérica siempre, exista o no el email, para no revelar qué
 // direcciones están registradas.

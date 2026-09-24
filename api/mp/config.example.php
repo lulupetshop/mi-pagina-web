@@ -20,10 +20,22 @@ return [
     'mp_access_token' => 'TEST-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
 
     // Dirección desde la que salen los mails de "ingresar a tu cuenta".
-    // Si tenés un casillero en Hostinger (hPanel → Emails), usá uno de
-    // ese dominio para que no vaya a spam (ej: no-responder@lulutiendaparamascotas.shop).
+    // Tiene que ser un casillero real que crees en hPanel → Emails
+    // (ej: no-responder@lulutiendaparamascotas.shop) — usar una
+    // dirección inventada hace que el mail() simple de PHP falle de
+    // forma intermitente o vaya directo a spam.
     'mail_from' => 'no-responder@lulutiendaparamascotas.shop',
     'mail_from_name' => 'Lulú Lulú',
+
+    // Datos SMTP del mismo casillero de arriba (hPanel → Emails → tu
+    // casillero → "Configurar cliente de correo" tiene estos datos).
+    // Mandamos por SMTP real en vez del mail() de PHP porque es mucho
+    // más confiable en hosting compartido.
+    'smtp_host' => 'smtp.hostinger.com',
+    'smtp_port' => 465,
+    'smtp_secure' => 'ssl', // 'ssl' para el puerto 465, 'tls' para el 587
+    'smtp_user' => 'no-responder@lulutiendaparamascotas.shop',
+    'smtp_pass' => 'PEGÁ_ACÁ_LA_CONTRASEÑA_DEL_CASILLERO',
 
     // developers.facebook.com → tu app → WhatsApp → Primeros pasos.
     // Dejalo así (con "PENDIENTE") hasta tener los datos reales: mientras
