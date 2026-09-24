@@ -9,14 +9,27 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception as PHPMailerException;
 
 /**
+ * Registra en un archivo propio (api/mp/mail-debug.log) en vez de
+ * depender de dónde el hosting tenga configurado el log de errores de
+ * PHP, que varía y no siempre es fácil de encontrar.
+ */
+function lulu_mail_log(string $linea): void
+{
+    $fecha = (new DateTime())->format('Y-m-d H:i:s');
+    @file_put_contents(__DIR__ . '/mail-debug.log', "[{$fecha}] {$linea}\n", FILE_APPEND | LOCK_EX);
+}
+
+/**
  * Manda un mail por SMTP real (no el mail() de PHP, que en hosting
  * compartido suele fallar de forma intermitente/silenciosa). Si faltan
  * credenciales SMTP en config.php, no intenta nada y devuelve false.
- * Cualquier error queda en el log de errores de PHP (visible en hPanel)
+ * Cualquier intento (éxito o error) queda registrado en mail-debug.log
  * en vez de perderse en silencio.
  */
 function lulu_enviar_mail(string $destinatario, string $asunto, string $textoPlano, string $html): bool
 {
+    lulu_mail_log("Intentando enviar a {$destinatario}...");
+
     $config = lulu_config();
 
     $smtpHost = trim((string) ($config['smtp_host'] ?? ''));
@@ -26,7 +39,7 @@ function lulu_enviar_mail(string $destinatario, string $asunto, string $textoPla
     $smtpSecure = trim((string) ($config['smtp_secure'] ?? 'ssl'));
 
     if ($smtpHost === '' || $smtpUser === '' || $smtpPass === '') {
-        error_log('lulu_enviar_mail: faltan credenciales SMTP en config.php (smtp_host/smtp_user/smtp_pass).');
+        lulu_mail_log('ERROR: faltan credenciales SMTP en config.php (smtp_host/smtp_user/smtp_pass).');
         return false;
     }
 
@@ -53,9 +66,10 @@ function lulu_enviar_mail(string $destinatario, string $asunto, string $textoPla
         $mail->AltBody = $textoPlano;
 
         $mail->send();
+        lulu_mail_log("OK: mail enviado a {$destinatario}.");
         return true;
     } catch (PHPMailerException $e) {
-        error_log('lulu_enviar_mail: error al enviar - ' . $mail->ErrorInfo);
+        lulu_mail_log('ERROR al enviar - ' . $mail->ErrorInfo);
         return false;
     }
 }

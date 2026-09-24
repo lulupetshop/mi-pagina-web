@@ -3,3 +3,6 @@ Thumbs.db
 
 # Mercado Pago: credenciales y datos de la base, nunca al repo
 api/mp/config.php
+
+# Log de diagnóstico del envío de mails, se genera en el servidor
+api/mp/mail-debug.log
